@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="7.第二部分 软件漏洞7.1 第五章 内存损坏 （memory corruption）“ 几乎所有的人都能忍受逆境，但如果你想测试一个人的人格，那就给他力量。” ——亚伯拉罕 林肯 7.1.1 概述在本书中，你应该接受这样的假设，即任何内存损坏漏洞都是可以被利用来实施攻击的，除非你能证明它不成立。这个假设看起来很极端，但这对代码审计者来说非常有用。攻击者经常可以利用对越界的内存进行写操作来任意地改">
+<meta property="og:type" content="article">
+<meta property="og:title" content="the art of software security assessment第五章翻译">
+<meta property="og:url" content="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment%E7%AC%AC%E4%BA%94%E7%AB%A0%E7%BF%BB%E8%AF%91/index.html">
+<meta property="og:site_name" content="Chenyu&#39;s Blog">
+<meta property="og:description" content="7.第二部分 软件漏洞7.1 第五章 内存损坏 （memory corruption）“ 几乎所有的人都能忍受逆境，但如果你想测试一个人的人格，那就给他力量。” ——亚伯拉罕 林肯 7.1.1 概述在本书中，你应该接受这样的假设，即任何内存损坏漏洞都是可以被利用来实施攻击的，除非你能证明它不成立。这个假设看起来很极端，但这对代码审计者来说非常有用。攻击者经常可以利用对越界的内存进行写操作来任意地改">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-1.png">
+<meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-2.png">
+<meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-3.png">
+<meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-4.png">
+<meta property="article:published_time" content="2020-06-05T13:40:20.000Z">
+<meta property="article:modified_time" content="2020-06-05T15:05:28.498Z">
+<meta property="article:author" content="Chenyu ZHU">
+<meta property="article:tag" content="translate">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-1.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment%E7%AC%AC%E4%BA%94%E7%AB%A0%E7%BF%BB%E8%AF%91/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>the art of software security assessment第五章翻译 | Chenyu's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chenyu's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Aera of Pure Physics, Mathematics, Computer Science and Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment%E7%AC%AC%E4%BA%94%E7%AB%A0%E7%BF%BB%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chenyu ZHU">
+      <meta itemprop="description" content="Chenyu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenyu's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          the art of software security assessment第五章翻译
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-06-05 21:40:20 / 修改时间：23:05:28" itemprop="dateCreated datePublished" datetime="2020-06-05T21:40:20+08:00">2020-06-05</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="7-第二部分-软件漏洞"><a href="#7-第二部分-软件漏洞" class="headerlink" title="7.第二部分 软件漏洞"></a>7.第二部分 软件漏洞</h2><h3 id="7-1-第五章-内存损坏-（memory-corruption）"><a href="#7-1-第五章-内存损坏-（memory-corruption）" class="headerlink" title="7.1 第五章 内存损坏 （memory corruption）"></a>7.1 第五章 <strong>内存损坏</strong> （memory corruption）</h3><p>“ 几乎所有的人都能忍受逆境，但如果你想测试一个人的人格，那就给他力量。” ——亚伯拉罕 林肯</p>
+<h4 id="7-1-1-概述"><a href="#7-1-1-概述" class="headerlink" title="7.1.1 概述"></a>7.1.1 概述</h4><p>在本书中，你应该接受这样的假设，即任何内存损坏漏洞都是可以被利用来实施攻击的，除非你能证明它不成立。这个假设看起来很极端，但这对代码审计者来说非常有用。攻击者经常可以利用对越界的内存进行写操作来任意地改变一个进程的运行状态，  从而违反应用程序应该执行的任何安全策略。 然而，除非你对如利用内存损坏有一定了解，否则你很难接受内存损坏漏洞的严重性，甚至无法理解它们。</p>
+<p>漏洞利用和软件审计是两种高度互补的技巧。一个审计者拥有对漏洞利用的理解能提高效率，并且发现那些无伤大雅的bug与真实漏洞的区别。关于内存损坏漏洞的知识有很多，本章会简要介绍在Intel x86架构下机器的一些基本方法（当然这些概念同样适用于所有架构）。顺着漏洞利用的方法，你可以学到更多关于反漏洞利用技术以及发现可利用之处的方法。本教程并不打算作为开发内存损坏漏洞的权威指南，但它确实提供了你需要了解和了解贯穿本书的许多漏洞的背景知识。 </p>
+<h5 id="注"><a href="#注" class="headerlink" title="注"></a>注</h5><p>读者如果有兴趣了解更多关于利用内存损坏漏洞的知识，可以参考The Shellcoder’s Handbook  (Wiley, 2004))或  Exploiting Software(Addison-Wesley, 2004))。你还可以找到许多关于开发技术的在线资源，如  phrack magazine(<a href="http://www.phrack.org)和Uninformed" target="_blank" rel="noopener">www.phrack.org)和Uninformed</a> magazine(<a href="http://www.uninformed.org)。" target="_blank" rel="noopener">www.uninformed.org)。</a> </p>
+<h4 id="7-1-2-缓冲区溢出"><a href="#7-1-2-缓冲区溢出" class="headerlink" title="7.1.2 缓冲区溢出"></a>7.1.2 缓冲区溢出</h4><p>你可能很熟悉“缓冲区溢出”（buffer overflow）这个术语，如果不是的话，下面是它的定义：<strong>缓冲区溢出</strong>是一种软件bug，它是当数据被复制到内存的某个位置但这段内存不足以容纳这些数据时产生的。当缓冲区溢出发生时，溢出的数据会破坏与目标缓冲区相邻的信息，并通常造成灾难性的后果。</p>
+<p>缓冲区溢出是最常见的一种内存损坏漏洞。如果不你熟悉如何利用这种bug，它们似乎违背逻辑，以某种方式允许攻击者完全访问脆弱的系统。但的机制是如何的呢?为真么它是对系统一致性（system integrity）的一种威胁呢？ 为什么操作系统会保护一段内存不被损坏呢？为了回答这些问题，你需要对程序内部以及CPU和操作系统怎样管理进程有所熟悉。</p>
+<h5 id="注-1"><a href="#注-1" class="headerlink" title="注"></a>注</h5><p>一些在本书种提到的漏洞严格来说并不是缓冲区溢出而是更加复杂的内存损坏漏洞，但它们都有很多共同特征。关于可利用性的讨论主要适用于这类问题，特别是在本章后面的小节“评估内存损坏影响”中。 </p>
+<h5 id="进程的内存布局"><a href="#进程的内存布局" class="headerlink" title="进程的内存布局"></a>进程的内存布局</h5><p>一个进程可以被操作系统选择任意的方式布局在内存中，但几乎所有当下的系统都遵循了一些常见的约定。通常的，一个进程被组织在以下几个主要区域：</p>
+<ul>
+<li>程序代码区。这个区域包含了能被处理器解释并运行的可执行程序指令。程序代码包括了编译后的运行程序代码以及额外的被程序所使用的位于共享库的代码。共享库通常不和主程序的代码放在一起。</li>
+<li>程序数据区。这个区域储存了非函数本地的变量。包括了全局和静态变量。数据区通常包含了一个动态内存区域称为“程序堆”（program heap）用来储存动态分配内存的变量。</li>
+<li>程序栈区。栈（stack）区用来存储当前正在执行的函数，并且它在函数执行时跟踪函数的调用链。 </li>
+</ul>
+<p>尽管这是个关于进程内存如何组织的高级视角，但它也显示了缓冲区溢出漏洞的影响如何根据缓冲区的位置而变化。下面几节讨论与每个位置相关的常见和惟一的攻击模式。 </p>
+<h5 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h5><p>栈溢出（stack overflow）是一种目标缓冲区位于运行中程序栈的缓冲区漏洞。它们是最容易理解，并且在历史上是最直接的可以利用的缓冲区溢出。本节涵盖了关于运行中程序栈的基础知识，然后显示攻击者是怎样利用基于栈的缓冲区溢出的。</p>
+<h6 id="抽象数据类型：栈"><a href="#抽象数据类型：栈" class="headerlink" title="抽象数据类型：栈"></a>抽象数据类型：栈</h6><p>从一般的计算机科学视角来看，栈是一种抽象数据类型（abstract data type，ADT），它用来有序存储和检索一系列数据元素。 栈数据结构通常会给用户提供两种用来控制的操作：</p>
+<ul>
+<li><code>push()</code>push操作添加一个元素到栈的顶端</li>
+<li><code>pop()</code> pop操作将栈顶元素移除，并将其作为返回值；</li>
+</ul>
+<p>栈是一个后进先出（last-in， first-out LIFO）的数据结构，你可以将它看成一个物理的盘子的堆栈。你可以将一个盘子放在栈的顶端，相当于<code>push()</code>操作，你也可以将顶端的盘子拿走，对应<code>pop()</code>操作。你不能在移出上面的盘子之前直接从栈的中间拿走一个盘子。</p>
+<h6 id="运行时栈"><a href="#运行时栈" class="headerlink" title="运行时栈"></a>运行时栈</h6><p>每个进程都有运行时栈（runtime stack），也叫做程序栈（program stack），调用栈（call stack），或者直接称它为“栈”。运行时栈为每种结构化编程语言中使用的函数提供了必要的基础。 函数可以用任意的顺序调用，它们可以是递归的，也可以是相互递归的。运行中的栈通过激活记录（activation record）支持这个功能，激活记录也就是记录了从函数到函数的调用链以便在函数返回时跟踪它们。激活记录当然也包含了每次函数调用时需要分配的数据，例如局部变量，存储的机器状态以及函数参数。</p>
+<p>因为运行时栈是程序运行不可分割的一部分 ，因此它们在CPU的帮助下实现而不是通过纯净的软件抽象。处理器通常有专门用来指向栈顶的寄存器，这些寄存器用机器指令<code>push()</code>和<code>pop()</code>来对栈进行修改。在因特尔x86 CPU中，这个指针叫ESP（ESP表示扩展堆栈指针，extended stack pointer）。</p>
+<p>在几乎所有现代CPU中，栈都是向下生长的，也就是说栈通常在虚拟内存的一个高地址开始，然后顺着低地址生长。一个push操作让栈指针减去固定值，然后栈指针就移动到了更低的进程内存。相应的，pop操作让栈指针加一个固定值将它移动到更高位置的内存。</p>
+<p>每当函数被调用时，程序都会创建一个新的栈区， 它只是一个保留的连续内存块，用于存储本地变量和内部状态信息。 函数在它返回之前就使用这一段内存，在返回之后，它会被移出栈。为了了解这个过程，考虑以下程序：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">function_B</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x,y;</span><br><span class="line">    </span><br><span class="line">    x = a * a;</span><br><span class="line">    y = b * b;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> (x+y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">function_A</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> q)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> c;</span><br><span class="line">c = p * q * function_B(p, p);</span><br><span class="line"><span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, <span class="keyword">char</span> **envp)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> ret;</span><br><span class="line">ret = function_A(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line"><span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当<code>function_A()</code>调用时，一个新的栈会被分配出来然后放置在堆栈的顶部，如图5-1所示。</p>
+<p>这张图只是程序栈的一个简化版本，但你可以看到<code>main()</code>函数栈的布局中调用了<code>function_A()</code>.</p>
+<p><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-1.png" alt="5-1"></p>
+<h6 id="注-2"><a href="#注-2" class="headerlink" title="注"></a>注</h6><p>图5-1和图5-2第一眼看起来可能会让你感到困惑，因为栈似乎是从上往下生长的，然而这并不错。如果你想象一个从地址0到0xFFFFFFFF的内存地址空间，低地址接近于0，因此在图中就是比较高的地方。</p>
+<p><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-2.png" alt="WeChat Screenshot_20200512175525"></p>
+<p>图5-2显示了当<code>function_A()</code>调用<code>function_B()</code>时程序栈会变成的样子。</p>
+<p>当<code>function_B()</code>运行完毕后会返回到<code>function_A()</code>,于是<code>function_B()</code>对应的这一栈段就会出栈，然后程序栈会重新像图5-1那样，简单来说就是寄存器ESP储存的值会被重置回当<code>function_B()</code>调用时。</p>
+<h6 id="注-3"><a href="#注-3" class="headerlink" title="注"></a>注</h6><p>5-1和5-2的栈图是简化版的。事实上，<code>main()</code>函数不是调用栈的第一格函数。通常，函数会在<code>main()</code>函数设置进程环境时就被调用。例如，gibic Linux系统通常以名为<code>_start()</code>的函数开始，它会调用<code>_libc_start_main()</code>，然后这个函数最后再调用<code>main()</code>。</p>
+<p>每个函数都管理着属于自己的栈段，这些栈段取决于有多少局部变量在函数中以及这些局部变量的大小。局部变量需要当函数需要时被直接访问，如果只使用push和pop指令则效率会不高。因此，很多程序会利用其他的寄存器来完成这些事，它们叫帧指针(frame pointer)或者基址指针(base pointer)。在Intel x86 CPU中，这个寄存器名字叫EBP(extended base pointer)。这个寄存器指向函数栈段的起始点。每个在给定栈段中的变量都可以通过引用基址指针开始的固定偏移量的内存位置被访问。对基址指针的使用并不是必要的，有时候甚至是多余的，当然为了讨论它，我们可以假设它是存在的。</p>
+<p>前面忽略的一个重要细节是记录在每个栈段中的内部状态信息。状态信息的存储随着处理器架构的不同而不同。但它通常包含了先前函数段的指针以及返回地址。这个返回地址的值被保存过了，所以当当前运行函数运行完毕返回时，CPU就会知道当前运行程序应该从哪里继续。当然，帧指针的值必须恢复，以便在函数调用分配其自身栈段的子函数之后，局部变量的访问能保持一致。</p>
+<h6 id="函数调用约定"><a href="#函数调用约定" class="headerlink" title="函数调用约定"></a>函数调用约定</h6><p>调用约定(calling convention)描述了函数参数时怎样传入以及调用和被调用的函数必须执行哪些栈的操作。 在本章前面一节“运行时栈”中说明了最流行的一种调用约定，然而调用约定会随着处理器架构，操作系统，编译器的不同而不同。</p>
+<p>编译器可以通过优化来改变调用约定。例如，一种流行的 x86 调用约定叫快速调用(fastcall)。如果可能，快速调用会将函数参数传入寄存器，这样可以提高变量访问的速度以及减少栈上的操作。每个编译器都有不同版本的快速调用。</p>
+<p>语言特性也可以造成不同的调用约定。一个典型的例子就是要求访问类实例的<code>this</code>指针的C++类成员函数。在windows x86系统中，<code>this</code>指针会被传入ECX寄存器中传递给具有固定数量参数的函数。相反，在GCC C++编译器中会将<code>this</code>指针当作函数最后一个变量将它push到栈中。</p>
+<p>栈指针也必须被恢复到它以前的状态，但这个过程不是隐式的，被调用的函数必须在返回前重置栈指针到正确的位置。这个过程时必须的，因为储存的帧指针以及返回的地址会从栈顶被恢复。通过使用隐式使用栈指针的<code>pop</code>指令，帧指针能够被恢复。用于从函数返回的<code>ret</code>指令也隐式地使用ESP寄存器获取返回地址。</p>
+<p>每个函数会分配自己的栈段，因此，它们需储存自己的段指针。下面这段代码显示了在Intel机器中函数在开头是怎样储存自己的栈段指针的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text:5B891A50		mov edi, edi</span><br><span class="line">text:5B891A52 		push ebp</span><br><span class="line">text:5B891A53		mov ebp, esp</span><br></pre></td></tr></table></figure>
+
+<p>这段函数开头的代码并不要求调用者具体地将返回地址push到栈中，这个过程会被<code>call</code>指令完成。因此当<code>function_B()</code>被调用时栈地布局会如图5-3所示。</p>
+<p><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-3.png" alt="5-3"></p>
+<h6 id="注-4"><a href="#注-4" class="headerlink" title="注"></a>注</h6><p>你可能注意到了在上面那段代码中一个看起来没有用的指令<code>(mov edi, edi)</code>。这个指令只是一个占位符，添加它时为了简化系统监视和debug。</p>
+<h5 id="利用栈溢出"><a href="#利用栈溢出" class="headerlink" title="利用栈溢出"></a>利用栈溢出</h5><p>如你所见，局部变量非常接近彼此。事实上，它们被安排在了连续d额内存中。因此如果一个程序有这样一个漏洞，它允许数据将数据写入到本地栈缓冲区末尾之后的地方，那么与数据相邻的变量就会被重写。这些相邻的变量可以包括其他的局部变量，程序状态信息，甚至函数参数。取决于有多少个字节能够被写入，攻击者能够可以在前面的栈段中损坏变量以及状态信息。</p>
+<h6 id="注-5"><a href="#注-5" class="headerlink" title="注"></a>注</h6><p>编译器有时会在一个变量和下一个变量之间添加填充，这取决于优化级别异界变量大小等多个因素。出于讨论目的，可以将变量视为连续的。</p>
+<p>我们来考虑一个简单的写入覆盖局部变量的情况。写入乳钙一个局部变量的危险性就是你可以任意更改应用不想让你更改的变量的值。状态的变化通常也可以造成你不想要的后果。考虑以下代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">authenticate</span><span class="params">(<span class="keyword">char</span> *username, <span class="keyword">char</span> *password)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"><span class="keyword">int</span> authenticated;</span><br><span class="line"><span class="keyword">char</span> <span class="built_in">buffer</span>[<span class="number">1024</span>];</span><br><span class="line">authenticated = verify_password(username, password);</span><br><span class="line"><span class="keyword">if</span>(authenticated == <span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="built_in">sprintf</span>(<span class="built_in">buffer</span>,</span><br><span class="line"><span class="string">"password is incorrect for user %s\n"</span>,</span><br><span class="line">username);</span><br><span class="line"><span class="built_in">log</span>(<span class="string">"%s"</span>, <span class="built_in">buffer</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> authenticated;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>假设用来验证的变量位于栈段的顶部，将其放置在比buffer变量更高的内存位置。函数栈就像图5-4那样</p>
+<p><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-4.png" alt="5-4"></p>
+<h6 id="注-6"><a href="#注-6" class="headerlink" title="注"></a>注</h6><p>图5-4展现了代码可能的布局。然而你不能从源代码中推断出变量在栈段中是怎样分布的。为了优化性能，编译器可以（通常也会这样做）重新布局变量。</p>
+<p><code>authenticate()</code>函数有缓冲区溢出的漏洞。具体来说，<code>printf()</code>函数没有规定它写入输出缓冲区数据的多少。因此，如果一个<code>username</code>字符串大约在1024字节大小的话，数据将写入缓冲区变量的末尾之后，并写入变量<code>authenticate</code>。（注意<code>authenticated()</code>在栈的顶部）。图5-5显示了当溢出触发时会发生什么</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/translate/" rel="tag"># translate</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/05/the-art-of-software-security-assessment%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BF%BB%E8%AF%91/" rel="next" title="the art of software security assessment第二章翻译">
+      the art of software security assessment第二章翻译 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#7-第二部分-软件漏洞"><span class="nav-number">1.</span> <span class="nav-text">7.第二部分 软件漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-第五章-内存损坏-（memory-corruption）"><span class="nav-number">1.1.</span> <span class="nav-text">7.1 第五章 内存损坏 （memory corruption）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-1-概述"><span class="nav-number">1.1.1.</span> <span class="nav-text">7.1.1 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">注</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1-2-缓冲区溢出"><span class="nav-number">1.1.2.</span> <span class="nav-text">7.1.2 缓冲区溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注-1"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#进程的内存布局"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">进程的内存布局</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#栈溢出"><span class="nav-number">1.1.2.3.</span> <span class="nav-text">栈溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#抽象数据类型：栈"><span class="nav-number">1.1.2.3.1.</span> <span class="nav-text">抽象数据类型：栈</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#运行时栈"><span class="nav-number">1.1.2.3.2.</span> <span class="nav-text">运行时栈</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#注-2"><span class="nav-number">1.1.2.3.3.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#注-3"><span class="nav-number">1.1.2.3.4.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#函数调用约定"><span class="nav-number">1.1.2.3.5.</span> <span class="nav-text">函数调用约定</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#注-4"><span class="nav-number">1.1.2.3.6.</span> <span class="nav-text">注</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#利用栈溢出"><span class="nav-number">1.1.2.4.</span> <span class="nav-text">利用栈溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#注-5"><span class="nav-number">1.1.2.4.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#注-6"><span class="nav-number">1.1.2.4.2.</span> <span class="nav-text">注</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chenyu ZHU</p>
+  <div class="site-description" itemprop="description">Chenyu</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChenyuZhuWhiskey" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChenyuZhuWhiskey" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chenyu_zhu@protonmail.com" title="E-Mail → mailto:chenyu_zhu@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenyu ZHU</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

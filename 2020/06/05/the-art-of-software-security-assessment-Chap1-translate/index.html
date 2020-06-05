@@ -20,19 +20,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="title: the art of software security assessment第一章翻译date: 2020-06-05 21:40:20tags: translate  软件安全审计的艺术——识别以及预防软件的漏洞translator: 山海(Chenyu ZHU) 注：翻译从原书6.软件安全审计概述（Introduction to Software Security Asses">
+  <meta name="description" content="软件安全审计的艺术——识别以及预防软件的漏洞Translator: 山海(Chenyu ZHU) 注：翻译从原书6.软件安全审计概述（Introduction to Software Security Assessment）开始，前面的并不是正文内容。 ——By 译者 第一部分：软件安全审计概述6.1 第一章：关于软件漏洞的基础知识“任何足够高级的技术都与魔法难以区分” ——  亚瑟 C. 克拉克">
 <meta property="og:type" content="article">
-<meta property="og:title" content="the-art-of-software-security-assessment-第一章翻译">
-<meta property="og:url" content="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BF%BB%E8%AF%91/index.html">
+<meta property="og:title" content="the art of software security assessment Chap1. translate">
+<meta property="og:url" content="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment-Chap1-translate/index.html">
 <meta property="og:site_name" content="Chenyu&#39;s Blog">
-<meta property="og:description" content="title: the art of software security assessment第一章翻译date: 2020-06-05 21:40:20tags: translate  软件安全审计的艺术——识别以及预防软件的漏洞translator: 山海(Chenyu ZHU) 注：翻译从原书6.软件安全审计概述（Introduction to Software Security Asses">
+<meta property="og:description" content="软件安全审计的艺术——识别以及预防软件的漏洞Translator: 山海(Chenyu ZHU) 注：翻译从原书6.软件安全审计概述（Introduction to Software Security Assessment）开始，前面的并不是正文内容。 ——By 译者 第一部分：软件安全审计概述6.1 第一章：关于软件漏洞的基础知识“任何足够高级的技术都与魔法难以区分” ——  亚瑟 C. 克拉克">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-06-05T14:47:22.372Z">
-<meta property="article:modified_time" content="2020-06-05T14:47:22.370Z">
+<meta property="article:published_time" content="2020-06-05T15:08:39.000Z">
+<meta property="article:modified_time" content="2020-06-05T15:08:39.673Z">
 <meta property="article:author" content="Chenyu ZHU">
+<meta property="article:tag" content="translate">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BF%BB%E8%AF%91/">
+<link rel="canonical" href="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment-Chap1-translate/">
 
 
 <script id="page-configurations">
@@ -45,7 +46,7 @@
   };
 </script>
 
-  <title>the-art-of-software-security-assessment-第一章翻译 | Chenyu's Blog</title>
+  <title>the art of software security assessment Chap1. translate | Chenyu's Blog</title>
   
 
 
@@ -151,7 +152,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BF%BB%E8%AF%91/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/05/the-art-of-software-security-assessment-Chap1-translate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -164,7 +165,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          the-art-of-software-security-assessment-第一章翻译
+          the art of software security assessment Chap1. translate
         </h1>
 
         <div class="post-meta">
@@ -174,7 +175,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2020-06-05 22:47:22" itemprop="dateCreated datePublished" datetime="2020-06-05T22:47:22+08:00">2020-06-05</time>
+              <time title="创建时间：2020-06-05 23:08:39" itemprop="dateCreated datePublished" datetime="2020-06-05T23:08:39+08:00">2020-06-05</time>
             </span>
 
           
@@ -188,10 +189,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <hr>
-<p>title: the art of software security assessment第一章翻译<br>date: 2020-06-05 21:40:20<br>tags: translate</p>
-<hr>
-<h1 id="软件安全审计的艺术——识别以及预防软件的漏洞"><a href="#软件安全审计的艺术——识别以及预防软件的漏洞" class="headerlink" title="软件安全审计的艺术——识别以及预防软件的漏洞"></a>软件安全审计的艺术——识别以及预防软件的漏洞</h1><p>translator: 山海(Chenyu ZHU)</p>
+        <h1 id="软件安全审计的艺术——识别以及预防软件的漏洞"><a href="#软件安全审计的艺术——识别以及预防软件的漏洞" class="headerlink" title="软件安全审计的艺术——识别以及预防软件的漏洞"></a>软件安全审计的艺术——识别以及预防软件的漏洞</h1><p>Translator: 山海(Chenyu ZHU)</p>
 <p><em>注：翻译从原书6.软件安全审计概述（Introduction to Software Security Assessment）开始，前面的并不是正文内容。 ——By 译者</em></p>
 <h2 id="第一部分：软件安全审计概述"><a href="#第一部分：软件安全审计概述" class="headerlink" title="第一部分：软件安全审计概述"></a>第一部分：软件安全审计概述</h2><h3 id="6-1-第一章：关于软件漏洞的基础知识"><a href="#6-1-第一章：关于软件漏洞的基础知识" class="headerlink" title="6.1 第一章：关于软件漏洞的基础知识"></a>6.1 第一章：关于软件漏洞的基础知识</h3><p><em>“任何足够高级的技术都与魔法难以区分”</em></p>
 <p>——  亚瑟 C. 克拉克</p>
@@ -208,12 +206,9 @@
 <p>对于由软件组成的系统，用户对应有安全政策，它简要指出了哪些能做哪些不能做。例如，这个政策可能会这样说：”未经身份验证的用户禁止使用日历服务。”如果未经身份验证的用户拥有访问日历服务的权限，那么这毫无疑问违反了安全政策。</p>
 <p>每个软件系统都应该考虑自己的安全政策。它的形式可能是编写的文档，也可能是一个非正式的松散的期望集合，用户对在这个系统中怎么做是合理的有这样的期望。对于绝大多数软件系统，人们通常能懂得什么样的行为违反了安全规则，即使它没有在安全政策中被提及。因此，“安全政策”通常表示用户和社区对于什么行为是允许的，什么行为是禁止的所达成的共识。安全政策可以有如下所示的几种形式：</p>
 <ul>
-<li><p>对于特别敏感和具有严格限定作用域的系统，安全政策可以是通过数学学证明然后通过程序代码验证的规范约束。这种方法通常很昂贵，并且只适用受到严格控制的软件环境。比如信号灯，电梯，飞机等性命攸关的设备中所嵌入的系统能够通过这种验证。然而这种方法对于很多这样的应用程序也是非常昂贵且笨拙的。</p>
-</li>
-<li><p>安全政策可以是一个正式的书面条款。就像附录Q中阐述的“C.2信用卡信息应当永远不泄露给第三方或者未经充分加密后通过媒介传输。”这个条款可能来自于在开发过程中创建的关于软件的政策，也可能来自于与软件使用的资源相关的政策，例如网站的安全政策，操作系统政策或者数据库安全政策。</p>
-</li>
-<li><p>安全政策可以仅仅由非正式的，模糊的人们对合理程序安全行为所期望的集合构成。例如“让犯罪组织访问我们的信用卡数据库可能是不好的”。</p>
-</li>
+<li>对于特别敏感和具有严格限定作用域的系统，安全政策可以是通过数学学证明然后通过程序代码验证的规范约束。这种方法通常很昂贵，并且只适用受到严格控制的软件环境。比如信号灯，电梯，飞机等性命攸关的设备中所嵌入的系统能够通过这种验证。然而这种方法对于很多这样的应用程序也是非常昂贵且笨拙的。</li>
+<li>安全政策可以是一个正式的书面条款。就像附录Q中阐述的“C.2信用卡信息应当永远不泄露给第三方或者未经充分加密后通过媒介传输。”这个条款可能来自于在开发过程中创建的关于软件的政策，也可能来自于与软件使用的资源相关的政策，例如网站的安全政策，操作系统政策或者数据库安全政策。</li>
+<li>安全政策可以仅仅由非正式的，模糊的人们对合理程序安全行为所期望的集合构成。例如“让犯罪组织访问我们的信用卡数据库可能是不好的”。</li>
 </ul>
 <h5 id="注-3"><a href="#注-3" class="headerlink" title="注"></a>注</h5><p>Java虚拟机(Java Virtual Machine, JVM) 以及.Net公用语言运行库(Common Language Runtime, CLR)有不同程度的代码访问安全性(Code Access Security, CAS)。代码访问安全性提供了加载与运行时广泛的验证方法。这些验证包括字节码的完整性，软件的始发者以及代码访问限制的应用程序。这些技术最明显的应用包括Java applet和.NET管理的浏览器控件的沙箱环境。</p>
 <p>尽管代码访问安全性可以用作严格的，形式化的安全模型的平台，但有些与之相关的注意事项必须要题。第一个问题就是大多数开发人员不完全了解它的应用和功能，因此商业软件中很少使用。第二个问题是代码访问安全性完全依赖于底层组件的安全性，JVM和.NET CLR都是漏洞的受害者，这些漏洞允许应用程序走出虚拟机沙箱并运行任意代码。</p>
@@ -235,48 +230,67 @@
 <p>好消息是人们对于安全的态度近年来已经产生了改变,许多供应商已经在业务流程中开始使用严格地安全性测试.许多方法已经变得常见,比如自动代码分析,安全单元测试,手动代码审计等.从这标题你可以看出,这本书主要讨论手动代码审计.</p>
 <p><strong>审计</strong>(auditing) 是一个分析代码的过程(无论这段代码是源代码还是二进制形式),这个过程用来发现一些可能被攻击者利用的漏洞.通过这个过程,你可以确认以及消除那些让敏感数据和商业资源陷入不必要风险的安全漏洞.</p>
 <p> 除了公司开发内部软件的明显情况外，代码审计在其他一些情况下也有意义。 表1-1总结了最常见的审计方法:</p>
-<p>| 审计形式             | 描述                                       | 优势                                                         |</p>
-<p>| ——————– | —————————————— | ———————————————————— |</p>
-<p>| 内部软件审计(发布前) | 软件公司在自己的新产品发布之前做的代码审计 | 漏洞能在产品进入市场前发现并填补,能节省开发和部署更新的费用,同时让公司免于潜在的骚扰 |</p>
-<p>| 内部软件审计(发布后) | 软件公司在产品发布之后进行审计             | 在恶意团队发现漏洞之前将其修复.这个过程可以花较长时间进行测设与检查而不是在漏洞暴露时匆忙发布 |</p>
-<p>| 第三方产品范围比较   | 第三方拿相互竞争产品的某个方面进行审计     | 客观的第三方可以为消费者提供有价值的信息,并且帮助他们选择最安全的产品 |</p>
-<p>| 第三方评估           | 第三方为客户对一个单独的软件进行审计       | 客户可以了解它正在考虑部署的应用程序的相对安全性。这可以为选择某个产品而不是其他提供相关参数的证明 |</p>
-<p>| 第三方初步评估       | 第三方对一个还没有进入市场的产品进行评估   | 风险投资家可以了解未来技术在投资项目上的可行性.供应商也可以进行这种类型的评估,以确保它们所想要销售的产品的质量 |</p>
-<p>| 独立研究             | 安全公司或咨询公司独立地执行软件审计       | 安全产品供应商可以识别扫描仪和其他安全设备的漏洞并实施保护措施。独立研究也起到行业监督的作用，为研究人员和安全公司提供了建立专业信誉的途径。 |</p>
+<table>
+<thead>
+<tr>
+<th>审计形式</th>
+<th>描述</th>
+<th>优势</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内部软件审计(发布前)</td>
+<td>软件公司在自己的新产品发布之前做的代码审计</td>
+<td>漏洞能在产品进入市场前发现并填补,能节省开发和部署更新的费用,同时让公司免于潜在的骚扰</td>
+</tr>
+<tr>
+<td>内部软件审计(发布后)</td>
+<td>软件公司在产品发布之后进行审计</td>
+<td>在恶意团队发现漏洞之前将其修复.这个过程可以花较长时间进行测设与检查而不是在漏洞暴露时匆忙发布</td>
+</tr>
+<tr>
+<td>第三方产品范围比较</td>
+<td>第三方拿相互竞争产品的某个方面进行审计</td>
+<td>客观的第三方可以为消费者提供有价值的信息,并且帮助他们选择最安全的产品</td>
+</tr>
+<tr>
+<td>第三方评估</td>
+<td>第三方为客户对一个单独的软件进行审计</td>
+<td>客户可以了解它正在考虑部署的应用程序的相对安全性。这可以为选择某个产品而不是其他提供相关参数的证明</td>
+</tr>
+<tr>
+<td>第三方初步评估</td>
+<td>第三方对一个还没有进入市场的产品进行评估</td>
+<td>风险投资家可以了解未来技术在投资项目上的可行性.供应商也可以进行这种类型的评估,以确保它们所想要销售的产品的质量</td>
+</tr>
+<tr>
+<td>独立研究</td>
+<td>安全公司或咨询公司独立地执行软件审计</td>
+<td>安全产品供应商可以识别扫描仪和其他安全设备的漏洞并实施保护措施。独立研究也起到行业监督的作用，为研究人员和安全公司提供了建立专业信誉的途径。</td>
+</tr>
+</tbody></table>
 <p>正如你所看到的,代码审计在很多情况下都适用. 尽管具备这些技能的人员的需求大，但是，很少有专业人员具有高水平执行这些审计的培训和经验。我们希望这本书能帮助填补这一空白。 </p>
 <h5 id="审计与黑盒测试"><a href="#审计与黑盒测试" class="headerlink" title="审计与黑盒测试"></a>审计与黑盒测试</h5><p><strong>黑盒测试</strong>(black box testing)是一种只通过操作软件所给的接口来评估软件的方法.特别地,这个过程更倾向于给一些精心设计的输入,这些输入能够让应用程序产生一些期望之外的结果,比如宕机或者暴露敏感数据.例如对一个HTTP服务器进行黑盒测试时可以向它发出一个字段大小异常大请求,这种请求可能造成内存崩溃的bug(在第五章”内存崩溃”我们会详细讨论).这个测试的请求可以是合法的,例如下面的内容:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAA HTTP&#x2F;1.0</span><br></pre></td></tr></table></figure>
-
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAA HTTP&#x2F;1.0</span><br></pre></td></tr></table></figure>
 
 <p>或者它也可以是非法请求,就像这样:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">GET &#x2F; AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAA&#x2F;1.0</span><br></pre></td></tr></table></figure>
-
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET &#x2F; AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAA&#x2F;1.0</span><br></pre></td></tr></table></figure>
 
 <p>任何这种请求导致的宕机都说明这个应用程序存在严重的bug.当考虑可以使用自动化测试应用程序的工具时,黑盒测试更有吸引力.这种自动化的黑盒测试被称为模糊测试(fuzz-testing). 而模糊测试工具包括通用的“dumb”和协议感知的“智能”fuzzer.因此你不需要手动地去尝试所有你可能想象的到的情况,你只要根据自己的设计运行这个这个工具然后收集结果就可以了.</p>
 <p>黑盒测试的好处就是快,能迅速得到测试结果.然而,黑盒测试有几个非常关键的缺点.本质上说,黑盒测试就是丢一堆数据给应用程序然后看看他是不是做了一些设计者不想让他做的事情.你不知道这个过程中程序是如何处理数据的,所以有大量的不接触这些数据的代码你并没有进行探究.例如,回到这个web服务器的例子,假设请求的查询字符串中存在特定的关键词时它会具有特定的内部功能,就像下面的代码一样:请注意加粗的代码行(<em>Markdown代码块好像无法加粗,注意最后一个if语句即可 – by 译者</em>):</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">keyval</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *key;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> *value;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">handle_query_string</span><span class="params">(<span class="keyword">char</span> *query_string)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">keyval</span> *<span class="title">qstring_values</span>, *<span class="title">ent</span>;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">1024</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!query_string)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    qstring_values = split_keyvalue_pairs(query_string);</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>((ent = find_entry(qstring_values, <span class="string">"mode"</span>)) != <span class="literal">NULL</span>)</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        <span class="built_in">sprintf</span>(buf, <span class="string">"MODE=%s"</span>, ent-&gt;value);</span><br><span class="line"></span><br><span class="line">        putenv(buf);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ... more stuff here ...</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">keyval</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> *key;</span><br><span class="line">    <span class="keyword">char</span> *value;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">handle_query_string</span><span class="params">(<span class="keyword">char</span> *query_string)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">keyval</span> *<span class="title">qstring_values</span>, *<span class="title">ent</span>;</span></span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">if</span>(!query_string)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    qstring_values = split_keyvalue_pairs(query_string);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>((ent = find_entry(qstring_values, <span class="string">"mode"</span>)) != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(buf, <span class="string">"MODE=%s"</span>, ent-&gt;value);</span><br><span class="line">        putenv(buf);</span><br><span class="line">    &#125;</span><br><span class="line">    ... more stuff here ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这个web服务器有一个特殊的不规范的行为:如果查询字符串中含有 <code>mode=</code>,那么环境变量<code>MODE</code>就会被修改为<code>xxx</code>.这个特别的行为在实现上有一个缺陷,如果粗心地使用函数<code>sprintf()</code>就会造成缓冲区溢出.如果你不清楚为什么这段代码很危险,不必担心,缓冲区溢出漏洞会在第五章详细讨论.</p>
 <p>从这个例子可以看出段存在bug的代码在黑盒测试中完全可能正常运行，简单的漏洞也无法探测出来。因此，你需要对程序代码本身进行评估而不是只靠跑几个测试例子然后记录结果就行。这也是代码审计很重要的原因。你需要能够分析代码然后发现自动测试工具无法探测到的漏洞。</p>
 <p>幸运的是，代码审计配合黑盒测试能够利用最少的时间得到最好的修补漏洞的结果。这本书将会教会你这些知识和技术来彻底地分析一个应用程序方方面面的漏洞以及怎样应用你对这些知识的理解和创造力来发现一个应用程序的缺陷。</p>
 <h5 id="代码审计与开发生命周期"><a href="#代码审计与开发生命周期" class="headerlink" title="代码审计与开发生命周期"></a>代码审计与开发生命周期</h5><p>当你考虑应用程序会暴露给潜在的恶意用户时，应用程序安全审计的重要性不言而喻。然而你需要明确知道什么时候进行审计。一般地，你可以在<strong>系统开发生命周期</strong>（Systems Developement Life Cycle， SDLC）的任何阶段进行审计。让么人，在什么时候进行审计所花费的代价是不一样的。因此在开始之前，我们先回顾一下系统开发生命周期的每个阶段：</p>
 <ol>
-<li><p><em>可行性研究</em>。这个阶段会考虑确认完成这个项目的需求并决定什么样的开发解决方案在技术上和预算上是合适的。</p>
-</li>
-<li><p><em>需求定义</em>。这个阶段将对于完成项目的需求进行更深入的研究，项目的目标也将确立。</p>
-</li>
-<li><p><em>设计</em>。设计解决方案来使得目标系统能够技术性地实现并且满足需求。</p>
-</li>
-<li><p><em>实现</em>。根据前面地设计阶段完成应用程序代码。</p>
-</li>
-<li><p><em>集成与测试</em>。解决方案要经过一定程度的质量保证，以确保它按预期工作，并捕获软件中的任何bug。</p>
-</li>
-<li><p><em>使用与维护</em>。解决方案发布并投入使用，然后根据用户地反馈进行修正，更新，更正。</p>
-</li>
+<li><em>可行性研究</em>。这个阶段会考虑确认完成这个项目的需求并决定什么样的开发解决方案在技术上和预算上是合适的。</li>
+<li><em>需求定义</em>。这个阶段将对于完成项目的需求进行更深入的研究，项目的目标也将确立。</li>
+<li><em>设计</em>。设计解决方案来使得目标系统能够技术性地实现并且满足需求。</li>
+<li><em>实现</em>。根据前面地设计阶段完成应用程序代码。</li>
+<li><em>集成与测试</em>。解决方案要经过一定程度的质量保证，以确保它按预期工作，并捕获软件中的任何bug。</li>
+<li><em>使用与维护</em>。解决方案发布并投入使用，然后根据用户地反馈进行修正，更新，更正。</li>
 </ol>
 <p>每个软件地开发过程都在某种程度上根据这套规则。经典的<strong>瀑布模型</strong>(waterfall models)要求系统周期严格地按照这个过程迭代一次。相反的是，新的方法论例如敏捷式软件开发(agile developement)更倾向于通过不断地迭代系统开发生命周期来改善程序。所以系统开发生命周期这个模型地应用是多样的，但基础的概念与阶段已经足够我们用于接下来地讨论。你可以用这些特点来帮助区分漏洞，在接下来的章节，你将会学到进行不同类别的审计的最佳阶段。 </p>
 <h4 id="6-1-4-漏洞的分类"><a href="#6-1-4-漏洞的分类" class="headerlink" title="6.1.4 漏洞的分类"></a>6.1.4 漏洞的分类</h4><p>一个<strong>漏洞的类别</strong>（vulnerability class）是一系列拥有统一常见特征或者在不同软件缺陷中具有类似概念的漏洞的集合。当然，这个定义可能有点晦涩，但归根结底漏洞类别就是用来概念化软件缺陷的精神装置（mental device）。它们在我们理解问题以及将这种理解扩散到其他部分时大有帮助。但将漏洞分组到精确地不重叠的类中是不可能的。一个简单的漏洞很有可能根据代码审计者的术语，分类系统以及个人观点被分到许多类中。</p>
@@ -316,15 +330,11 @@
 <p>相反,攻击者在查看输入处理代码时,就试图考虑每一个可能导致不一致或者意外程序状态的输入.攻击者会试图探索软件的每一个可访问接口,并专门寻找开发人员所作的假设.对于攻击者来说,任何提供意外输入的机会都是宝贵的,因为这种输入通常会对开发人员没有预料到的后续处理产生微妙的影响.通常,如果你可以对软件运行时的属性进行以外的更改,那么你通常就可以找到一种方法来利用它对程序产生更大的(负面的)影响.</p>
 <h6 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h6><p>接口就是软件各组件相互之间以及软件与外部世界进行通信的机制.许多漏洞时由于开发人员并没有充分认识到这些接口的安全属性,从而假设只有受信任的对等放可以使用它们而造成的.如果一个程序的组件可以通过网络或者本地机器上的各种机制访问,那么攻击者可能能直接列街道该组件并且输入恶意数据.如果编写该组件时假设其对等组件是可信的,则应用程序可能会以一种能够被利用攻击的方式错误地处理输入.</p>
 <p>使得这个漏洞更加严重的是,开发人员通常错误地估计了攻击者到达这个接口地难度,因此他们信任这个接口,而这个接口是没有保证地.例如,开发人员可能认为自己的系统有很高的安全性,因为他们使用了带有自定义加密和专有的且复杂的网络协议.他们可能错误地认为攻击者不大可能构建自己爹客户端和加密层然后以意想不到的方式操纵协议. 不幸地是,这种假设非常不合理,因为许多攻击者在专有协议地逆向工程中找到了一种独特的乐趣.</p>
-<p>X系统将发送一个 SIGPIPE信号,接收到此信号时的默认行为就是终止进程.攻击者可能会是一个易受攻击的程序在适当的时候对通道进行写入操作,然后应用程序能够成功执行写操作之前关闭通道,这将导致SIGPIPE信号,然后导致应用程序终止,并使得整个系统处于不稳定状态.对于更具体的示例,某些Linux发行版的网络文件系统(Network File System,NFS)状态守护进程很容易由于在正确的事件关闭连接而崩溃.利用这个漏洞能够破坏NFS功能,这种情况会持续到管理员可以干预并重置守护进程为止.</p>
-<h4 id="6-1-6-总结"><a href="#6-1-6-总结" class="headerlink" title="6.1.6 总结"></a>6.1.6 总结</h4><p>在短短的这一章中已经涵盖了很多内容,当然可能还会留下一些问题.但无需担心,后续章节将会讨论更多细节,并在你的学习过程正给出答案.闲杂,重要的时要对计算机软件中可能出现的问题有很好的了解,并理解在讨论这些问题中所使用的术语.你还应该了解应用程序安全审计的必要性,并熟悉流程的不同方面.在后面的章节中,你将在此基础上学习如何使用这个审计过程来识别你所审查的应用程序中的漏洞.总结一下,开发者可能由于以下原因对一个接口产生错位信任:</p>
+<p>总结一下,开发者可能由于以下原因对一个接口产生错位信任:</p>
 <ul>
-<li><p>他们选择了一种暴露接口的方法,这种方法不能提供足够的保护来抵御外来攻击者</p>
-</li>
-<li><p>他们选择了一种可靠的方法来公开接口,通常是操作系统的服务,但他们使用了错误的配置.攻击者还可能利用基础平台的漏洞获得对该接口的控制.</p>
-</li>
-<li><p>他们假设一个接口对于攻击者来说太难访问了,这是一个危险性极高的赌博.</p>
-</li>
+<li>他们选择了一种暴露接口的方法,这种方法不能提供足够的保护来抵御外来攻击者</li>
+<li>他们选择了一种可靠的方法来公开接口,通常是操作系统的服务,但他们使用了错误的配置.攻击者还可能利用基础平台的漏洞获得对该接口的控制.</li>
+<li>他们假设一个接口对于攻击者来说太难访问了,这是一个危险性极高的赌博.</li>
 </ul>
 <h5 id="环境的攻击"><a href="#环境的攻击" class="headerlink" title="环境的攻击"></a>环境的攻击</h5><p>软件系统不是在真空中运行的,他们在一个大的计算环境中作为程序来运行,这个计算环境包括操作系统,硬件架构,网络,文件系统,数据库以及用户.</p>
 <p>尽管许多软件漏洞来自于恶意数据的处理过程,但有的软件漏洞是在攻击者更改软件所依赖的环境中发生的.这种缺陷可以当作一种对软件的底层环境所作的假设造成的漏洞.软件系统所依赖的每种支撑技术可能都有许多最佳实践和细微差别,如果应用程序开发人员没有完全了解每种技术的潜在安全问题,那么犯下一个导致安全暴露的错误就太容易了.</p>
@@ -332,7 +342,7 @@
 <p>在这种情况下,漏洞不是通过攻击者提供给程序的数据触发的.相反,这是对程序运行时环境的攻击,导致程序与操作系统以一种预期之外以及不期望发生的方式进行交互.</p>
 <h5 id="异常条件"><a href="#异常条件" class="headerlink" title="异常条件"></a>异常条件</h5><p>与处理异常情况相关的漏洞与数据和环境漏洞交织在一起。基本上，当攻击者可以通过外部手段(external measure)在程序的正常控制流中引起意外更改时，就会发生异常情况。这种行为可能导致程序的异步中断，例如信号的传递。它还可能涉及消耗全局系统资源来故意在程序的特定位置诱发故障条件。 </p>
 <p>例如,如果一个进程试图写入一个关闭的网络连接或者通道,UNIX系统将发送一个 SIGPIPE信号,接收到此信号时的默认行为就是终止进程.攻击者可能会是一个易受攻击的程序在适当的时候对通道进行写入操作,然后应用程序能够成功执行写操作之前关闭通道,这将导致SIGPIPE信号,然后导致应用程序终止,并使得整个系统处于不稳定状态.对于更具体的示例,某些Linux发行版的网络文件系统(Network File System,NFS)状态守护进程很容易由于在正确的事件关闭连接而崩溃.利用这个漏洞能够破坏NFS功能,这种情况会持续到管理员可以干预并重置守护进程为止.</p>
-<h4 id="6-1-6-总结-1"><a href="#6-1-6-总结-1" class="headerlink" title="6.1.6 总结"></a>6.1.6 总结</h4><p>在短短的这一章中已经涵盖了很多内容,当然可能还会留下一些问题.但无需担心,后续章节将会讨论更多细节,并在你的学习过程正给出答案.闲杂,重要的时要对计算机软件中可能出现的问题有很好的了解,并理解在讨论这些问题中所使用的术语.你还应该了解应用程序安全审计的必要性,并熟悉流程的不同方面.在后面的章节中,你将在此基础上学习如何使用这个审计过程来识别你所审查的应用程序中的漏洞.</p>
+<h4 id="6-1-6-总结"><a href="#6-1-6-总结" class="headerlink" title="6.1.6 总结"></a>6.1.6 总结</h4><p>在短短的这一章中已经涵盖了很多内容,当然可能还会留下一些问题.但无需担心,后续章节将会讨论更多细节,并在你的学习过程正给出答案.闲杂,重要的时要对计算机软件中可能出现的问题有很好的了解,并理解在讨论这些问题中所使用的术语.你还应该了解应用程序安全审计的必要性,并熟悉流程的不同方面.在后面的章节中,你将在此基础上学习如何使用这个审计过程来识别你所审查的应用程序中的漏洞.</p>
 
     </div>
 
@@ -341,6 +351,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/translate/" rel="tag"># translate</a>
+          </div>
 
         
 
@@ -348,12 +361,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/06/05/the-art-of-software-security-assessment%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BF%BB%E8%AF%91/" rel="prev" title="the art of software security assessment第二章翻译">
-      <i class="fa fa-chevron-left"></i> the art of software security assessment第二章翻译
+    <a href="/2020/06/05/the-art-of-software-security-assessment-%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BF%BB%E8%AF%91/" rel="prev" title="the-art-of-software-security-assessment-第一章翻译">
+      <i class="fa fa-chevron-left"></i> the-art-of-software-security-assessment-第一章翻译
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/06/05/the-art-of-software-security-assessment-Chap1-translate/" rel="next" title="the art of software security assessment Chap1. translate">
-      the art of software security assessment Chap1. translate <i class="fa fa-chevron-right"></i>
+    <a href="/2020/06/05/the-art-of-software-security-assessment-Chap2-translate/" rel="next" title="the art of software security assessment Chap2. translate">
+      the art of software security assessment Chap2. translate <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -413,7 +426,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#软件安全审计的艺术——识别以及预防软件的漏洞"><span class="nav-number">1.</span> <span class="nav-text">软件安全审计的艺术——识别以及预防软件的漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分：软件安全审计概述"><span class="nav-number">1.1.</span> <span class="nav-text">第一部分：软件安全审计概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-第一章：关于软件漏洞的基础知识"><span class="nav-number">1.1.1.</span> <span class="nav-text">6.1 第一章：关于软件漏洞的基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-1-概论"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">6.1.1 概论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-2-漏洞"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">6.1.2 漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注"><span class="nav-number">1.1.1.2.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注-1"><span class="nav-number">1.1.1.2.2.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注-2"><span class="nav-number">1.1.1.2.3.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注-3"><span class="nav-number">1.1.1.2.4.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安全期望"><span class="nav-number">1.1.1.2.5.</span> <span class="nav-text">安全期望</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#保密性"><span class="nav-number">1.1.1.2.5.1.</span> <span class="nav-text">保密性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#完整性"><span class="nav-number">1.1.1.2.5.2.</span> <span class="nav-text">完整性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#实用性"><span class="nav-number">1.1.1.2.5.3.</span> <span class="nav-text">实用性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-3-审计的必要性"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">6.1.3 审计的必要性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注-4"><span class="nav-number">1.1.1.3.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#审计与黑盒测试"><span class="nav-number">1.1.1.3.2.</span> <span class="nav-text">审计与黑盒测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码审计与开发生命周期"><span class="nav-number">1.1.1.3.3.</span> <span class="nav-text">代码审计与开发生命周期</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-4-漏洞的分类"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">6.1.4 漏洞的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#设计漏洞"><span class="nav-number">1.1.1.4.1.</span> <span class="nav-text">设计漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实现漏洞"><span class="nav-number">1.1.1.4.2.</span> <span class="nav-text">实现漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作漏洞"><span class="nav-number">1.1.1.4.3.</span> <span class="nav-text">操作漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#灰色地带"><span class="nav-number">1.1.1.4.4.</span> <span class="nav-text">灰色地带</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的线索"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">常见的线索</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#输入与数据流"><span class="nav-number">1.1.1.5.1.</span> <span class="nav-text">输入与数据流</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#信任关系"><span class="nav-number">1.1.1.5.2.</span> <span class="nav-text">信任关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#假设与错位信任"><span class="nav-number">1.1.1.5.3.</span> <span class="nav-text">假设与错位信任</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#输入"><span class="nav-number">1.1.1.5.3.1.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#接口"><span class="nav-number">1.1.1.5.3.2.</span> <span class="nav-text">接口</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-6-总结"><span class="nav-number">1.1.1.6.</span> <span class="nav-text">6.1.6 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#环境的攻击"><span class="nav-number">1.1.1.6.1.</span> <span class="nav-text">环境的攻击</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#异常条件"><span class="nav-number">1.1.1.6.2.</span> <span class="nav-text">异常条件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-6-总结-1"><span class="nav-number">1.1.1.7.</span> <span class="nav-text">6.1.6 总结</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#软件安全审计的艺术——识别以及预防软件的漏洞"><span class="nav-number">1.</span> <span class="nav-text">软件安全审计的艺术——识别以及预防软件的漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分：软件安全审计概述"><span class="nav-number">1.1.</span> <span class="nav-text">第一部分：软件安全审计概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-第一章：关于软件漏洞的基础知识"><span class="nav-number">1.1.1.</span> <span class="nav-text">6.1 第一章：关于软件漏洞的基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-1-概论"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">6.1.1 概论</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-2-漏洞"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">6.1.2 漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注"><span class="nav-number">1.1.1.2.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注-1"><span class="nav-number">1.1.1.2.2.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注-2"><span class="nav-number">1.1.1.2.3.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注-3"><span class="nav-number">1.1.1.2.4.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安全期望"><span class="nav-number">1.1.1.2.5.</span> <span class="nav-text">安全期望</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#保密性"><span class="nav-number">1.1.1.2.5.1.</span> <span class="nav-text">保密性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#完整性"><span class="nav-number">1.1.1.2.5.2.</span> <span class="nav-text">完整性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#实用性"><span class="nav-number">1.1.1.2.5.3.</span> <span class="nav-text">实用性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-3-审计的必要性"><span class="nav-number">1.1.1.3.</span> <span class="nav-text">6.1.3 审计的必要性</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注-4"><span class="nav-number">1.1.1.3.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#审计与黑盒测试"><span class="nav-number">1.1.1.3.2.</span> <span class="nav-text">审计与黑盒测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#代码审计与开发生命周期"><span class="nav-number">1.1.1.3.3.</span> <span class="nav-text">代码审计与开发生命周期</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-4-漏洞的分类"><span class="nav-number">1.1.1.4.</span> <span class="nav-text">6.1.4 漏洞的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#设计漏洞"><span class="nav-number">1.1.1.4.1.</span> <span class="nav-text">设计漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#实现漏洞"><span class="nav-number">1.1.1.4.2.</span> <span class="nav-text">实现漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#操作漏洞"><span class="nav-number">1.1.1.4.3.</span> <span class="nav-text">操作漏洞</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#灰色地带"><span class="nav-number">1.1.1.4.4.</span> <span class="nav-text">灰色地带</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的线索"><span class="nav-number">1.1.1.5.</span> <span class="nav-text">常见的线索</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#输入与数据流"><span class="nav-number">1.1.1.5.1.</span> <span class="nav-text">输入与数据流</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#信任关系"><span class="nav-number">1.1.1.5.2.</span> <span class="nav-text">信任关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#假设与错位信任"><span class="nav-number">1.1.1.5.3.</span> <span class="nav-text">假设与错位信任</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#输入"><span class="nav-number">1.1.1.5.3.1.</span> <span class="nav-text">输入</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#接口"><span class="nav-number">1.1.1.5.3.2.</span> <span class="nav-text">接口</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#环境的攻击"><span class="nav-number">1.1.1.5.4.</span> <span class="nav-text">环境的攻击</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#异常条件"><span class="nav-number">1.1.1.5.5.</span> <span class="nav-text">异常条件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-6-总结"><span class="nav-number">1.1.1.6.</span> <span class="nav-text">6.1.6 总结</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
