@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="flex lexer分析flex会根据你定义的正则表达式匹配到相应字段，然后根据你定义的函数进行操作，返回相应的token。 为了了解flex如何work的，我们新建一个空的flex规则文件null.flex： 1%%  然后运行命令flex null.flex生成lex.yy.c文件。 接下来逐行分析它的code： 首先是一些flex的版本相关的宏： 1234567#define FLEX_SC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flex lexer分析">
+<meta property="og:url" content="http://yoursite.com/2020/06/21/flex-lexer%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Chenyu&#39;s Blog">
+<meta property="og:description" content="flex lexer分析flex会根据你定义的正则表达式匹配到相应字段，然后根据你定义的函数进行操作，返回相应的token。 为了了解flex如何work的，我们新建一个空的flex规则文件null.flex： 1%%  然后运行命令flex null.flex生成lex.yy.c文件。 接下来逐行分析它的code： 首先是一些flex的版本相关的宏： 1234567#define FLEX_SC">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/top_down_push_pop.png">
+<meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/DFA.png">
+<meta property="article:published_time" content="2020-06-21T07:16:37.000Z">
+<meta property="article:modified_time" content="2020-06-21T07:16:37.698Z">
+<meta property="article:author" content="Chenyu ZHU">
+<meta property="article:tag" content="flex">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/top_down_push_pop.png">
+
+<link rel="canonical" href="http://yoursite.com/2020/06/21/flex-lexer%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>flex lexer分析 | Chenyu's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chenyu's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Aera of Pure Physics, Mathematics, Computer Science and Engineering</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/21/flex-lexer%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chenyu ZHU">
+      <meta itemprop="description" content="Chenyu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenyu's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          flex lexer分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-21 15:16:37" itemprop="dateCreated datePublished" datetime="2020-06-21T15:16:37+08:00">2020-06-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">编译原理</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="flex-lexer分析"><a href="#flex-lexer分析" class="headerlink" title="flex lexer分析"></a>flex lexer分析</h1><p>flex会根据你定义的正则表达式匹配到相应字段，然后根据你定义的函数进行操作，返回相应的token。</p>
+<p>为了了解flex如何work的，我们新建一个空的flex规则文件<code>null.flex</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br></pre></td></tr></table></figure>
+
+<p>然后运行命令<code>flex null.flex</code>生成<code>lex.yy.c</code>文件。</p>
+<p>接下来逐行分析它的code：</p>
+<p>首先是一些flex的版本相关的宏：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLEX_SCANNER</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_MAJOR_VERSION 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_MINOR_VERSION 6</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_SUBMINOR_VERSION 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> YY_FLEX_SUBMINOR_VERSION &gt; 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLEX_BETA</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>然后将一些type define成自己的格式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __STDC_LIMIT_MACROS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __STDC_LIMIT_MACROS 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;inttypes.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int8_t</span> <span class="keyword">flex_int8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint8_t</span> <span class="keyword">flex_uint8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int16_t</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint16_t</span> <span class="keyword">flex_uint16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int32_t</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint32_t</span> <span class="keyword">flex_uint32_t</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">signed</span> <span class="keyword">char</span> <span class="keyword">flex_int8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> short <span class="keyword">int</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="keyword">flex_uint8_t</span>; </span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> short <span class="keyword">int</span> <span class="keyword">flex_uint16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="keyword">flex_uint32_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT8_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT8_MIN               (-128)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT16_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT16_MIN              (-32767-1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT32_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT32_MIN              (-2147483647-1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT8_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT8_MAX               (127)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT16_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT16_MAX              (32767)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT32_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT32_MAX              (2147483647)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> UINT8_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT8_MAX              (255U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> UINT16_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT16_MAX             (65535U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> UINT32_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT32_MAX             (4294967295U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>然后定义EOF的宏:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_NULL 0</span></span><br></pre></td></tr></table></figure>
+
+<p>将<code>signed char</code>安全转换为<code>unsigned int</code>的宏<code>YY_SC_TO_UI</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br></pre></td></tr></table></figure>
+
+<p>start condition中用的BEGIN():</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define BEGIN (yy_start) &#x3D; 1 + 2 *</span><br></pre></td></tr></table></figure>
+
+<p>在后面的代码可以看出，这些start condition定义的关键词都被定义成了宏，比如我们有两个start condition <code>COMMENT</code>和<code>STRING</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INITIAL 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMMENT 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> STRING 2</span></span><br></pre></td></tr></table></figure>
+
+<p>这时<code>BEGIN(COMMENT)</code>就等价于：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(yy_start) = <span class="number">1</span> + <span class="number">2</span> * COMMENT</span><br></pre></td></tr></table></figure>
+
+<p>之后就可以得到相应的<code>YY_STATE</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define YY_START (((yy_start) - 1) &#x2F; 2)</span><br><span class="line">#define YYSTATE YY_START</span><br></pre></td></tr></table></figure>
+
+<p>略去其他不重要的宏，接下来看两个<code>FILE</code>指针<code>yyin</code>和<code>yyout</code>，可以看出<code>yyin</code>指向了<code>stdin</code>，<code>yyout</code>指向了<code>stdout</code>，分别对应了标准输入输出流：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> FILE *yyin, *yyout;</span><br><span class="line"><span class="comment">/*a lot of code*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> YY_STDINIT</span></span><br><span class="line">    yyin = <span class="built_in">stdin</span>;</span><br><span class="line">    yyout = <span class="built_in">stdout</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line">    yyin = (FILE *) <span class="number">0</span>;</span><br><span class="line">    yyout = (FILE *) <span class="number">0</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>接下来的代码就可以看出，flex的lexer是使用自顶向下的表驱动预测分析法来实现匹配的，关于这里面的预测分析，LL(1)文法等定义见编译原理的相关教材。</p>
+<p>首先要实现表驱动预测分析，就要定义读入text的方法，理论上是一个个character读入，但为了效率起见，flex将它们批量读取存入了buffer中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">#ifndef YY_INPUT</span><br><span class="line">#define YY_INPUT(buf,result,max_size) \</span><br><span class="line">	if ( YY_CURRENT_BUFFER_LVALUE-&gt;yy_is_interactive ) \</span><br><span class="line">		&#123; \</span><br><span class="line">		int c &#x3D; &#39;*&#39;; \</span><br><span class="line">		size_t n; \</span><br><span class="line">		for ( n &#x3D; 0; n &lt; max_size &amp;&amp; \</span><br><span class="line">			     (c &#x3D; getc( yyin )) !&#x3D; EOF &amp;&amp; c !&#x3D; &#39;\n&#39;; ++n ) \</span><br><span class="line">			buf[n] &#x3D; (char) c; \</span><br><span class="line">		if ( c &#x3D;&#x3D; &#39;\n&#39; ) \</span><br><span class="line">			buf[n++] &#x3D; (char) c; \</span><br><span class="line">		if ( c &#x3D;&#x3D; EOF &amp;&amp; ferror( yyin ) ) \</span><br><span class="line">			YY_FATAL_ERROR( &quot;input in flex scanner failed&quot; ); \</span><br><span class="line">		result &#x3D; n; \</span><br><span class="line">		&#125; \</span><br><span class="line">	else \</span><br><span class="line">		&#123; \</span><br><span class="line">		errno&#x3D;0; \</span><br><span class="line">		while ( (result &#x3D; fread(buf, 1, max_size, yyin))&#x3D;&#x3D;0 &amp;&amp; ferror(yyin)) \</span><br><span class="line">			&#123; \</span><br><span class="line">			if( errno !&#x3D; EINTR) \</span><br><span class="line">				&#123; \</span><br><span class="line">				YY_FATAL_ERROR( &quot;input in flex scanner failed&quot; ); \</span><br><span class="line">				break; \</span><br><span class="line">				&#125; \</span><br><span class="line">			errno&#x3D;0; \</span><br><span class="line">			clearerr(yyin); \</span><br><span class="line">			&#125; \</span><br><span class="line">		&#125;\</span><br><span class="line">\</span><br><span class="line"></span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+
+<p>这里就要吐槽一下它的缩进了，简直惨不忍睹。如果你觉得这种读取方法很复杂的话，可以rewrite自己的<code>YY_INPUT</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> YY_INPUT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_INPUT(buf,result,max_size) \</span></span><br><span class="line">    <span class="keyword">if</span> ( (result = fread( (<span class="keyword">char</span>*)buf, <span class="keyword">sizeof</span>(<span class="keyword">char</span>), max_size, fin)) &lt; <span class="number">0</span>) \</span><br><span class="line">        YY_FATAL_ERROR( <span class="string">"read() in flex scanner failed"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>这段代码引自参考文献[1]。</p>
+<p>为什么说它用的是表驱动法呢？从它在静态区cache了一些预测分析表的常量：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">6</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_ec[<span class="number">256</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_meta[<span class="number">2</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_base[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_def[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_nxt[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_chk[<span class="number">5</span>] = &#123;...&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>以及定义了将缓冲区变量压栈和出栈的一系列操作：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yypush_buffer_state</span> <span class="params">(YY_BUFFER_STATE new_buffer )</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yypop_buffer_state</span> <span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">yyensure_buffer_stack</span> <span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br></pre></td></tr></table></figure>
+
+<p>再对比下自顶向下表驱动法的算法结构：</p>
+<p><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/top_down_push_pop.png" alt="top-down-push-pop"></p>
+<p>就一目了然了。</p>
+<p>接下来就来看这个算法flex具体是如何实现的，它过程就在于<code>yylex()</code>这个函数，大致的框架如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_DECL int yylex (void)</span></span><br><span class="line"><span class="comment">/*a lot of code*/</span></span><br><span class="line">YY_DECL</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// initialize</span></span><br><span class="line">    <span class="comment">// crate stack</span></span><br><span class="line">    <span class="comment">// load buffer</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        yy_match:</span><br><span class="line">        	<span class="comment">/* 在这里不断进行状态转移，直至无法继续转移 */</span></span><br><span class="line">        	<span class="comment">/* 用到了前面提的YY_SC_TO_UI*/</span></span><br><span class="line">        	<span class="keyword">do</span>&#123;</span><br><span class="line">				YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">				<span class="keyword">if</span> ( yy_accept[yy_current_state] )&#123;</span><br><span class="line">					(yy_last_accepting_state) = yy_current_state;</span><br><span class="line">					(yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">				&#123;</span><br><span class="line">					yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">					<span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">6</span> )</span><br><span class="line">					yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">				&#125;</span><br><span class="line">				yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">				++yy_cp;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">while</span> ( yy_base[yy_current_state] != <span class="number">3</span> );</span><br><span class="line">       	yy_find_action:</span><br><span class="line">        	<span class="comment">/*根据yy_current_state返回对应的yy_act*/</span></span><br><span class="line">        	<span class="comment">/*检查是否停止在接受状态(yy_act==0的情况)*/</span></span><br><span class="line">        	<span class="comment">/*yy_act == 1 表示accept*/</span></span><br><span class="line">        	<span class="comment">/*具体见do_action*/</span></span><br><span class="line">        	yy_act = yy_accept[yy_current_state];</span><br><span class="line">            <span class="keyword">if</span> ( yy_act == <span class="number">0</span> )</span><br><span class="line">                &#123; <span class="comment">/* have to back up */</span></span><br><span class="line">                    yy_cp = (yy_last_accepting_cpos);</span><br><span class="line">                    yy_current_state = (yy_last_accepting_state);</span><br><span class="line">                    yy_act = yy_accept[yy_current_state];</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            YY_DO_BEFORE_ACTION;</span><br><span class="line">        do_action:</span><br><span class="line">        	<span class="comment">/*处理各种yy_act*/</span></span><br><span class="line">        <span class="keyword">switch</span>(yy_act)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>: <span class="comment">/*读到EOF*/</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>: <span class="comment">/*accept*/</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里的<code>do_action</code>中，<code>yy_act</code>只有0和1两种情况，即读到非EOF的直接accept，读到EOF转<code>case 0</code>。因为这是一个空的规则文件，假如我们用带有规则的<code>xxx.flex</code>生成code，这些规则中的正则表达式匹配方法会表现到静态区中cache的预测分析表中，匹配到的action会体现在这个<code>switch-case</code>语句中。</p>
+<p>为了验证以上的说明，我们定义一个用来匹配能够解释为十进制数字符串的规则,放到文件<code>test.flex</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WHITE   &quot; &quot;|\t|\f|\r|\v</span><br><span class="line">%%</span><br><span class="line">&#123;WHITE&#125;*[+-]?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))([Ee][+-]?[0-9]+)?&#123;WHITE&#125;* &#123;return true;&#125;</span><br><span class="line">. &#123;return false;&#125;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
+
+<p>对应的DFA图如下：</p>
+<p><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/DFA.png" alt="DFA"></p>
+<p>这个例子来自参考文献[1].</p>
+<p>flex为了减少内存开销，对原来的状态表进行了压缩，因此在空规则生成的文件中，我们能看到很多个静态区常量(见上面)，为了看到原本的状态表，我们使用 <code>-Cf</code>进行编译：<code>flex -Cf test.flex</code> ,然后可以看到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">static yyconst flex_int16_t yy_nxt[][128] &#x3D; &#123;...&#125;;</span><br><span class="line">static yyconst flex_int16_t yy_accept[9] &#x3D; &#123;...&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>flex_int16_t yy_nxt[][128]</code>就是原来的状态表。在<code>yylex()</code>中，匹配的过程是这么写的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">yy_match:</span><br><span class="line">		<span class="keyword">while</span> ( (yy_current_state = yy_nxt[yy_current_state][ YY_SC_TO_UI(*yy_cp) ]) &gt; <span class="number">0</span> )</span><br><span class="line">			&#123;</span><br><span class="line">			<span class="keyword">if</span> ( yy_accept[yy_current_state] )</span><br><span class="line">				&#123;</span><br><span class="line">				(yy_last_accepting_state) = yy_current_state;</span><br><span class="line">				(yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">			++yy_cp;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		yy_current_state = -yy_current_state;</span><br><span class="line"></span><br><span class="line">yy_find_action:</span><br><span class="line">		yy_act = yy_accept[yy_current_state];</span><br><span class="line"></span><br><span class="line">		YY_DO_BEFORE_ACTION;</span><br></pre></td></tr></table></figure>
+
+<p>现在我们只要照着它稍微修改一下，就能得到一个判断字符串是否能作为数字的程序了：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> yyconst const</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> YY_CHAR;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_nxt[][<span class="number">128</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">21</span>] = &#123;...&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> yy_current_state = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); ++i ) &#123;</span><br><span class="line">        yy_current_state = yy_nxt[yy_current_state][YY_SC_TO_UI(s[i])];</span><br><span class="line">        <span class="keyword">if</span> ( yy_current_state &lt; <span class="number">0</span> ) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> yy_accept[yy_current_state] == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里只需要判断新的current state是否大于0.没用必要查询是否accept(因为match时小于0直接跳出循环，说明匹配失败)。</p>
+<p>对于压缩版本的，也可以有如下的对应。</p>
+<p><code>yylex()</code>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">yy_match:</span><br><span class="line">		<span class="keyword">do</span></span><br><span class="line">			&#123;</span><br><span class="line">			YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">			<span class="keyword">if</span> ( yy_accept[yy_current_state] )</span><br><span class="line">				&#123;</span><br><span class="line">				(yy_last_accepting_state) = yy_current_state;</span><br><span class="line">				(yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">				&#125;</span><br><span class="line">			<span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">				&#123;</span><br><span class="line">				yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">				<span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">22</span> )</span><br><span class="line">					yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">				&#125;</span><br><span class="line">			yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">			++yy_cp;</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">while</span> ( yy_base[yy_current_state] != <span class="number">43</span> );</span><br><span class="line"></span><br><span class="line">yy_find_action:</span><br><span class="line">		yy_act = yy_accept[yy_current_state];</span><br><span class="line">		<span class="keyword">if</span> ( yy_act == <span class="number">0</span> )</span><br><span class="line">			&#123; <span class="comment">/* have to back up */</span></span><br><span class="line">			yy_cp = (yy_last_accepting_cpos);</span><br><span class="line">			yy_current_state = (yy_last_accepting_state);</span><br><span class="line">			yy_act = yy_accept[yy_current_state];</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		YY_DO_BEFORE_ACTION;</span><br></pre></td></tr></table></figure>
+
+<p><code>valid_number</code>程序：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> yyconst const</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> YY_CHAR;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">6</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_ec[<span class="number">256</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_meta[<span class="number">2</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_base[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_def[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_nxt[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_chk[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> yy_current_state = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); ++i)&#123;</span><br><span class="line">        YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">        <span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">        &#123;</span><br><span class="line">            yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">            <span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">22</span> )</span><br><span class="line">                yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        &#125;</span><br><span class="line">        yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        <span class="keyword">return</span>(yy_accept[yy_current_state]);</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里需要判断current state是否能被accept(即返回1)，当然根据while循环条件也可以。</p>
+<p>References：</p>
+<p>[1].Flex技巧总结 &amp;&amp; [LeetCode]Valid Number题解  <a href="https://blog.finaltheory.me/research/Flex-Tricks.html" target="_blank" rel="noopener">https://blog.finaltheory.me/research/Flex-Tricks.html</a> </p>
+
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wechat.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/flex/" rel="tag"># flex</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/05/the-art-of-software-security-assessment-Chap5-translate/" rel="prev" title="the art of software security assessment Chap5. translate">
+      <i class="fa fa-chevron-left"></i> the art of software security assessment Chap5. translate
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#flex-lexer分析"><span class="nav-number">1.</span> <span class="nav-text">flex lexer分析</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chenyu ZHU</p>
+  <div class="site-description" itemprop="description">Chenyu</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ChenyuZhuWhiskey" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ChenyuZhuWhiskey" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:chenyu_zhu@protonmail.com" title="E-Mail → mailto:chenyu_zhu@protonmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenyu ZHU</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
