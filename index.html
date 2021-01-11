@@ -171,8 +171,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-01-11 15:36:55" itemprop="dateCreated datePublished" datetime="2021-01-11T15:36:55+08:00">2021-01-11</time>
+              <time title="创建时间：2021-01-11 15:36:55 / 修改时间：15:40:11" itemprop="dateCreated datePublished" datetime="2021-01-11T15:36:55+08:00">2021-01-11</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -209,7 +210,7 @@ S = kln\Omega</script><p>其中$\Omega$是一个系统的可能状态数目。�
 <script type="math/tex; mode=display">
 \Omega = \Omega_1\cdot\Omega_2</script><p>当一个系统熵的定义和其可能的微观状态数是对数关系时，那么自然满足广延量需求了：</p>
 <script type="math/tex; mode=display">
-ln\Omega = ln\Omega_1 +  ln\Omega_2 \Rarr S = S_1 + S_2</script><p>并且，注意到对数的底取任意值是不影响到广延量性质时，我们便可以将熵和信息的表示关联起来了。对于一个长度为$N$的二进制数，其可能的状态数目为$2^N$，假设我们定义它的熵为取2的对数，那么这个二进制数的熵正好就是$N$。也就是说，在信息理论中，熵又可以表示<strong>表示一条可能状态为$\Omega$的信息需要的最小比特数</strong>。</p>
+ln\Omega = ln\Omega_1 +  ln\Omega_2 \Rightarrow S = S_1 + S_2</script><p>并且，注意到对数的底取任意值是不影响到广延量性质时，我们便可以将熵和信息的表示关联起来了。对于一个长度为$N$的二进制数，其可能的状态数目为$2^N$，假设我们定义它的熵为取2的对数，那么这个二进制数的熵正好就是$N$。也就是说，在信息理论中，熵又可以表示<strong>表示一条可能状态为$\Omega$的信息需要的最小比特数</strong>。</p>
 <p>现在我们利用熵来解答leetcode 458. 可怜的小猪：</p>
 <blockquote>
 <p>有<code>buckets</code>桶液体，其中 正好 有一桶含有毒药，其余装的都是水。它们从外观看起来都一样。为了弄清楚哪只水桶含有毒药，你可以喂一些猪喝，通过观察猪是否会死进行判断。不幸的是，你只有<code>minutesToTest</code>分钟时间来确定哪桶液体是有毒的。</p>
