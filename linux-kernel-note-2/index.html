@@ -16,7 +16,7 @@
   <meta name="description" content="简易内核实现笔记(二)——内存寻址与安全机制前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。 内存寻址在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程： 1逻辑地址 -">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简易内核实现笔记(二)">
-<meta property="og:url" content="https://chenyuzhuwhiskey.github.io/kernel-note-2/index.html">
+<meta property="og:url" content="https://chenyuzhuwhiskey.github.io/linux-kernel-note-2/index.html">
 <meta property="og:site_name" content="Chenyu&#39;s Blog">
 <meta property="og:description" content="简易内核实现笔记(二)——内存寻址与安全机制前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。 内存寻址在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程： 1逻辑地址 -">
 <meta property="og:locale" content="zh_CH">
@@ -32,15 +32,15 @@
 <meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-trap-gate.png">
 <meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-call-gate.png">
 <meta property="article:published_time" content="2020-09-06T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-06-22T07:53:40.828Z">
+<meta property="article:modified_time" content="2021-06-22T07:57:44.906Z">
 <meta property="article:author" content="Chenyu Zhu">
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-cpu-arch.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1624348477263">
+  <link rel="stylesheet" href="/css/style.css?v=1624348683314">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624348477263">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624348683314">
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="mdui-drawer-body-left">
@@ -292,7 +292,7 @@
     
   <div class="nexmoe-post-copyright">
     <strong>Author：</strong>Chenyu Zhu<br>
-    <strong>Link：</strong><a href="https://chenyuzhuwhiskey.github.io/kernel-note-2/" title="https:&#x2F;&#x2F;chenyuzhuwhiskey.github.io&#x2F;kernel-note-2&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;chenyuzhuwhiskey.github.io&#x2F;kernel-note-2&#x2F;</a><br>
+    <strong>Link：</strong><a href="https://chenyuzhuwhiskey.github.io/linux-kernel-note-2/" title="https:&#x2F;&#x2F;chenyuzhuwhiskey.github.io&#x2F;linux-kernel-note-2&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;chenyuzhuwhiskey.github.io&#x2F;linux-kernel-note-2&#x2F;</a><br>
     
       <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
     
@@ -359,7 +359,7 @@ gitment.render('gitment')
 
  
 
-<script async src="/js/app.js?v=1624348477271"></script>
+<script async src="/js/app.js?v=1624348683324"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
