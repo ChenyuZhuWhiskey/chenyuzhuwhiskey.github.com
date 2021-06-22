@@ -7,7 +7,7 @@
   <title>the art of software security assessment Chap2. translate - Chenyu&#39;s Blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="null">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
   
   
@@ -35,9 +35,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/2-1.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1624344442053">
+  <link rel="stylesheet" href="/css/style.css?v=1624344514681">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344442053">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344514681">
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="mdui-drawer-body-left">
@@ -274,17 +274,15 @@
 <h5 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h5><p>授权是一个决定系统中的用户拥有什么样的权限在信任域中去做一些特定事务的过程。它作为<strong>权限控制</strong>(access control)策略的一部分与身份验证是一致的：身份验证告诉了这个用户是谁，授权决定了这个验证过的身份拥有做什么的权限。 有许多访问控制系统的正式设计，包括自由访问控制、强制访问控制和基于角色的访问控制。 此外，有几种技术可用于将访问控制集中到各种框架、操作系统和库中。由于不同访问控制方案的复杂性，最好从一般的角度来看待授权。</p>
 <h6 id="一般的授权漏洞"><a href="#一般的授权漏洞" class="headerlink" title="一般的授权漏洞"></a>一般的授权漏洞</h6><p>Web应用经常没有或者缺少足够的授权。你经常能发现只有一小部分网站做到了授权的检查。带有授权逻辑的页面通常是主菜单页面和主要子页面，但是实际的处理程序页面省略了授权检查。通常情况下，找到一种方法以相对低权限的用户登陆，然后能执行一些访问不属于你的账户信息以及做一些不属于你账户的行为这些为高权限用户所准备的操作。</p>
 <h6 id="不安全的授权"><a href="#不安全的授权" class="headerlink" title="不安全的授权"></a>不安全的授权</h6><p>缺少授权显然是一个问题。你还可能遇到授权检查的逻辑不一致或者留下滥用空间的情况。例如，假如你有一个简单的消费跟踪系统，每个在公司的用户都有自己的账号。这个系统使用了公司的等级架构进行编写，所以它直到哪些员工是管理者，哪些是被管理者。它的主逻辑是像下面这样的数据驱动：</p>
-<pre><code>Enter New Expensefor each employee you manage    View/Approve expenses
-</code></pre><p>这个系统非常简单。假设初始化的公司员工等级架构是正确的，管理者可以审查与批准他们下属的费用。一般员工只能见到<code>Enter New Expense</code>的界面因为他们并不是管理者。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter New Expensefor each employee you manage	View/Approve expenses</span><br></pre></td></tr></table></figure>
+<p>这个系统非常简单。假设初始化的公司员工等级架构是正确的，管理者可以审查与批准他们下属的费用。一般员工只能见到<code>Enter New Expense</code>的界面因为他们并不是管理者。</p>
 <p>现在假设你在这样一种情况下运行这个程序，即一些员工都被一个人管理，但实际上他们要向另一个管理者报告日常事务。为了解决这个问题，你对这个程序做了这样的更改，即允许每个用户去选择其他用户作为自己的“虚拟的”管理员。一个用户的虚拟管理员(virtual manager)拥有查看与批准这个用户费用的权力，就像这个用户真正的管理员一样。这个解决方案第一眼看起来似乎还行，但它是有缺陷的。它可以允许用户将自己亲密的同事设置为虚拟管理员，包括他自己，这将导致费用的批准不受到任何限制。</p>
 <p>这个简单的系统有一个明显的问题，可能看起来是人为设计的，但它是从实际应用中遇到的问题派生出来的。随着应用程序中的用户和组数量的增加以及系统复杂性的增加，设计人员很容易忽略授权逻辑中潜在的滥用可能性。</p>
 <h5 id="可追责性"><a href="#可追责性" class="headerlink" title="可追责性"></a>可追责性</h5><p>可追责性(Accountability) 就是一个系统能够确认以及记录用户在系统中的所作所为。不可抵赖性是一个相关术语，实际上是可追责性的一个子集。 它指的是系统对某些用户操作进行日志记录的保证，这样用户就不能否认曾经执行过这些操作。 可追责性，身份验证和授权共同建立了完整的权限控制策略。不像身份验证和授权，可追责性并不形成一个信任边界或者防止漏洞的发生。但是，可追责性提供的数据对于减轻成功的入侵和进行法医式的分析(forensic analysis)是必不可少的。不幸的是，可追责行是应用程序设计安全中最容易忽视的部分之一。</p>
 <h6 id="常见的可追责性漏洞"><a href="#常见的可追责性漏洞" class="headerlink" title="常见的可追责性漏洞"></a>常见的可追责性漏洞</h6><p>最常见的可追责性漏洞就是一个系统对于登陆操作与敏感数据记录的失效。事实上，很多应用并不提供日志功能。当然，许多应用也不提供处理敏感数据时的日志记录。然而，管理者或者最终用户开发者需要决定什么样的日志记录是需要的。</p>
 <p>另外一个主要的可追责性漏洞就是系统并没有正确地保护它的日志数据。当然，这个问题也可以划分为授权，保密性或者完整性漏洞。不管如何，任何系统在维护日志时需要保证它的安全。例如，下面展示了一个简单的文本日志，每行记录了时间戳以及登陆日志：</p>
-<pre><code>20051018133106 Logon Failure: Bob
-20051018133720 Logon Success: Jim
-20051018135041 Logout: Jim
-</code></pre><p>如果我在用户名上做手脚又会发生什么呢？比如说，一个叫<code>&quot;Bob\n20051018133106 Logon Success: Greg&quot;</code>的用户名看起来人畜无害，但是它确实可以用来做坏事。攻击者可以使用假的登录信息去掩盖有害的登陆，或者破坏日志使其变得不可读或者不可写。 这种破坏可能会造成拒绝服务的情况，或者打开通向其他漏洞的通道。它甚至可以在日志系统本身中提供可利用的路径。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">20051018133106 Logon Failure: Bob</span><br><span class="line">20051018133720 Logon Success: Jim</span><br><span class="line">20051018135041 Logout: Jim</span><br></pre></td></tr></table></figure>
+<p>如果我在用户名上做手脚又会发生什么呢？比如说，一个叫<code>&quot;Bob\n20051018133106 Logon Success: Greg&quot;</code>的用户名看起来人畜无害，但是它确实可以用来做坏事。攻击者可以使用假的登录信息去掩盖有害的登陆，或者破坏日志使其变得不可读或者不可写。 这种破坏可能会造成拒绝服务的情况，或者打开通向其他漏洞的通道。它甚至可以在日志系统本身中提供可利用的路径。</p>
 <p>除了这种日志的维护以外还有其他问题。如果攻击者能够读取日志呢？至少他们能够直到什么时候哪个用户会登入或者登出。从这个数据中，他们可能推断出一些登陆规律或者监视哪些用户会有忘记密码的习惯。这种信息看起来人畜无害，但它能为更大的攻击埋下伏笔。因此，未经授权的用户不能够向系统日志读取内容进行或者写入操作。</p>
 <h5 id="保密性"><a href="#保密性" class="headerlink" title="保密性"></a>保密性</h5><p>第一章给出了保密性的定义，即只有经过授权的一方才能够查看数据。这要求通过权限控制机制来实现，这种机制囊括了身份验证和授权。然而当通信在不安全的地段发生时，我们必须对安全引入新的考量(additional measure)。在这种情况下，加密技术通常用来满足保密性的需求。</p>
 <p><strong>加密</strong>(eccryption) 就是一个对信息编码的过程，如果第三方没有相关的知识（即解码方法 —by译者），那他就无法获得信息的确切内容。加密过程通常对一些数据有核心意义。核心数据只有通过授权之后才能访问其信息。</p>
@@ -415,20 +413,8 @@
 </ul>
 <p>作为用户登陆，只需要实现其中之一就可以。因此它们是OR节点。</p>
 <h6 id="文本表示"><a href="#文本表示" class="headerlink" title="文本表示"></a>文本表示</h6><p>你可以用文本和图形表示攻击树。文本版本传递的信息与图形版本相同，但有时不太容易可视化(尽管它们更紧凑)。下面的例子展示了如何用文本格式表示图2-7中的攻击树:</p>
-<pre><code>1. 对方获得访问用户个人信息的权限
-    OR  1.1 获得直接访问数据库权限            
-            1.1.1 利用系统应用或者内核的漏洞
-        1.2 作为目标用户登录
-            OR    1.2.1 蛮力登陆
-                AND 1.2.1.1 验证用户名
-                    1.2.1.2 验证用户密码
-                1.2.2 窃取用户证书
-        1.3 劫持用户会话
-            窃取用户绘画cookie
-        1.4 被动截取个人资料
-            AND 1.4.1 验证用户连接初始化
-                1.4.2 嗅探网络流量中的个人数据
-</code></pre><p>如你所见，所有相同的信息都存在。首先，根节点目标被声明为攻击树的标题，它的直接后代在标题下面进行编号和缩进。每个新层都再次缩进，并以相同的方式在父节点下面编号。AND和或关键字用于指示节点是AND还是节点。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. 对方获得访问用户个人信息的权限</span><br><span class="line">	OR  1.1 获得直接访问数据库权限			</span><br><span class="line">			1.1.1 利用系统应用或者内核的漏洞</span><br><span class="line">        1.2 作为目标用户登录</span><br><span class="line">        	OR	1.2.1 蛮力登陆</span><br><span class="line">            	AND 1.2.1.1 验证用户名</span><br><span class="line">                	1.2.1.2 验证用户密码</span><br><span class="line">                1.2.2 窃取用户证书</span><br><span class="line">        1.3 劫持用户会话</span><br><span class="line">        	窃取用户绘画cookie</span><br><span class="line">        1.4 被动截取个人资料</span><br><span class="line">        	AND 1.4.1 验证用户连接初始化</span><br><span class="line">            	1.4.2 嗅探网络流量中的个人数据</span><br></pre></td></tr></table></figure>
+<p>如你所见，所有相同的信息都存在。首先，根节点目标被声明为攻击树的标题，它的直接后代在标题下面进行编号和缩进。每个新层都再次缩进，并以相同的方式在父节点下面编号。AND和或关键字用于指示节点是AND还是节点。</p>
 <h6 id="威胁减轻"><a href="#威胁减轻" class="headerlink" title="威胁减轻"></a>威胁减轻</h6><p>攻击树的部分价值在于它允许你跟踪潜在的威胁。但是，如果无法确定如何减轻威胁，跟踪威胁就不是特别有用。幸运的是，攻击树包括一种特殊类型的节点来解决这个问题:循环节点。图2-8显示了一个带有适当缓解因素的示例攻击树。</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/2-8.png" alt="2-8" class="lazyload"></p>
 <p>在此攻击树中添加了三个缓解节点，以帮助你认识到这些向量与未缓解的分支相比，不太可能成为攻击的途径。在一个缓解节点中使用的虚线是一种将分支标识为不太可能的攻击向量的简写方法。它不会移除分支，但会鼓励你将注意力转移到其他地方。</p>
@@ -600,7 +586,7 @@ gitment.render('gitment')
 
  
 
-<script async src="/js/app.js?v=1624344442056"></script>
+<script async src="/js/app.js?v=1624344514686"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
@@ -616,6 +602,22 @@ gitment.render('gitment')
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

@@ -7,18 +7,18 @@
   <title>简易内核实现笔记(二) - Chenyu&#39;s Blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="null">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
   
   
 
   <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta name="description" content="简易内核实现笔记(二)——内存寻址与安全机制前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。 内存寻址在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程： 逻辑地址 --">
+  <meta name="description" content="简易内核实现笔记(二)——内存寻址与安全机制前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。 内存寻址在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程： 1逻辑地址 -">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简易内核实现笔记(二)">
 <meta property="og:url" content="https://chenyuzhuwhiskey.github.io/2020/09/07/%E7%AE%80%E6%98%93%E5%86%85%E6%A0%B8%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0(%E4%BA%8C)/index.html">
 <meta property="og:site_name" content="Chenyu&#39;s Blog">
-<meta property="og:description" content="简易内核实现笔记(二)——内存寻址与安全机制前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。 内存寻址在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程： 逻辑地址 --">
+<meta property="og:description" content="简易内核实现笔记(二)——内存寻址与安全机制前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。 内存寻址在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程： 1逻辑地址 -">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-cpu-arch.png">
 <meta property="og:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/01-descriptor.png">
@@ -38,9 +38,9 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-cpu-arch.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1624344441934">
+  <link rel="stylesheet" href="/css/style.css?v=1624344514493">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344441934">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344514493">
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="mdui-drawer-body-left">
@@ -203,22 +203,19 @@
 
     <h1 id="简易内核实现笔记-二-——内存寻址与安全机制"><a href="#简易内核实现笔记-二-——内存寻址与安全机制" class="headerlink" title="简易内核实现笔记(二)——内存寻址与安全机制"></a>简易内核实现笔记(二)——内存寻址与安全机制</h1><p>前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。</p>
 <h2 id="内存寻址"><a href="#内存寻址" class="headerlink" title="内存寻址"></a>内存寻址</h2><p>在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程：</p>
-<pre><code>逻辑地址 --分段机制--&gt; 线性地址 --分页机制--&gt; 物理地址
-</code></pre><p>可用看到就是分段与分页机制共同作用的结果。在x86架构的CPU下，分页并<strong>不是一个必要的过程</strong>，但在将控制寄存器CR0的第31位写为1开启分页模式后，分页机制就会帮助CPU实现虚拟地址空间的寻址，这样的一层抽象能够让各个进程处于好像是自己霸占了所有的内存资源一样，简化了软件对内存的访问与使用，因此linux是使用了虚拟地址空间的。但分段是x86 CPU<strong>强加的</strong>，这个下面会详细介绍。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">逻辑地址 --分段机制--&gt; 线性地址 --分页机制--&gt; 物理地址</span><br></pre></td></tr></table></figure>
+<p>可用看到就是分段与分页机制共同作用的结果。在x86架构的CPU下，分页并<strong>不是一个必要的过程</strong>，但在将控制寄存器CR0的第31位写为1开启分页模式后，分页机制就会帮助CPU实现虚拟地址空间的寻址，这样的一层抽象能够让各个进程处于好像是自己霸占了所有的内存资源一样，简化了软件对内存的访问与使用，因此linux是使用了虚拟地址空间的。但分段是x86 CPU<strong>强加的</strong>，这个下面会详细介绍。</p>
 <h3 id="分段机制"><a href="#分段机制" class="headerlink" title="分段机制"></a>分段机制</h3><p>x86 CPU为段机制的实现提供了专门的寄存器：CS，DS，SS，ES，FS，GS。其中前三个看缩写也明白，分别对应了代码段(code segment)，数据段(data segment)，栈段(stack segment)。后面三个寄存器的用途x86 CPU在硬件实现上没有强加，因此功能是软件定义的，暂且不聊。我们先说前三个寄存器。</p>
 <p>所谓的段(segment)，还是得从硬件的角度去理解。CPU通过总线连接了其他硬件设备，并通过总线与它们实现交互，而总线又可以分为三类：地址线，数据线，控制线。本质上说，所有的计算机信息都是二进制0和1，CPU也只认识0和1，不认识什么是代码，什么是数据，什么是地址，对于两个完全相同的01序列，CPU可用有不同的解释：</p>
-<pre><code class="lang-assembly">1000100111011000 -&gt; 89DH      (数据)
-1000100111011000 -&gt; mov ax,bx (代码)
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1000100111011000 -&gt; 89DH      (数据)</span><br><span class="line">1000100111011000 -&gt; mov ax,bx (代码)</span><br></pre></td></tr></table></figure>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-cpu-arch.png" alt="CPU-architecture" class="lazyload"></p>
 <p>CPU是通过什么机制将一些01序列视为数据，另一些01序列视为代码的呢？答案就是看它们通过什么样的线，通过数据线的就是数据，通过地址线的就是地址，通过控制线的就是指令。自然地，为了在硬件上帮助这个机制实现地更彻底一点，那就创造一种分段的机制，把内存地址空间中的01序列分成一段一段的，如果在数据段中，那这段内存中的01序列CPU就把它当成数据，处于栈段中的，CPU就把它当成栈，处于代码段中的，CPU就把它当成代码。</p>
 <p>于是x86 CPU就专门设置了三个寄存器实现分段，CS存储的就是代码段的段基址，DS存储的就是数据段的段基址，SS存储的就是栈段的段基址，然后我们再给它们配套一个寄存器用来存储段的偏移地址，那么CPU只要用<code>段基址:偏移地址</code>的形式就能得到对应段的物理地址，于是就将代码，数据，栈在形式上分了开来，程序就能有条理地被执行了。</p>
 <h4 id="8086分段机制"><a href="#8086分段机制" class="headerlink" title="8086分段机制"></a>8086分段机制</h4><p>由于8086在硬件架构上是有20位的地址线，也就是寻址上是1MB的内存空间，但寄存器只有16位，为了能够实现20位的寻址模式，分段机制就采用物理地址=段基址*16+偏移地址的方式来凑出20位地址。这里就可用看出分段机制不仅仅是为了将代码，数据和栈分离开，它也是8086 CPU实现20位寻址的必要机制，所以在分段上x86 家族的CPU从8086开始就深入骨髓中了。8086的运行模式在新一代的x86 CPU中也称之为实模式，所有x86家族CPU加电的瞬间都是在实模式下运行，目的就是做到向下兼容。</p>
 <h4 id="保护模式分段机制"><a href="#保护模式分段机制" class="headerlink" title="保护模式分段机制"></a>保护模式分段机制</h4><p>在保护模式下，除了段寄存器之外，其余寄存器都扩展到了32位（IA32架构），那么寻址空间就从1MB变成了32位4GB，并且理论上只需要提供偏移地址的32位寄存器就可以独立完成32位的寻址，因此在保护模式下，分段机制的作用只剩下了将代码，数据和栈进行分离了。并且保护模式下硬件将与软件一起实现分段机制。</p>
 <h5 id="全局描述符表"><a href="#全局描述符表" class="headerlink" title="全局描述符表"></a>全局描述符表</h5><p>抛砖引玉，我们先考虑这个问题：既然保护模式下，32位寄存器已经能在理论上脱离段寄存器独立寻址，那么段寄存器在保护模式下的意义除了向下兼容8086实模式以外还有什么？没错，答案就是为描述符表而存在！保护模式下的段寄存器存储的东西不再称为“段基址”，而是“段选择子”(selector)，而这个选择的目标就是对应的段描述符。段选择子的16位二进制结构对应的意义如下：</p>
-<pre><code>|15|      ...   | 3| 2| 1| 0|
-|       index      |TI| RPL |
-</code></pre><p>1-0位是请求特权级，这个后面详细说。第2位是表指示符，用于指代后面的指标indexing的是GDT还是LDT，后13位就是段描述符表的index了，从长度来看总共可以索引8192个段描述符。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">|15|      ...   | 3| 2| 1| 0|</span><br><span class="line">|       index      |TI| RPL |</span><br></pre></td></tr></table></figure>
+<p>1-0位是请求特权级，这个后面详细说。第2位是表指示符，用于指代后面的指标indexing的是GDT还是LDT，后13位就是段描述符表的index了，从长度来看总共可以索引8192个段描述符。</p>
 <p>描述符表分为两种，一个是全局描述符表GDT，另外一个是局部描述符表LDT，GDT是被所有进程共享的，LDT是单个进程独有的，由于linux kernel在2.4之后并不使用LDT，这里就略过了，但它们都是一样的东西，唯一区别只是公用和私用而已。</p>
 <p>所谓的全局描述符表就是一个位于内存中的描述符的数组，它的首位地址就是第一个描述符地址，一个描述符大小为8字节64位，每一位分别对应的意义如下：</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/01-descriptor.png" alt="descriptor" class="lazyload"></p>
@@ -362,7 +359,7 @@ gitment.render('gitment')
 
  
 
-<script async src="/js/app.js?v=1624344441943"></script>
+<script async src="/js/app.js?v=1624344514502"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
@@ -378,6 +375,22 @@ gitment.render('gitment')
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

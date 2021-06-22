@@ -7,7 +7,7 @@
   <title>Archive：2020/6 - Chenyu&#39;s Blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="null">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
   
   
@@ -21,9 +21,9 @@
 <meta property="article:author" content="Chenyu Zhu">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1624344442080">
+  <link rel="stylesheet" href="/css/style.css?v=1624344514717">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344442080">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344514717">
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="mdui-drawer-body-left">
@@ -188,312 +188,60 @@
             
                 <h1 id="flex-lexer分析"><a href="#flex-lexer分析" class="headerlink" title="flex lexer分析"></a>flex lexer分析</h1><p>flex会根据你定义的正则表达式匹配到相应字段，然后根据你定义的函数进行操作，返回相应的token。</p>
 <p>为了了解flex如何work的，我们新建一个空的flex规则文件<code>null.flex</code>：</p>
-<pre><code class="lang-flex">%%
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br></pre></td></tr></table></figure>
 <p>然后运行命令<code>flex null.flex</code>生成<code>lex.yy.c</code>文件。</p>
 <p>接下来逐行分析它的code：</p>
 <p>首先是一些flex的版本相关的宏：</p>
-<pre><code class="lang-c">#define FLEX_SCANNER
-#define YY_FLEX_MAJOR_VERSION 2
-#define YY_FLEX_MINOR_VERSION 6
-#define YY_FLEX_SUBMINOR_VERSION 0
-#if YY_FLEX_SUBMINOR_VERSION &gt; 0
-#define FLEX_BETA
-#endif
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLEX_SCANNER</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_MAJOR_VERSION 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_MINOR_VERSION 6</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_SUBMINOR_VERSION 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> YY_FLEX_SUBMINOR_VERSION &gt; 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLEX_BETA</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>然后将一些type define成自己的格式：</p>
-<pre><code class="lang-c">#ifndef __STDC_LIMIT_MACROS
-#define __STDC_LIMIT_MACROS 1
-#endif
-#include &lt;inttypes.h&gt;
-typedef int8_t flex_int8_t;
-typedef uint8_t flex_uint8_t;
-typedef int16_t flex_int16_t;
-typedef uint16_t flex_uint16_t;
-typedef int32_t flex_int32_t;
-typedef uint32_t flex_uint32_t;
-#else
-typedef signed char flex_int8_t;
-typedef short int flex_int16_t;
-typedef int flex_int32_t;
-typedef unsigned char flex_uint8_t;
-typedef unsigned short int flex_uint16_t;
-typedef unsigned int flex_uint32_t;
-#ifndef INT8_MIN
-#define INT8_MIN               (-128)
-#endif#ifndef INT16_MIN
-#define INT16_MIN              (-32767-1)
-#endif
-#ifndef INT32_MIN
-#define INT32_MIN              (-2147483647-1)
-#endif
-#ifndef INT8_MAX
-#define INT8_MAX               (127)
-#endif
-#ifndef INT16_MAX
-#define INT16_MAX              (32767)
-#endif
-#ifndef INT32_MAX
-#define INT32_MAX              (2147483647)
-#endif#ifndef UINT8_MAX
-#define UINT8_MAX              (255U)
-#endif
-#ifndef UINT16_MAX
-#define UINT16_MAX             (65535U)
-#endif
-#ifndef UINT32_MAX
-#define UINT32_MAX             (4294967295U)
-#endif
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __STDC_LIMIT_MACROS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __STDC_LIMIT_MACROS 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;inttypes.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int8_t</span> <span class="keyword">flex_int8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint8_t</span> <span class="keyword">flex_uint8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int16_t</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint16_t</span> <span class="keyword">flex_uint16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int32_t</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint32_t</span> <span class="keyword">flex_uint32_t</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">signed</span> <span class="keyword">char</span> <span class="keyword">flex_int8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">short</span> <span class="keyword">int</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="keyword">flex_uint8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">short</span> <span class="keyword">int</span> <span class="keyword">flex_uint16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="keyword">flex_uint32_t</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT8_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT8_MIN               (-128)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>#<span class="meta-keyword">ifndef</span> INT16_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT16_MIN              (-32767-1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT32_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT32_MIN              (-2147483647-1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT8_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT8_MAX               (127)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT16_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT16_MAX              (32767)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT32_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT32_MAX              (2147483647)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>#<span class="meta-keyword">ifndef</span> UINT8_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT8_MAX              (255U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> UINT16_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT16_MAX             (65535U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> UINT32_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT32_MAX             (4294967295U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>然后定义EOF的宏:</p>
-<pre><code class="lang-c">#define YY_NULL 0
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_NULL 0</span></span><br></pre></td></tr></table></figure>
 <p>将<code>signed char</code>安全转换为<code>unsigned int</code>的宏<code>YY_SC_TO_UI</code>：</p>
-<pre><code class="lang-c">#define YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br></pre></td></tr></table></figure>
 <p>start condition中用的BEGIN():</p>
-<pre><code class="lang-c">#define BEGIN (yy_start) = 1 + 2 *
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BEGIN (yy_start) = 1 + 2 *</span></span><br></pre></td></tr></table></figure>
 <p>在后面的代码可以看出，这些start condition定义的关键词都被定义成了宏，比如我们有两个start condition <code>COMMENT</code>和<code>STRING</code>：</p>
-<pre><code class="lang-c">#define INITIAL 0#define COMMENT 1#define STRING 2
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INITIAL 0#<span class="meta-keyword">define</span> COMMENT 1#<span class="meta-keyword">define</span> STRING 2</span></span><br></pre></td></tr></table></figure>
 <p>这时<code>BEGIN(COMMENT)</code>就等价于：</p>
-<pre><code class="lang-c">(yy_start) = 1 + 2 * COMMENT
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(yy_start) = <span class="number">1</span> + <span class="number">2</span> * COMMENT</span><br></pre></td></tr></table></figure>
 <p>之后就可以得到相应的<code>YY_STATE</code>：</p>
-<pre><code class="lang-c">#define YY_START (((yy_start) - 1) / 2)#define YYSTATE YY_START
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_START (((yy_start) - 1) / 2)#<span class="meta-keyword">define</span> YYSTATE YY_START</span></span><br></pre></td></tr></table></figure>
 <p>略去其他不重要的宏，接下来看两个<code>FILE</code>指针<code>yyin</code>和<code>yyout</code>，可以看出<code>yyin</code>指向了<code>stdin</code>，<code>yyout</code>指向了<code>stdout</code>，分别对应了标准输入输出流：</p>
-<pre><code class="lang-c">extern FILE *yyin, *yyout;
-/*a lot of code*/
-#ifdef YY_STDINIT    
-    yyin = stdin;
-    yyout = stdout;
-#else    
-    yyin = (FILE *) 0;
-    yyout = (FILE *) 0;
-#endif
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> FILE *yyin, *yyout;</span><br><span class="line"><span class="comment">/*a lot of code*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> YY_STDINIT    </span></span><br><span class="line">	yyin = <span class="built_in">stdin</span>;</span><br><span class="line">	yyout = <span class="built_in">stdout</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span>    </span></span><br><span class="line">	yyin = (FILE *) <span class="number">0</span>;</span><br><span class="line">	yyout = (FILE *) <span class="number">0</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>接下来的代码就可以看出，flex的lexer是使用自顶向下的表驱动预测分析法来实现匹配的，关于这里面的预测分析，LL(1)文法等定义见编译原理的相关教材。</p>
 <p>首先要实现表驱动预测分析，就要定义读入text的方法，理论上是一个个character读入，但为了效率起见，flex将它们批量读取存入了buffer中：</p>
-<pre><code class="lang-c">#ifndef YY_INPUT
-#define YY_INPUT(buf,result,max_size) \
-    if ( YY_CURRENT_BUFFER_LVALUE-&gt;yy_is_interactive ) \
-    &#123; \
-        int c = &#39;*&#39;; \
-        size_t n; \
-        for ( n = 0; n &lt; max_size &amp;&amp; \
-                (c = getc( yyin )) != EOF &amp;&amp; c != &#39;\n&#39;; ++n ) \
-            buf[n] = (char) c; \
-        if ( c == &#39;\n&#39; ) \
-            buf[n++] = (char) c; \
-        if ( c == EOF &amp;&amp; ferror( yyin ) ) \
-            YY_FATAL_ERROR( &quot;input in flex scanner failed&quot; ); \
-        result = n; \
-    &#125; \
-    else \
-    &#123; \
-        errno=0; \
-        while ( (result = fread(buf, 1, max_size, yyin))==0 &amp;&amp; ferror(yyin)) \
-        &#123; \
-            if( errno != EINTR) \
-            &#123; \
-                YY_FATAL_ERROR( &quot;input in flex scanner failed&quot; ); \
-                break; \
-            &#125; \
-            errno=0; \
-            clearerr(yyin); \
-         &#125; \
-      &#125;\
-\
- #endif
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> YY_INPUT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_INPUT(buf,result,max_size) \</span></span><br><span class="line"><span class="meta">	<span class="meta-keyword">if</span> ( YY_CURRENT_BUFFER_LVALUE-&gt;yy_is_interactive ) \</span></span><br><span class="line"><span class="meta">    &#123; \</span></span><br><span class="line"><span class="meta">        int c = <span class="meta-string">&#x27;*&#x27;</span>; \</span></span><br><span class="line"><span class="meta">        size_t n; \</span></span><br><span class="line"><span class="meta">        for ( n = 0; n &lt; max_size &amp;&amp; \</span></span><br><span class="line"><span class="meta">                (c = getc( yyin )) != EOF &amp;&amp; c != <span class="meta-string">&#x27;\n&#x27;</span>; ++n ) \</span></span><br><span class="line"><span class="meta">            buf[n] = (char) c; \</span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">if</span> ( c == <span class="meta-string">&#x27;\n&#x27;</span> ) \</span></span><br><span class="line"><span class="meta">            buf[n++] = (char) c; \</span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">if</span> ( c == EOF &amp;&amp; ferror( yyin ) ) \</span></span><br><span class="line"><span class="meta">            YY_FATAL_ERROR( <span class="meta-string">&quot;input in flex scanner failed&quot;</span> ); \</span></span><br><span class="line"><span class="meta">        result = n; \</span></span><br><span class="line"><span class="meta">    &#125; \</span></span><br><span class="line"><span class="meta">    <span class="meta-keyword">else</span> \</span></span><br><span class="line"><span class="meta">    &#123; \</span></span><br><span class="line"><span class="meta">    	errno=0; \</span></span><br><span class="line"><span class="meta">        while ( (result = fread(buf, 1, max_size, yyin))==0 &amp;&amp; ferror(yyin)) \</span></span><br><span class="line"><span class="meta">        &#123; \</span></span><br><span class="line"><span class="meta">        	<span class="meta-keyword">if</span>( errno != EINTR) \</span></span><br><span class="line"><span class="meta">            &#123; \</span></span><br><span class="line"><span class="meta">            	YY_FATAL_ERROR( <span class="meta-string">&quot;input in flex scanner failed&quot;</span> ); \</span></span><br><span class="line"><span class="meta">                break; \</span></span><br><span class="line"><span class="meta">            &#125; \</span></span><br><span class="line"><span class="meta">            errno=0; \</span></span><br><span class="line"><span class="meta">            clearerr(yyin); \</span></span><br><span class="line"><span class="meta">         &#125; \</span></span><br><span class="line"><span class="meta">      &#125;\</span></span><br><span class="line"><span class="meta">\</span></span><br><span class="line"><span class="meta"> #<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>这里就要吐槽一下它的缩进了，简直惨不忍睹。如果你觉得这种读取方法很复杂的话，可以rewrite自己的<code>YY_INPUT</code>：</p>
-<pre><code class="lang-c">#undef YY_INPUT
-#define YY_INPUT(buf,result,max_size) \
-    if ( (result = fread( (char*)buf, sizeof(char), max_size, fin)) &lt; 0) \
-        YY_FATAL_ERROR( &quot;read() in flex scanner failed&quot;);
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> YY_INPUT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_INPUT(buf,result,max_size) \</span></span><br><span class="line"><span class="meta">    <span class="meta-keyword">if</span> ( (result = fread( (char*)buf, sizeof(char), max_size, fin)) &lt; 0) \</span></span><br><span class="line"><span class="meta">    	YY_FATAL_ERROR( <span class="meta-string">&quot;read() in flex scanner failed&quot;</span>);</span></span><br></pre></td></tr></table></figure>
 <p>这段代码引自参考文献[1]。</p>
 <p>为什么说它用的是表驱动法呢？从它在静态区cache了一些预测分析表的常量：</p>
-<pre><code class="lang-c">static yyconst flex_int16_t yy_accept[6] = &#123;...&#125;;
-static yyconst YY_CHAR yy_ec[256] = &#123;...&#125;;
-static yyconst YY_CHAR yy_meta[2] = &#123;...&#125;;
-static yyconst flex_uint16_t yy_base[7] = &#123;...&#125;;
-static yyconst flex_int16_t yy_def[7] = &#123;...&#125;;
-static yyconst flex_uint16_t yy_nxt[5] = &#123;...&#125;;
-static yyconst flex_int16_t yy_chk[5] = &#123;...&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">6</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_ec[<span class="number">256</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_meta[<span class="number">2</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_base[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_def[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_nxt[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_chk[<span class="number">5</span>] = &#123;...&#125;;</span><br></pre></td></tr></table></figure>
 <p>以及定义了将缓冲区变量压栈和出栈的一系列操作：</p>
-<pre><code class="lang-c">void yypush_buffer_state (YY_BUFFER_STATE new_buffer )
-&#123;/*a lof of code*/&#125;
-void yypop_buffer_state (void)
-&#123;/*a lof of code*/&#125;
-static void yyensure_buffer_stack (void)
-&#123;/*a lof of code*/&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yypush_buffer_state</span> <span class="params">(YY_BUFFER_STATE new_buffer )</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yypop_buffer_state</span> <span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">yyensure_buffer_stack</span> <span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br></pre></td></tr></table></figure>
 <p>再对比下自顶向下表驱动法的算法结构：</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/top_down_push_pop.png" alt="top-down-push-pop" class="lazyload"></p>
 <p>就一目了然了。</p>
 <p>接下来就来看这个算法flex具体是如何实现的，它过程就在于<code>yylex()</code>这个函数，大致的框架如下：</p>
-<pre><code class="lang-c">#define YY_DECL int yylex (void)
-/*a lot of code*/
-YY_DECL
-&#123;    // initialize
-    // crate stack
-    // load buffer
-    while(1)
-    &#123;
-        yy_match:
-        /* 在这里不断进行状态转移，直至无法继续转移 */
-        /* 用到了前面提的YY_SC_TO_UI*/
-        do&#123;
-            YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
-            if ( yy_accept[yy_current_state] )
-            &#123;
-                (yy_last_accepting_state) = yy_current_state;
-                (yy_last_accepting_cpos) = yy_cp;
-            &#125;
-            while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
-            &#123;
-                yy_current_state = (int) yy_def[yy_current_state];
-                if ( yy_current_state &gt;= 6 )
-                    yy_c = yy_meta[(unsigned int) yy_c];
-            &#125;                
-            yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-            ++yy_cp;
-        &#125;            
-        while ( yy_base[yy_current_state] != 3 );
-        yy_find_action:
-        /*根据yy_current_state返回对应的yy_act*/
-        /*检查是否停止在接受状态(yy_act==0的情况)*/
-        /*yy_act == 1 表示accept*/
-        /*具体见do_action*/
-        yy_act = yy_accept[yy_current_state];
-        if ( yy_act == 0 )
-        &#123; 
-            /* have to back up */
-            yy_cp = (yy_last_accepting_cpos);
-            yy_current_state = (yy_last_accepting_state);
-            yy_act = yy_accept[yy_current_state];
-        &#125;
-        YY_DO_BEFORE_ACTION;
-        do_action:
-        /*处理各种yy_act*/
-        switch(yy_act)&#123;
-            case 0: /*读到EOF*/
-            case 1: /*accept*/
-        &#125;
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_DECL int yylex (void)</span></span><br><span class="line"><span class="comment">/*a lot of code*/</span></span><br><span class="line">YY_DECL</span><br><span class="line">&#123;    <span class="comment">// initialize</span></span><br><span class="line">    <span class="comment">// crate stack</span></span><br><span class="line">    <span class="comment">// load buffer</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        yy_match:</span><br><span class="line">        <span class="comment">/* 在这里不断进行状态转移，直至无法继续转移 */</span></span><br><span class="line">        <span class="comment">/* 用到了前面提的YY_SC_TO_UI*/</span></span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">            <span class="keyword">if</span> ( yy_accept[yy_current_state] )</span><br><span class="line">            &#123;</span><br><span class="line">                (yy_last_accepting_state) = yy_current_state;</span><br><span class="line">                (yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">            &#123;</span><br><span class="line">                yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">                <span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">6</span> )</span><br><span class="line">                    yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">            &#125;				</span><br><span class="line">            yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">            ++yy_cp;</span><br><span class="line">        &#125;			</span><br><span class="line">        <span class="keyword">while</span> ( yy_base[yy_current_state] != <span class="number">3</span> );</span><br><span class="line">        yy_find_action:</span><br><span class="line">        <span class="comment">/*根据yy_current_state返回对应的yy_act*/</span></span><br><span class="line">        <span class="comment">/*检查是否停止在接受状态(yy_act==0的情况)*/</span></span><br><span class="line">        <span class="comment">/*yy_act == 1 表示accept*/</span></span><br><span class="line">        <span class="comment">/*具体见do_action*/</span></span><br><span class="line">        yy_act = yy_accept[yy_current_state];</span><br><span class="line">        <span class="keyword">if</span> ( yy_act == <span class="number">0</span> )</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="comment">/* have to back up */</span></span><br><span class="line">            yy_cp = (yy_last_accepting_cpos);</span><br><span class="line">            yy_current_state = (yy_last_accepting_state);</span><br><span class="line">            yy_act = yy_accept[yy_current_state];</span><br><span class="line">        &#125;</span><br><span class="line">        YY_DO_BEFORE_ACTION;</span><br><span class="line">        do_action:</span><br><span class="line">        <span class="comment">/*处理各种yy_act*/</span></span><br><span class="line">        <span class="keyword">switch</span>(yy_act)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>: <span class="comment">/*读到EOF*/</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>: <span class="comment">/*accept*/</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里的<code>do_action</code>中，<code>yy_act</code>只有0和1两种情况，即读到非EOF的直接accept，读到EOF转<code>case 0</code>。因为这是一个空的规则文件，假如我们用带有规则的<code>xxx.flex</code>生成code，这些规则中的正则表达式匹配方法会表现到静态区中cache的预测分析表中，匹配到的action会体现在这个<code>switch-case</code>语句中。</p>
 <p>为了验证以上的说明，我们定义一个用来匹配能够解释为十进制数字符串的规则,放到文件<code>test.flex</code>：</p>
-<pre><code class="lang-flex">WHITE   &quot; &quot;|\t|\f|\r|\v
-%%
-&#123;WHITE&#125;*[+-]?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))([Ee][+-]?[0-9]+)?&#123;WHITE&#125;* &#123;return true;&#125;
-. &#123;return false;&#125;
-%%
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WHITE   &quot; &quot;|\t|\f|\r|\v</span><br><span class="line">%%</span><br><span class="line">&#123;WHITE&#125;*[+-]?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))([Ee][+-]?[0-9]+)?&#123;WHITE&#125;* &#123;return true;&#125;</span><br><span class="line">. &#123;return false;&#125;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
 <p>对应的DFA图如下：</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/DFA.png" alt="DFA" class="lazyload"></p>
 <p>这个例子来自参考文献[1].</p>
 <p>flex为了减少内存开销，对原来的状态表进行了压缩，因此在空规则生成的文件中，我们能看到很多个静态区常量(见上面)，为了看到原本的状态表，我们使用 <code>-Cf</code>进行编译：<code>flex -Cf test.flex</code> ,然后可以看到：</p>
-<pre><code class="lang-c">static yyconst flex_int16_t yy_nxt[][128] = &#123;...&#125;;
-static yyconst flex_int16_t yy_accept[9] = &#123;...&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_nxt[][<span class="number">128</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">9</span>] = &#123;...&#125;;</span><br></pre></td></tr></table></figure>
 <p>其中<code>flex_int16_t yy_nxt[][128]</code>就是原来的状态表。在<code>yylex()</code>中，匹配的过程是这么写的：</p>
-<pre><code class="lang-c">yy_match:        
-    while ( (yy_current_state = yy_nxt[yy_current_state][ YY_SC_TO_UI(*yy_cp) ]) &gt; 0 )
-    &#123;
-        if ( yy_accept[yy_current_state] )
-        &#123;
-            (yy_last_accepting_state) = yy_current_state;
-            (yy_last_accepting_cpos) = yy_cp;
-        &#125;
-        ++yy_cp;
-    &#125;
-    yy_current_state = -yy_current_state;
-yy_find_action:
-    yy_act = yy_accept[yy_current_state];
-    YY_DO_BEFORE_ACTION;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yy_match:		</span><br><span class="line">	<span class="keyword">while</span> ( (yy_current_state = yy_nxt[yy_current_state][ YY_SC_TO_UI(*yy_cp) ]) &gt; <span class="number">0</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ( yy_accept[yy_current_state] )</span><br><span class="line">        &#123;</span><br><span class="line">            (yy_last_accepting_state) = yy_current_state;</span><br><span class="line">            (yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">        &#125;</span><br><span class="line">        ++yy_cp;</span><br><span class="line">    &#125;</span><br><span class="line">	yy_current_state = -yy_current_state;</span><br><span class="line">yy_find_action:</span><br><span class="line">    yy_act = yy_accept[yy_current_state];</span><br><span class="line">    YY_DO_BEFORE_ACTION;</span><br></pre></td></tr></table></figure>
 <p>现在我们只要照着它稍微修改一下，就能得到一个判断字符串是否能作为数字的程序了：</p>
-<pre><code class="lang-c">#define YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)
-#define yyconst const
-typedef int flex_int16_t;
-typedef int flex_int32_t;
-typedef unsigned char YY_CHAR;
-static yyconst flex_int16_t yy_nxt[][128] = &#123;...&#125;;
-static yyconst flex_int16_t yy_accept[21] = &#123;...&#125;;
-bool isNumber(string s) 
-&#123;    
-    int yy_current_state = 1;
-    for ( int i = 0; i &lt; s.length(); ++i ) &#123;
-        yy_current_state = yy_nxt[yy_current_state][YY_SC_TO_UI(s[i])];
-        if ( yy_current_state &lt; 0 ) 
-            return false;
-    &#125;    
-    return yy_accept[yy_current_state] == 1;
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> yyconst const</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> YY_CHAR;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_nxt[][<span class="number">128</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">21</span>] = &#123;...&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span> </span></span><br><span class="line"><span class="function"></span>&#123;    </span><br><span class="line">    <span class="keyword">int</span> yy_current_state = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); ++i ) &#123;</span><br><span class="line">        yy_current_state = yy_nxt[yy_current_state][YY_SC_TO_UI(s[i])];</span><br><span class="line">        <span class="keyword">if</span> ( yy_current_state &lt; <span class="number">0</span> ) </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;    </span><br><span class="line">    <span class="keyword">return</span> yy_accept[yy_current_state] == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里只需要判断新的current state是否大于0.没用必要查询是否accept(因为match时小于0直接跳出循环，说明匹配失败)。</p>
 <p>对于压缩版本的，也可以有如下的对应。</p>
 <p><code>yylex()</code>：</p>
-<pre><code class="lang-c">yy_match:
-    do            
-    &#123;
-        YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
-        if ( yy_accept[yy_current_state] )
-        &#123;
-            (yy_last_accepting_state) = yy_current_state;
-            (yy_last_accepting_cpos) = yy_cp;
-        &#125;
-        while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
-        &#123;
-            yy_current_state = (int) yy_def[yy_current_state];
-            if ( yy_current_state &gt;= 22 )
-                yy_c = yy_meta[(unsigned int) yy_c];
-        &#125;
-        yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-        ++yy_cp;
-    &#125;        
-    while ( yy_base[yy_current_state] != 43 );
-yy_find_action:
-    yy_act = yy_accept[yy_current_state];
-    if ( yy_act == 0 )
-    &#123; 
-        /* have to back up */
-        yy_cp = (yy_last_accepting_cpos);
-        yy_current_state = (yy_last_accepting_state);
-        yy_act = yy_accept[yy_current_state];
-    &#125;        
-    YY_DO_BEFORE_ACTION;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">yy_match:</span><br><span class="line">    <span class="keyword">do</span>			</span><br><span class="line">    &#123;</span><br><span class="line">        YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">        <span class="keyword">if</span> ( yy_accept[yy_current_state] )</span><br><span class="line">        &#123;</span><br><span class="line">            (yy_last_accepting_state) = yy_current_state;</span><br><span class="line">            (yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">        &#123;</span><br><span class="line">            yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">            <span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">22</span> )</span><br><span class="line">                yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        &#125;</span><br><span class="line">        yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        ++yy_cp;</span><br><span class="line">    &#125;		</span><br><span class="line">    <span class="keyword">while</span> ( yy_base[yy_current_state] != <span class="number">43</span> );</span><br><span class="line">yy_find_action:</span><br><span class="line">    yy_act = yy_accept[yy_current_state];</span><br><span class="line">    <span class="keyword">if</span> ( yy_act == <span class="number">0</span> )</span><br><span class="line">    &#123; </span><br><span class="line">        <span class="comment">/* have to back up */</span></span><br><span class="line">        yy_cp = (yy_last_accepting_cpos);</span><br><span class="line">        yy_current_state = (yy_last_accepting_state);</span><br><span class="line">        yy_act = yy_accept[yy_current_state];</span><br><span class="line">    &#125;		</span><br><span class="line">    YY_DO_BEFORE_ACTION;</span><br></pre></td></tr></table></figure>
 <p><code>valid_number</code>程序：</p>
-<pre><code class="lang-c">#define YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)
-#define yyconst consttypedef int flex_int16_t;
-typedef int flex_int32_t;
-typedef unsigned char YY_CHAR;
-static yyconst flex_int16_t yy_accept[6] = &#123;...&#125;;static yyconst YY_CHAR yy_ec[256] = &#123;...&#125;;
-static yyconst YY_CHAR yy_meta[2] = &#123;...&#125;;static yyconst flex_uint16_t yy_base[7] = &#123;...&#125;;
-static yyconst flex_int16_t yy_def[7] = &#123;...&#125;;
-static yyconst flex_uint16_t yy_nxt[5] = &#123;...&#125;;
-static yyconst flex_int16_t yy_chk[5] = &#123;...&#125;;
-bool isNumber(string s)&#123;
-    int yy_current_state = 1;
-    for(int i = 0; i &lt; s.length(); ++i)&#123;
-        YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
-        while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
-        &#123;
-            yy_current_state = (int) yy_def[yy_current_state];
-            if ( yy_current_state &gt;= 22 )
-                yy_c = yy_meta[(unsigned int) yy_c];
-        &#125;
-        yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
-        return(yy_accept[yy_current_state]);
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> yyconst consttypedef int flex_int16_t;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> YY_CHAR;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">6</span>] = &#123;...&#125;;<span class="keyword">static</span> yyconst YY_CHAR yy_ec[<span class="number">256</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_meta[<span class="number">2</span>] = &#123;...&#125;;<span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_base[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_def[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_nxt[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_chk[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> yy_current_state = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); ++i)&#123;</span><br><span class="line">        YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">        <span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">        &#123;</span><br><span class="line">            yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">            <span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">22</span> )</span><br><span class="line">                yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        &#125;</span><br><span class="line">        yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        <span class="keyword">return</span>(yy_accept[yy_current_state]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这里需要判断current state是否能被accept(即返回1)，当然根据while循环条件也可以。</p>
 <p>References：</p>
 <p>[1].Flex技巧总结 &amp;&amp; [LeetCode]Valid Number题解 <a target="_blank" rel="noopener" href="https://blog.finaltheory.me/research/Flex-Tricks.html">https://blog.finaltheory.me/research/Flex-Tricks.html</a></p>
@@ -521,34 +269,12 @@ bool isNumber(string s)&#123;
         <article>
             
                 <h1 id="GNU-Bison-Parser-深入分析"><a href="#GNU-Bison-Parser-深入分析" class="headerlink" title="GNU Bison Parser 深入分析"></a>GNU Bison Parser 深入分析</h1><h2 id="一些约定"><a href="#一些约定" class="headerlink" title="一些约定"></a>一些约定</h2><p>bison对我们定义好的文法进行了增广(augmentation)，添加了<code>$accept</code>和<code>$end</code>符号表示接收和终止，并且增加了一条规则用于判断是否完成语法分析：</p>
-<pre><code class="lang-bison">$accept : &lt;start-symbol&gt; $end
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$accept : &lt;start-symbol&gt; $end</span><br></pre></td></tr></table></figure>
 <p>除此之外还增加了<code>$undefined</code>来表示未出现在文法中的symbol。增加了<code>error</code>用来生成错误。</p>
 <h2 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h2><p>就像flex一样，bison也是表驱动的，为了理解bison如何parse，我们用这样一个文法去生成一个parser：</p>
-<pre><code>(1) L → L;E
-(2) L → E
-(3) E → E,P
-(4) E → P
-(5) P → a
-(6) P → (M)
-(7) M → ε
-(8) M → L
-</code></pre><p>对应到bison里，就是这样：</p>
-<pre><code class="lang-bison">%%
-L : L &#39;;&#39; E
-  | E
-;
-E : E &#39;,&#39; P
-  | P
-
-;P : &#39;a&#39;
-   | (M)
-
-;M : /* nothing */
-   | L
-;
-%%
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(1) L → L;E</span><br><span class="line">(2) L → E</span><br><span class="line">(3) E → E,P</span><br><span class="line">(4) E → P</span><br><span class="line">(5) P → a</span><br><span class="line">(6) P → (M)</span><br><span class="line">(7) M → ε</span><br><span class="line">(8) M → L</span><br></pre></td></tr></table></figure>
+<p>对应到bison里，就是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br><span class="line">L : L &#x27;;&#x27; E</span><br><span class="line">  | E</span><br><span class="line">;</span><br><span class="line">E : E &#x27;,&#x27; P</span><br><span class="line">  | P</span><br><span class="line">  </span><br><span class="line">;P : &#x27;a&#x27;</span><br><span class="line">   | (M)</span><br><span class="line"></span><br><span class="line">;M : /* nothing */</span><br><span class="line">   | L</span><br><span class="line">;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
 <p>下面是这个文法的LALR(1)算法生成的自动机表(增广后的）：</p>
 <div class="table-container">
 <table>
@@ -850,18 +576,14 @@ E : E &#39;,&#39; P
 <p>如此简单的语法都要生成一个庞大的表，更何况一门完备的语言，并且注意到了表中有很多地方是空的(对应error)，因此bison对这个表进行了压缩。</p>
 <h2 id="数据压缩"><a href="#数据压缩" class="headerlink" title="数据压缩"></a>数据压缩</h2><h3 id="default-action"><a href="#default-action" class="headerlink" title="default action"></a>default action</h3><p>首先是对action的部分进行压缩，注意到state 1，2，4，5，6，11，12，13仅仅只有1种reduction操作（有的还有shift，但它不是reduction），因此就可以先单独考量这样的行，对它们定义一个default action（reduction），也就是只要碰到这些state，在排除shift操作后一律使用reduction操作。对于空白的error部分即使进行了reduction，也仅仅是推迟了错误的发生。</p>
 <p>形式上这个就应该是这个样子：</p>
-<pre><code class="lang-c">default_reductions[] = &#123;none,r5,r7,none,r2,r4,r8,none,none,none,none,r6,r1,r3&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_reductions[] = &#123;none,r5,r7,none,r2,r4,r8,none,none,none,none,r6,r1,r3&#125;</span><br></pre></td></tr></table></figure>
 <p>在bison生成的文件种就对应了<code>yydefact[]</code>，这个表的index表示的是state number，里面的值表示reduction的rule number，0表示error：</p>
-<pre><code class="lang-c">static const yytype_uint8 yydefact[] =&#123;0,6,8,0,3,5,9,0,1,0,0,7,2,4&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yydefact[] =&#123;<span class="number">0</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">4</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>注意第一条规则是bison的默认增广规则，因此所有规则号都加了1。</p>
 <h3 id="default-GOTO"><a href="#default-GOTO" class="headerlink" title="default GOTO"></a>default GOTO</h3><p>接下来要压缩GOTO的部分，bison的压缩策略是这样的：将每一个non-terminal对应的GOTO列中最多的那一个单独拿出来(L:3,E:4,P:5,M:7)构成一个default GOTO：</p>
-<pre><code class="lang-c">default_gotos[] = &#123; 3, 4, 5, 7 &#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_gotos[] = &#123; <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span> &#125;</span><br></pre></td></tr></table></figure>
 <p>在生成文件中就对应了<code>yydefgoto[]</code>：</p>
-<pre><code class="lang-c">static const yytype_int8 yydefgoto[] =&#123; -1,3,4,5,7 &#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yydefgoto[] =&#123; <span class="number">-1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span> &#125;;</span><br></pre></td></tr></table></figure>
 <p>它的index是用non-terminal的symbol number减去terminal个数得到的（0处对应的-1好像没有什么用）。</p>
 <h3 id="压缩non-default-action"><a href="#压缩non-default-action" class="headerlink" title="压缩non-default action"></a>压缩non-default action</h3><p>在选出default reduction表之后，去除它们后action剩下的部分是：</p>
 <div class="table-container">
@@ -972,21 +694,16 @@ E : E &#39;,&#39; P
 </div>
 <p>可以看出有很多空白，接下来的操作就是要对这些空白进行压缩。</p>
 <p>bison会将这个表变成两个一维的表，一个用来存储这些非空白的信息，一个用来存储它们的dimension。一般表达式就是：</p>
-<pre><code class="lang-c">action number = T[D[state number] + symbol number]
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action number = T[D[state number] + symbol number]</span><br></pre></td></tr></table></figure>
 <p>例如，我们想要得到state 4在遇到symbol号为4时的操作，那就像这样进行索引：</p>
-<pre><code class="lang-c">T[D[4] + 4] = 10
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T[D[<span class="number">4</span>] + <span class="number">4</span>] = <span class="number">10</span></span><br></pre></td></tr></table></figure>
 <p>根据这个压缩规则，bison分别在<code>yytable[]</code>和<code>yypact[]</code>存储这个‘T’和‘D’：</p>
-<pre><code class="lang-c">static const yytype_uint8 yytable[] =&#123;8,1,2,9,11,10,9,6,12,0,0,0,13&#125;;static const yytype_int8 yypact[] =&#123;-4,-5,-4,0,1,-5,3,-3,-5,-4,-4,-5,1,-5&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yytable[] =&#123;<span class="number">8</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">9</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">9</span>,<span class="number">6</span>,<span class="number">12</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">13</span>&#125;;<span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yypact[] =&#123;<span class="number">-4</span>,<span class="number">-5</span>,<span class="number">-4</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">-5</span>,<span class="number">3</span>,<span class="number">-3</span>,<span class="number">-5</span>,<span class="number">-4</span>,<span class="number">-4</span>,<span class="number">-5</span>,<span class="number">1</span>,<span class="number">-5</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>我们可以验证一下，state 4遇到规则4时对应的是s10：</p>
-<pre><code class="lang-c">yytable[yypact[4]+4] = yytable[5] = 10
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytable[yypact[<span class="number">4</span>]+<span class="number">4</span>] = yytable[<span class="number">5</span>] = <span class="number">10</span></span><br></pre></td></tr></table></figure>
 <p>注意，尽管去除了default reduction，这里面的操作也是可能有reduction的，为此，bison使用正负号来区别它们，<code>yytable[]</code>里正号代表shift，负号代表reduction（当然这个例子里没有），如果是0就执行default action。</p>
 <h3 id="压缩non-default-GOTO"><a href="#压缩non-default-GOTO" class="headerlink" title="压缩non-default GOTO"></a>压缩non-default GOTO</h3><p>和non-default action一样，采用相同的方法去压缩non-default GOTO。只是在indexing的时候，公式变为了：</p>
-<pre><code class="lang-c">action number = T[ND[symbol number - num_terminal] + state number]
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action number = T[ND[symbol number - num_terminal] + state number]</span><br></pre></td></tr></table></figure>
 <p>在这个例子中，non-default GOTO的表是这样的：</p>
 <div class="table-container">
 <table>
@@ -1027,461 +744,48 @@ E : E &#39;,&#39; P
 </table>
 </div>
 <p>压缩后的index在bison生成的表中对应了<code>yypgoto[]</code>，value仍然用<code>yytable[]</code>：</p>
-<pre><code class="lang-c">static const yytype_int8 yypgoto[] =&#123;      -5,     5,    -1,     2,    -5&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yypgoto[] =&#123;      <span class="number">-5</span>,     <span class="number">5</span>,    <span class="number">-1</span>,     <span class="number">2</span>,    <span class="number">-5</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>例如，我们要symbol 9在state 2中的GOTO：</p>
-<pre><code class="lang-c">yytable[yypgoto[9-8]+2] = yytable[7] = 6
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytable[yypgoto[<span class="number">9</span><span class="number">-8</span>]+<span class="number">2</span>] = yytable[<span class="number">7</span>] = <span class="number">6</span></span><br></pre></td></tr></table></figure>
 <h2 id="算法的实现"><a href="#算法的实现" class="headerlink" title="算法的实现"></a>算法的实现</h2><h3 id="一些static数据"><a href="#一些static数据" class="headerlink" title="一些static数据"></a>一些static数据</h3><h4 id="yytranslate"><a href="#yytranslate" class="headerlink" title="yytranslate"></a>yytranslate</h4><p><code>yytranslate[]</code>定义了文法中符号到symbol number的映射过程，假如这些符号是non-terminal，那index就对应non-terminal %token声明时的值，如果这些符号是ASCII码中的terminal，那么index就对应了ASCII值。</p>
-<pre><code class="lang-c">static const yytype_uint8 yytranslate[] =&#123;       0,     2,     2,     2,     2, ...&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yytranslate[] =&#123;       <span class="number">0</span>,     <span class="number">2</span>,     <span class="number">2</span>,     <span class="number">2</span>,     <span class="number">2</span>, ...&#125;;</span><br></pre></td></tr></table></figure>
 <p>比如说这个例子中出现的’a’，对应的ASCII值是97，根据<code>yytranslate[]</code>的索引，可以得到符号a对应的symbol number是5：</p>
-<pre><code class="lang-c">yytranslate[97] = 5;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytranslate[<span class="number">97</span>] = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
 <p>在这里面有很多的2(undefined)，因为很多ASCII表中的符号并没有出现在文法中。</p>
 <h4 id="yyr1"><a href="#yyr1" class="headerlink" title="yyr1"></a>yyr1</h4><p><code>yyr1[]</code>是每条文法规则的LHS符号的symbol number：</p>
-<pre><code class="lang-c">static const yytype_uint8 yyr1[] =&#123;       0,     8,     9,     9,    10,    10,    11,    11,    12,    12&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yyr1[] =&#123;       <span class="number">0</span>,     <span class="number">8</span>,     <span class="number">9</span>,     <span class="number">9</span>,    <span class="number">10</span>,    <span class="number">10</span>,    <span class="number">11</span>,    <span class="number">11</span>,    <span class="number">12</span>,    <span class="number">12</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>0并没有用作文法的number，所以<code>yyr1[0]</code>是0.</p>
 <h4 id="yyr2"><a href="#yyr2" class="headerlink" title="yyr2"></a>yyr2</h4><p><code>yyr2[]</code>是每条文法规则的RHS符号的个数：</p>
-<pre><code class="lang-c">static const yytype_uint8 yyr2[] =&#123;       0,     2,     3,     1,     3,     1,     1,     3,     0,     1&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yyr2[] =&#123;       <span class="number">0</span>,     <span class="number">2</span>,     <span class="number">3</span>,     <span class="number">1</span>,     <span class="number">3</span>,     <span class="number">1</span>,     <span class="number">1</span>,     <span class="number">3</span>,     <span class="number">0</span>,     <span class="number">1</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>同上，yyr2[0]`是0.</p>
 <h4 id="yycheck"><a href="#yycheck" class="headerlink" title="yycheck"></a>yycheck</h4><p><code>yycheck[]</code>是用来判断使用default还是non-default的，在生成文件的代码中表现为：</p>
-<pre><code class="lang-c">/* If the proper action on seeing token YYTOKEN is to reduce or to   detect an error, take that action.  */
-yyn += yytoken;
-if (yyn &lt; 0 || YYLAST &lt; yyn || yycheck[yyn] != yytoken)
-    goto yydefault;
-
-/* Now &#39;shift&#39; the result of the reduction.  Determine what state   that goes to, based on the state we popped back to and the rule   number reduced by.  */
-yyn = yyr1[yyn];
-yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-if (0 &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-else  yystate = yydefgoto[yyn - YYNTOKENS];
-goto yynewstate;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* If the proper action on seeing token YYTOKEN is to reduce or to   detect an error, take that action.  */</span></span><br><span class="line">yyn += yytoken;</span><br><span class="line"><span class="keyword">if</span> (yyn &lt; <span class="number">0</span> || YYLAST &lt; yyn || yycheck[yyn] != yytoken)</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Now &#x27;shift&#x27; the result of the reduction.  Determine what state   that goes to, based on the state we popped back to and the rule   number reduced by.  */</span></span><br><span class="line">yyn = yyr1[yyn];</span><br><span class="line">yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;</span><br><span class="line"><span class="keyword">if</span> (<span class="number">0</span> &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)</span><br><span class="line">    yystate = yytable[yystate];</span><br><span class="line"><span class="keyword">else</span>  yystate = yydefgoto[yyn - YYNTOKENS];</span><br><span class="line"><span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>在这个例子中，<code>yycheck[]</code>的值如下：</p>
-<pre><code class="lang-c">static const yytype_int8 yycheck[] =&#123;       0,     5,     6,     3,     7,     4,     3,     2,     9,    -1,      -1,    -1,    10&#125;;
-</code></pre>
-<h4 id="其他不重要的表："><a href="#其他不重要的表：" class="headerlink" title="其他不重要的表："></a>其他不重要的表：</h4><pre><code class="lang-c">yyrhs: yyrhs[n] = 第n条规则的RHS第一个symbol
-yyprhs: yyprhs[n] = yyrhs[n]symbol的index
-yyrline： yyrline[n] = .y文法源文件中第n条规则定义时对应的行
-yytname： yytname[n] = symbol number n对应的symbol string
-yytoknum： yytoknum[n] = token n的token number
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yycheck[] =&#123;       <span class="number">0</span>,     <span class="number">5</span>,     <span class="number">6</span>,     <span class="number">3</span>,     <span class="number">7</span>,     <span class="number">4</span>,     <span class="number">3</span>,     <span class="number">2</span>,     <span class="number">9</span>,    <span class="number">-1</span>,      <span class="number">-1</span>,    <span class="number">-1</span>,    <span class="number">10</span>&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="其他不重要的表："><a href="#其他不重要的表：" class="headerlink" title="其他不重要的表："></a>其他不重要的表：</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yyrhs: yyrhs[n] = 第n条规则的RHS第一个symbol</span><br><span class="line">yyprhs: yyprhs[n] = yyrhs[n]symbol的index</span><br><span class="line">yyrline： yyrline[n] = .y文法源文件中第n条规则定义时对应的行</span><br><span class="line">yytname： yytname[n] = symbol number n对应的symbol <span class="built_in">string</span></span><br><span class="line">yytoknum： yytoknum[n] = token n的token number</span><br></pre></td></tr></table></figure>
 <h3 id="yyparse"><a href="#yyparse" class="headerlink" title="yyparse()"></a>yyparse()</h3><p>整个算法的主程序是yyparse()，具体的框架如下：</p>
 <p>首先我们要定义一个state stack:</p>
-<pre><code class="lang-c">/* The state stack.  */
-yytype_int16 yyssa[YYINITDEPTH];
-yytype_int16 *yyss;
-yytype_int16 *yyssp;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The state stack.  */</span></span><br><span class="line">yytype_int16 yyssa[YYINITDEPTH];</span><br><span class="line">yytype_int16 *yyss;</span><br><span class="line">yytype_int16 *yyssp;</span><br></pre></td></tr></table></figure>
 <p>然后定义符号的stack：</p>
-<pre><code class="lang-c">/* The semantic value stack.  */
-YYSTYPE yyvsa[YYINITDEPTH];
-YYSTYPE *yyvs;
-YYSTYPE *yyvsp;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The semantic value stack.  */</span></span><br><span class="line">YYSTYPE yyvsa[YYINITDEPTH];</span><br><span class="line">YYSTYPE *yyvs;</span><br><span class="line">YYSTYPE *yyvsp;</span><br></pre></td></tr></table></figure>
 <p>这里的<code>YYSTYPE</code>是文法的non-terminal所允许的type，可以自己定义，在这个例子里默认为了<code>int</code>。</p>
 <p>然后定义用来输出错误的一个buffer：</p>
-<pre><code class="lang-c">/* Buffer for error messages, and its allocated size.  */
-char yymsgbuf[128];
-char *yymsg = yymsgbuf;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Buffer for error messages, and its allocated size.  */</span></span><br><span class="line"><span class="keyword">char</span> yymsgbuf[<span class="number">128</span>];</span><br><span class="line"><span class="keyword">char</span> *yymsg = yymsgbuf;</span><br></pre></td></tr></table></figure>
 <p>定义将new state push到栈里的操作：</p>
-<pre><code class="lang-c">yynewstate:
-/* In all cases, when you get here, the value and location stacks
-     have just been pushed.  So pushing a state here evens the stacks.  */
-yyssp++;
-
-yysetstate:
-*yyssp = yystate;
-
-if (yyss + yystacksize - 1 &lt;= yyssp)
-&#123;
-    /* Get the current used size of the three stacks, in elements.  */
-    YYSIZE_T yysize = yyssp - yyss + 1;
-
-    #ifdef yyoverflow
-    &#123;
-        /* Give user a chance to reallocate the stack.  Use copies of
-           these so that the &amp;&#39;s don&#39;t force the real ones into
-           memory.  */
-        YYSTYPE *yyvs1 = yyvs;
-        yytype_int16 *yyss1 = yyss;
-
-        /* Each stack pointer address is followed by the size of the
-           data in use in that stack, in bytes.  This used to be a
-           conditional around just the two extra args, but that might
-           be undefined if yyoverflow is a macro.  */
-        yyoverflow (YY_(&quot;memory exhausted&quot;),
-                    &amp;yyss1, yysize * sizeof (*yyssp),
-                    &amp;yyvs1, yysize * sizeof (*yyvsp),
-                    &amp;yystacksize);
-
-        yyss = yyss1;
-        yyvs = yyvs1;
-    &#125;
-    #else /* no yyoverflow */
-    # ifndef YYSTACK_RELOCATE
-    goto yyexhaustedlab;
-    # else
-    /* Extend the stack our own way.  */
-    if (YYMAXDEPTH &lt;= yystacksize)
-        goto yyexhaustedlab;
-    yystacksize *= 2;
-    if (YYMAXDEPTH &lt; yystacksize)
-        yystacksize = YYMAXDEPTH;
-
-    &#123;
-        yytype_int16 *yyss1 = yyss;
-        union yyalloc *yyptr =
-            (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
-        if (! yyptr)
-            goto yyexhaustedlab;
-        YYSTACK_RELOCATE (yyss_alloc, yyss);
-        YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-        #  undef YYSTACK_RELOCATE
-        if (yyss1 != yyssa)
-            YYSTACK_FREE (yyss1);
-    &#125;
-    # endif
-    #endif /* no yyoverflow */
-
-    yyssp = yyss + yysize - 1;
-    yyvsp = yyvs + yysize - 1;
-
-    YYDPRINTF ((stderr, &quot;Stack size increased to %lu\n&quot;,
-                (unsigned long int) yystacksize));
-
-    if (yyss + yystacksize - 1 &lt;= yyssp)
-        YYABORT;
-&#125;
-
-YYDPRINTF ((stderr, &quot;Entering state %d\n&quot;, yystate));
-
-if (yystate == YYFINAL)
-    YYACCEPT;
-
-goto yybackup;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">yynewstate:</span><br><span class="line"><span class="comment">/* In all cases, when you get here, the value and location stacks</span></span><br><span class="line"><span class="comment">     have just been pushed.  So pushing a state here evens the stacks.  */</span></span><br><span class="line">yyssp++;</span><br><span class="line"></span><br><span class="line">yysetstate:</span><br><span class="line">*yyssp = yystate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (yyss + yystacksize - <span class="number">1</span> &lt;= yyssp)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* Get the current used size of the three stacks, in elements.  */</span></span><br><span class="line">    YYSIZE_T yysize = yyssp - yyss + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">ifdef</span> yyoverflow</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* Give user a chance to reallocate the stack.  Use copies of</span></span><br><span class="line"><span class="comment">           these so that the &amp;&#x27;s don&#x27;t force the real ones into</span></span><br><span class="line"><span class="comment">           memory.  */</span></span><br><span class="line">        YYSTYPE *yyvs1 = yyvs;</span><br><span class="line">        yytype_int16 *yyss1 = yyss;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Each stack pointer address is followed by the size of the</span></span><br><span class="line"><span class="comment">           data in use in that stack, in bytes.  This used to be a</span></span><br><span class="line"><span class="comment">           conditional around just the two extra args, but that might</span></span><br><span class="line"><span class="comment">           be undefined if yyoverflow is a macro.  */</span></span><br><span class="line">        yyoverflow (YY_(<span class="string">&quot;memory exhausted&quot;</span>),</span><br><span class="line">                    &amp;yyss1, yysize * <span class="keyword">sizeof</span> (*yyssp),</span><br><span class="line">                    &amp;yyvs1, yysize * <span class="keyword">sizeof</span> (*yyvsp),</span><br><span class="line">                    &amp;yystacksize);</span><br><span class="line"></span><br><span class="line">        yyss = yyss1;</span><br><span class="line">        yyvs = yyvs1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">else</span> <span class="comment">/* no yyoverflow */</span></span></span><br><span class="line">    <span class="meta"># <span class="meta-keyword">ifndef</span> YYSTACK_RELOCATE</span></span><br><span class="line">    <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">    <span class="meta"># <span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="comment">/* Extend the stack our own way.  */</span></span><br><span class="line">    <span class="keyword">if</span> (YYMAXDEPTH &lt;= yystacksize)</span><br><span class="line">        <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">    yystacksize *= <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (YYMAXDEPTH &lt; yystacksize)</span><br><span class="line">        yystacksize = YYMAXDEPTH;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        yytype_int16 *yyss1 = yyss;</span><br><span class="line">        <span class="class"><span class="keyword">union</span> <span class="title">yyalloc</span> *<span class="title">yyptr</span> =</span></span><br><span class="line">            (<span class="keyword">union</span> yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));</span><br><span class="line">        <span class="keyword">if</span> (! yyptr)</span><br><span class="line">            <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">        YYSTACK_RELOCATE (yyss_alloc, yyss);</span><br><span class="line">        YYSTACK_RELOCATE (yyvs_alloc, yyvs);</span><br><span class="line">        <span class="meta">#  <span class="meta-keyword">undef</span> YYSTACK_RELOCATE</span></span><br><span class="line">        <span class="keyword">if</span> (yyss1 != yyssa)</span><br><span class="line">            YYSTACK_FREE (yyss1);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta"># <span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* no yyoverflow */</span></span></span><br><span class="line"></span><br><span class="line">    yyssp = yyss + yysize - <span class="number">1</span>;</span><br><span class="line">    yyvsp = yyvs + yysize - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Stack size increased to %lu\n&quot;</span>,</span><br><span class="line">                (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>) yystacksize));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (yyss + yystacksize - <span class="number">1</span> &lt;= yyssp)</span><br><span class="line">        YYABORT;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Entering state %d\n&quot;</span>, yystate));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (yystate == YYFINAL)</span><br><span class="line">    YYACCEPT;</span><br><span class="line"></span><br><span class="line"><span class="keyword">goto</span> yybackup;</span><br></pre></td></tr></table></figure>
 <p>核心部分只是前面和后面的几行代码，中间都是在处理overflow的，用一些宏来决定是将stack size 扩张两倍还是直接扔出memory exhausted错误。</p>
 <p>然后定义读取lookahead token的操作yybackup，这里就要决定是使用default还是non-default，假如是non-default，是shift还是reduce还是报错了：</p>
-<pre><code class="lang-c">yybackup:
-
-  /* Do appropriate processing given the current state.  Read a
-     lookahead token if we need one and don&#39;t already have one.  */
-
-  /* First try to decide what to do without reference to lookahead token.  */
-  yyn = yypact[yystate];
-  if (yypact_value_is_default (yyn))
-    goto yydefault;
-
-  /* Not known =&gt; get a lookahead token if don&#39;t already have one.  */
-
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
-  if (yychar == YYEMPTY)
-    &#123;
-      YYDPRINTF ((stderr, &quot;Reading a token: &quot;));
-      yychar = yylex ();
-    &#125;
-
-  if (yychar &lt;= YYEOF)
-    &#123;
-      yychar = yytoken = YYEOF;
-      YYDPRINTF ((stderr, &quot;Now at end of input.\n&quot;));
-    &#125;
-  else
-    &#123;
-      yytoken = YYTRANSLATE (yychar);
-      YY_SYMBOL_PRINT (&quot;Next token is&quot;, yytoken, &amp;yylval, &amp;yylloc);
-    &#125;
-
-  /* If the proper action on seeing token YYTOKEN is to reduce or to
-     detect an error, take that action.  */
-  yyn += yytoken;
-  if (yyn &lt; 0 || YYLAST &lt; yyn || yycheck[yyn] != yytoken)
-    goto yydefault;
-  yyn = yytable[yyn];
-  if (yyn &lt;= 0)
-    &#123;
-      if (yytable_value_is_error (yyn))
-        goto yyerrlab;
-      yyn = -yyn;
-      goto yyreduce;
-    &#125;
-
-  /* Count tokens shifted since error; after three, turn off error
-     status.  */
-  if (yyerrstatus)
-    yyerrstatus--;
-
-  /* Shift the lookahead token.  */
-  YY_SYMBOL_PRINT (&quot;Shifting&quot;, yytoken, &amp;yylval, &amp;yylloc);
-
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
-
-  yystate = yyn;
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  *++yyvsp = yylval;
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
-
-  goto yynewstate;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">yybackup:</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Do appropriate processing given the current state.  Read a</span></span><br><span class="line"><span class="comment">     lookahead token if we need one and don&#x27;t already have one.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* First try to decide what to do without reference to lookahead token.  */</span></span><br><span class="line">  yyn = yypact[yystate];</span><br><span class="line">  <span class="keyword">if</span> (yypact_value_is_default (yyn))</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Not known =&gt; get a lookahead token if don&#x27;t already have one.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */</span></span><br><span class="line">  <span class="keyword">if</span> (yychar == YYEMPTY)</span><br><span class="line">    &#123;</span><br><span class="line">      YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Reading a token: &quot;</span>));</span><br><span class="line">      yychar = yylex ();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (yychar &lt;= YYEOF)</span><br><span class="line">    &#123;</span><br><span class="line">      yychar = yytoken = YYEOF;</span><br><span class="line">      YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Now at end of input.\n&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      yytoken = YYTRANSLATE (yychar);</span><br><span class="line">      YY_SYMBOL_PRINT (<span class="string">&quot;Next token is&quot;</span>, yytoken, &amp;yylval, &amp;yylloc);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If the proper action on seeing token YYTOKEN is to reduce or to</span></span><br><span class="line"><span class="comment">     detect an error, take that action.  */</span></span><br><span class="line">  yyn += yytoken;</span><br><span class="line">  <span class="keyword">if</span> (yyn &lt; <span class="number">0</span> || YYLAST &lt; yyn || yycheck[yyn] != yytoken)</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line">  yyn = yytable[yyn];</span><br><span class="line">  <span class="keyword">if</span> (yyn &lt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> (yytable_value_is_error (yyn))</span><br><span class="line">        <span class="keyword">goto</span> yyerrlab;</span><br><span class="line">      yyn = -yyn;</span><br><span class="line">      <span class="keyword">goto</span> yyreduce;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Count tokens shifted since error; after three, turn off error</span></span><br><span class="line"><span class="comment">     status.  */</span></span><br><span class="line">  <span class="keyword">if</span> (yyerrstatus)</span><br><span class="line">    yyerrstatus--;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Shift the lookahead token.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;Shifting&quot;</span>, yytoken, &amp;yylval, &amp;yylloc);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Discard the shifted token.  */</span></span><br><span class="line">  yychar = YYEMPTY;</span><br><span class="line"></span><br><span class="line">  yystate = yyn;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN</span><br><span class="line">  *++yyvsp = yylval;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_END</span><br><span class="line"></span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>然后定义default操作，很简单，读取yydefault[]表，如果是0就报错，不是0就进入reduce：</p>
-<pre><code class="lang-c">yydefault:
-yyn = yydefact[yystate];
-if (yyn == 0)
-    goto yyerrlab;
-goto yyreduce;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yydefault:</span><br><span class="line">yyn = yydefact[yystate];</span><br><span class="line"><span class="keyword">if</span> (yyn == <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">goto</span> yyerrlab;</span><br><span class="line"><span class="keyword">goto</span> yyreduce;</span><br></pre></td></tr></table></figure>
 <p>接下来是reduce操作：根据yyr2[]找到对应规则的reduce的RHS符号个数以用来决定pop多少，然后根据yyr1[]找到对应规则的LHS值push进去：</p>
-<pre><code class="lang-c">yyreduce:
-  /* yyn is the number of a rule to reduce with.  */
-  yylen = yyr2[yyn];
-
-  /* If YYLEN is nonzero, implement the default value of the action:
-     &#39;$$ = $1&#39;.
-
-     Otherwise, the following line sets YYVAL to garbage.
-     This behavior is undocumented and Bison
-     users should not rely upon it.  Assigning to YYVAL
-     unconditionally makes the parser a bit smaller, and it avoids a
-     GCC warning that YYVAL may be used uninitialized.  */
-  yyval = yyvsp[1-yylen];
-
-
-  YY_REDUCE_PRINT (yyn);
-  switch (yyn)
-    &#123;
-
-#line 1179 &quot;eg.tab.c&quot; /* yacc.c:1646  */
-      default: break;
-    &#125;
-  /* User semantic actions sometimes alter yychar, and that requires
-     that yytoken be updated with the new translation.  We take the
-     approach of translating immediately before every use of yytoken.
-     One alternative is translating here after every semantic action,
-     but that translation would be missed if the semantic action invokes
-     YYABORT, YYACCEPT, or YYERROR immediately after altering yychar or
-     if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an
-     incorrect destructor might then be invoked immediately.  In the
-     case of YYERROR or YYBACKUP, subsequent parser actions might lead
-     to an incorrect destructor call or verbose syntax error message
-     before the lookahead is translated.  */
-  YY_SYMBOL_PRINT (&quot;-&gt; $$ =&quot;, yyr1[yyn], &amp;yyval, &amp;yyloc);
-
-  YYPOPSTACK (yylen);
-  yylen = 0;
-  YY_STACK_PRINT (yyss, yyssp);
-
-  *++yyvsp = yyval;
-
-  /* Now &#39;shift&#39; the result of the reduction.  Determine what state
-     that goes to, based on the state we popped back to and the rule
-     number reduced by.  */
-
-  yyn = yyr1[yyn];
-
-  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-  if (0 &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-  else
-    yystate = yydefgoto[yyn - YYNTOKENS];
-
-  goto yynewstate;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">yyreduce:</span><br><span class="line">  <span class="comment">/* yyn is the number of a rule to reduce with.  */</span></span><br><span class="line">  yylen = yyr2[yyn];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If YYLEN is nonzero, implement the default value of the action:</span></span><br><span class="line"><span class="comment">     &#x27;$$ = $1&#x27;.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     Otherwise, the following line sets YYVAL to garbage.</span></span><br><span class="line"><span class="comment">     This behavior is undocumented and Bison</span></span><br><span class="line"><span class="comment">     users should not rely upon it.  Assigning to YYVAL</span></span><br><span class="line"><span class="comment">     unconditionally makes the parser a bit smaller, and it avoids a</span></span><br><span class="line"><span class="comment">     GCC warning that YYVAL may be used uninitialized.  */</span></span><br><span class="line">  yyval = yyvsp[<span class="number">1</span>-yylen];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  YY_REDUCE_PRINT (yyn);</span><br><span class="line">  <span class="keyword">switch</span> (yyn)</span><br><span class="line">    &#123;</span><br><span class="line">      </span><br><span class="line"><span class="meta">#<span class="meta-keyword">line</span> 1179 <span class="meta-string">&quot;eg.tab.c&quot;</span> <span class="comment">/* yacc.c:1646  */</span></span></span><br><span class="line">      <span class="keyword">default</span>: <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">/* User semantic actions sometimes alter yychar, and that requires</span></span><br><span class="line"><span class="comment">     that yytoken be updated with the new translation.  We take the</span></span><br><span class="line"><span class="comment">     approach of translating immediately before every use of yytoken.</span></span><br><span class="line"><span class="comment">     One alternative is translating here after every semantic action,</span></span><br><span class="line"><span class="comment">     but that translation would be missed if the semantic action invokes</span></span><br><span class="line"><span class="comment">     YYABORT, YYACCEPT, or YYERROR immediately after altering yychar or</span></span><br><span class="line"><span class="comment">     if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an</span></span><br><span class="line"><span class="comment">     incorrect destructor might then be invoked immediately.  In the</span></span><br><span class="line"><span class="comment">     case of YYERROR or YYBACKUP, subsequent parser actions might lead</span></span><br><span class="line"><span class="comment">     to an incorrect destructor call or verbose syntax error message</span></span><br><span class="line"><span class="comment">     before the lookahead is translated.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;-&gt; $$ =&quot;</span>, yyr1[yyn], &amp;yyval, &amp;yyloc);</span><br><span class="line"></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  yylen = <span class="number">0</span>;</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line"></span><br><span class="line">  *++yyvsp = yyval;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Now &#x27;shift&#x27; the result of the reduction.  Determine what state</span></span><br><span class="line"><span class="comment">     that goes to, based on the state we popped back to and the rule</span></span><br><span class="line"><span class="comment">     number reduced by.  */</span></span><br><span class="line"></span><br><span class="line">  yyn = yyr1[yyn];</span><br><span class="line"></span><br><span class="line">  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;</span><br><span class="line">  <span class="keyword">if</span> (<span class="number">0</span> &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)</span><br><span class="line">    yystate = yytable[yystate];</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    yystate = yydefgoto[yyn - YYNTOKENS];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>然后是三个用来检测error的操作：</p>
-<pre><code class="lang-c">yyerrlab:
-  /* Make sure we have latest lookahead translation.  See comments at
-     user semantic actions for why this is necessary.  */
-  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
-
-  /* If not already recovering from an error, report this error.  */
-  if (!yyerrstatus)
-    &#123;
-      ++yynerrs;
-#if ! YYERROR_VERBOSE
-      yyerror (YY_(&quot;syntax error&quot;));
-#else
-# define YYSYNTAX_ERROR yysyntax_error (&amp;yymsg_alloc, &amp;yymsg, \
-                                        yyssp, yytoken)
-      &#123;
-        char const *yymsgp = YY_(&quot;syntax error&quot;);
-        int yysyntax_error_status;
-        yysyntax_error_status = YYSYNTAX_ERROR;
-        if (yysyntax_error_status == 0)
-          yymsgp = yymsg;
-        else if (yysyntax_error_status == 1)
-          &#123;
-            if (yymsg != yymsgbuf)
-              YYSTACK_FREE (yymsg);
-            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
-            if (!yymsg)
-              &#123;
-                yymsg = yymsgbuf;
-                yymsg_alloc = sizeof yymsgbuf;
-                yysyntax_error_status = 2;
-              &#125;
-            else
-              &#123;
-                yysyntax_error_status = YYSYNTAX_ERROR;
-                yymsgp = yymsg;
-              &#125;
-          &#125;
-        yyerror (yymsgp);
-        if (yysyntax_error_status == 2)
-          goto yyexhaustedlab;
-      &#125;
-# undef YYSYNTAX_ERROR
-#endif
-    &#125;
-
-
-
-  if (yyerrstatus == 3)
-    &#123;
-      /* If just tried and failed to reuse lookahead token after an
-         error, discard it.  */
-
-      if (yychar &lt;= YYEOF)
-        &#123;
-          /* Return failure if at end of input.  */
-          if (yychar == YYEOF)
-            YYABORT;
-        &#125;
-      else
-        &#123;
-          yydestruct (&quot;Error: discarding&quot;,
-                      yytoken, &amp;yylval);
-          yychar = YYEMPTY;
-        &#125;
-    &#125;
-
-  /* Else will try to reuse lookahead token after shifting the error
-     token.  */
-  goto yyerrlab1;
-
-
-/*---------------------------------------------------.
-| yyerrorlab -- error raised explicitly by YYERROR.  |
-`---------------------------------------------------*/
-yyerrorlab:
-
-  /* Pacify compilers like GCC when the user code never invokes
-     YYERROR and the label yyerrorlab therefore never appears in user
-     code.  */
-  if (/*CONSTCOND*/ 0)
-     goto yyerrorlab;
-
-  /* Do not reclaim the symbols of the rule whose action triggered
-     this YYERROR.  */
-  YYPOPSTACK (yylen);
-  yylen = 0;
-  YY_STACK_PRINT (yyss, yyssp);
-  yystate = *yyssp;
-  goto yyerrlab1;
-
-
-/*-------------------------------------------------------------.
-| yyerrlab1 -- common code for both syntax error and YYERROR.  |
-`-------------------------------------------------------------*/
-yyerrlab1:
-  yyerrstatus = 3;      /* Each real token shifted decrements this.  */
-
-  for (;;)
-    &#123;
-      yyn = yypact[yystate];
-      if (!yypact_value_is_default (yyn))
-        &#123;
-          yyn += YYTERROR;
-          if (0 &lt;= yyn &amp;&amp; yyn &lt;= YYLAST &amp;&amp; yycheck[yyn] == YYTERROR)
-            &#123;
-              yyn = yytable[yyn];
-              if (0 &lt; yyn)
-                break;
-            &#125;
-        &#125;
-
-      /* Pop the current state because it cannot handle the error token.  */
-      if (yyssp == yyss)
-        YYABORT;
-
-
-      yydestruct (&quot;Error: popping&quot;,
-                  yystos[yystate], yyvsp);
-      YYPOPSTACK (1);
-      yystate = *yyssp;
-      YY_STACK_PRINT (yyss, yyssp);
-    &#125;
-
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  *++yyvsp = yylval;
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
-
-
-  /* Shift the error token.  */
-  YY_SYMBOL_PRINT (&quot;Shifting&quot;, yystos[yyn], yyvsp, yylsp);
-
-  yystate = yyn;
-  goto yynewstate;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line">yyerrlab:</span><br><span class="line">  <span class="comment">/* Make sure we have latest lookahead translation.  See comments at</span></span><br><span class="line"><span class="comment">     user semantic actions for why this is necessary.  */</span></span><br><span class="line">  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If not already recovering from an error, report this error.  */</span></span><br><span class="line">  <span class="keyword">if</span> (!yyerrstatus)</span><br><span class="line">    &#123;</span><br><span class="line">      ++yynerrs;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> ! YYERROR_VERBOSE</span></span><br><span class="line">      yyerror (YY_(<span class="string">&quot;syntax error&quot;</span>));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> YYSYNTAX_ERROR yysyntax_error (&amp;yymsg_alloc, &amp;yymsg, \</span></span><br><span class="line"><span class="meta">                                        yyssp, yytoken)</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">char</span> <span class="keyword">const</span> *yymsgp = YY_(<span class="string">&quot;syntax error&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> yysyntax_error_status;</span><br><span class="line">        yysyntax_error_status = YYSYNTAX_ERROR;</span><br><span class="line">        <span class="keyword">if</span> (yysyntax_error_status == <span class="number">0</span>)</span><br><span class="line">          yymsgp = yymsg;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (yysyntax_error_status == <span class="number">1</span>)</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="keyword">if</span> (yymsg != yymsgbuf)</span><br><span class="line">              YYSTACK_FREE (yymsg);</span><br><span class="line">            yymsg = (<span class="keyword">char</span> *) YYSTACK_ALLOC (yymsg_alloc);</span><br><span class="line">            <span class="keyword">if</span> (!yymsg)</span><br><span class="line">              &#123;</span><br><span class="line">                yymsg = yymsgbuf;</span><br><span class="line">                yymsg_alloc = <span class="keyword">sizeof</span> yymsgbuf;</span><br><span class="line">                yysyntax_error_status = <span class="number">2</span>;</span><br><span class="line">              &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">              &#123;</span><br><span class="line">                yysyntax_error_status = YYSYNTAX_ERROR;</span><br><span class="line">                yymsgp = yymsg;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        yyerror (yymsgp);</span><br><span class="line">        <span class="keyword">if</span> (yysyntax_error_status == <span class="number">2</span>)</span><br><span class="line">          <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="meta"># <span class="meta-keyword">undef</span> YYSYNTAX_ERROR</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (yyerrstatus == <span class="number">3</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* If just tried and failed to reuse lookahead token after an</span></span><br><span class="line"><span class="comment">         error, discard it.  */</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (yychar &lt;= YYEOF)</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="comment">/* Return failure if at end of input.  */</span></span><br><span class="line">          <span class="keyword">if</span> (yychar == YYEOF)</span><br><span class="line">            YYABORT;</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">          yydestruct (<span class="string">&quot;Error: discarding&quot;</span>,</span><br><span class="line">                      yytoken, &amp;yylval);</span><br><span class="line">          yychar = YYEMPTY;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Else will try to reuse lookahead token after shifting the error</span></span><br><span class="line"><span class="comment">     token.  */</span></span><br><span class="line">  <span class="keyword">goto</span> yyerrlab1;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*---------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyerrorlab -- error raised explicitly by YYERROR.  |</span></span><br><span class="line"><span class="comment">`---------------------------------------------------*/</span></span><br><span class="line">yyerrorlab:</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Pacify compilers like GCC when the user code never invokes</span></span><br><span class="line"><span class="comment">     YYERROR and the label yyerrorlab therefore never appears in user</span></span><br><span class="line"><span class="comment">     code.  */</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="comment">/*CONSTCOND*/</span> <span class="number">0</span>)</span><br><span class="line">     <span class="keyword">goto</span> yyerrorlab;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Do not reclaim the symbols of the rule whose action triggered</span></span><br><span class="line"><span class="comment">     this YYERROR.  */</span></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  yylen = <span class="number">0</span>;</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">  yystate = *yyssp;</span><br><span class="line">  <span class="keyword">goto</span> yyerrlab1;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*-------------------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyerrlab1 -- common code for both syntax error and YYERROR.  |</span></span><br><span class="line"><span class="comment">`-------------------------------------------------------------*/</span></span><br><span class="line">yyerrlab1:</span><br><span class="line">  yyerrstatus = <span class="number">3</span>;      <span class="comment">/* Each real token shifted decrements this.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (;;)</span><br><span class="line">    &#123;</span><br><span class="line">      yyn = yypact[yystate];</span><br><span class="line">      <span class="keyword">if</span> (!yypact_value_is_default (yyn))</span><br><span class="line">        &#123;</span><br><span class="line">          yyn += YYTERROR;</span><br><span class="line">          <span class="keyword">if</span> (<span class="number">0</span> &lt;= yyn &amp;&amp; yyn &lt;= YYLAST &amp;&amp; yycheck[yyn] == YYTERROR)</span><br><span class="line">            &#123;</span><br><span class="line">              yyn = yytable[yyn];</span><br><span class="line">              <span class="keyword">if</span> (<span class="number">0</span> &lt; yyn)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">/* Pop the current state because it cannot handle the error token.  */</span></span><br><span class="line">      <span class="keyword">if</span> (yyssp == yyss)</span><br><span class="line">        YYABORT;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      yydestruct (<span class="string">&quot;Error: popping&quot;</span>,</span><br><span class="line">                  yystos[yystate], yyvsp);</span><br><span class="line">      YYPOPSTACK (<span class="number">1</span>);</span><br><span class="line">      yystate = *yyssp;</span><br><span class="line">      YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN</span><br><span class="line">  *++yyvsp = yylval;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_END</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Shift the error token.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;Shifting&quot;</span>, yystos[yyn], yyvsp, yylsp);</span><br><span class="line"></span><br><span class="line">  yystate = yyn;</span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>然后定义accept，abort，overflow时yyparse()分别返回什么值：</p>
-<pre><code class="lang-c">yyacceptlab:
-  yyresult = 0;
-  goto yyreturn;
-
-/*-----------------------------------.
-| yyabortlab -- YYABORT comes here.  |
-`-----------------------------------*/
-yyabortlab:
-  yyresult = 1;
-  goto yyreturn;
-
-#if !defined yyoverflow || YYERROR_VERBOSE
-/*-------------------------------------------------.
-| yyexhaustedlab -- memory exhaustion comes here.  |
-`-------------------------------------------------*/
-yyexhaustedlab:
-  yyerror (YY_(&quot;memory exhausted&quot;));
-  yyresult = 2;
-  /* Fall through.  */
-#endif
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">yyacceptlab:</span><br><span class="line">  yyresult = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">goto</span> yyreturn;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*-----------------------------------.</span></span><br><span class="line"><span class="comment">| yyabortlab -- YYABORT comes here.  |</span></span><br><span class="line"><span class="comment">`-----------------------------------*/</span></span><br><span class="line">yyabortlab:</span><br><span class="line">  yyresult = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">goto</span> yyreturn;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !defined yyoverflow || YYERROR_VERBOSE</span></span><br><span class="line"><span class="comment">/*-------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyexhaustedlab -- memory exhaustion comes here.  |</span></span><br><span class="line"><span class="comment">`-------------------------------------------------*/</span></span><br><span class="line">yyexhaustedlab:</span><br><span class="line">  yyerror (YY_(<span class="string">&quot;memory exhausted&quot;</span>));</span><br><span class="line">  yyresult = <span class="number">2</span>;</span><br><span class="line">  <span class="comment">/* Fall through.  */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>最后一步：yyreturn，返回时清空stack，error message的buf：</p>
-<pre><code class="lang-c">yyreturn:
-  if (yychar != YYEMPTY)
-    &#123;
-      /* Make sure we have latest lookahead translation.  See comments at
-         user semantic actions for why this is necessary.  */
-      yytoken = YYTRANSLATE (yychar);
-      yydestruct (&quot;Cleanup: discarding lookahead&quot;,
-                  yytoken, &amp;yylval);
-    &#125;
-  /* Do not reclaim the symbols of the rule whose action triggered
-     this YYABORT or YYACCEPT.  */
-  YYPOPSTACK (yylen);
-  YY_STACK_PRINT (yyss, yyssp);
-  while (yyssp != yyss)
-    &#123;
-      yydestruct (&quot;Cleanup: popping&quot;,
-                  yystos[*yyssp], yyvsp);
-      YYPOPSTACK (1);
-    &#125;
-#ifndef yyoverflow
-  if (yyss != yyssa)
-    YYSTACK_FREE (yyss);
-#endif
-#if YYERROR_VERBOSE
-  if (yymsg != yymsgbuf)
-    YYSTACK_FREE (yymsg);
-#endif
-  return yyresult;
-&#125;
-</code></pre>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">yyreturn:</span><br><span class="line">  <span class="keyword">if</span> (yychar != YYEMPTY)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* Make sure we have latest lookahead translation.  See comments at</span></span><br><span class="line"><span class="comment">         user semantic actions for why this is necessary.  */</span></span><br><span class="line">      yytoken = YYTRANSLATE (yychar);</span><br><span class="line">      yydestruct (<span class="string">&quot;Cleanup: discarding lookahead&quot;</span>,</span><br><span class="line">                  yytoken, &amp;yylval);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">/* Do not reclaim the symbols of the rule whose action triggered</span></span><br><span class="line"><span class="comment">     this YYABORT or YYACCEPT.  */</span></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">  <span class="keyword">while</span> (yyssp != yyss)</span><br><span class="line">    &#123;</span><br><span class="line">      yydestruct (<span class="string">&quot;Cleanup: popping&quot;</span>,</span><br><span class="line">                  yystos[*yyssp], yyvsp);</span><br><span class="line">      YYPOPSTACK (<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> yyoverflow</span></span><br><span class="line">  <span class="keyword">if</span> (yyss != yyssa)</span><br><span class="line">    YYSTACK_FREE (yyss);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> YYERROR_VERBOSE</span></span><br><span class="line">  <span class="keyword">if</span> (yymsg != yymsgbuf)</span><br><span class="line">    YYSTACK_FREE (yymsg);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="keyword">return</span> yyresult;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
             
         </article>
     </div>
@@ -1590,31 +894,12 @@ yyexhaustedlab:
 </div>
 <p>正如你所看到的,代码审计在很多情况下都适用. 尽管具备这些技能的人员的需求大，但是，很少有专业人员具有高水平执行这些审计的培训和经验。我们希望这本书能帮助填补这一空白。</p>
 <h5 id="审计与黑盒测试"><a href="#审计与黑盒测试" class="headerlink" title="审计与黑盒测试"></a>审计与黑盒测试</h5><p><strong>黑盒测试</strong>(black box testing)是一种只通过操作软件所给的接口来评估软件的方法.特别地,这个过程更倾向于给一些精心设计的输入,这些输入能够让应用程序产生一些期望之外的结果,比如宕机或者暴露敏感数据.例如对一个 HTTP 服务器进行黑盒测试时可以向它发出一个字段大小异常大请求,这种请求可能造成内存崩溃的 bug(在第五章”内存崩溃”我们会详细讨论).这个测试的请求可以是合法的,例如下面的内容:</p>
-<pre><code class="lang-c">GET AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAA HTTP/1.0
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAA HTTP/<span class="number">1.0</span></span><br></pre></td></tr></table></figure>
 <p>或者它也可以是非法请求,就像这样:</p>
-<pre><code class="lang-c">GET / AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAA/1.0
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET / AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAA/<span class="number">1.0</span></span><br></pre></td></tr></table></figure>
 <p>任何这种请求导致的宕机都说明这个应用程序存在严重的 bug.当考虑可以使用自动化测试应用程序的工具时,黑盒测试更有吸引力.这种自动化的黑盒测试被称为模糊测试(fuzz-testing). 而模糊测试工具包括通用的“dumb”和协议感知的“智能”fuzzer.因此你不需要手动地去尝试所有你可能想象的到的情况,你只要根据自己的设计运行这个这个工具然后收集结果就可以了.</p>
 <p>黑盒测试的好处就是快,能迅速得到测试结果.然而,黑盒测试有几个非常关键的缺点.本质上说,黑盒测试就是丢一堆数据给应用程序然后看看他是不是做了一些设计者不想让他做的事情.你不知道这个过程中程序是如何处理数据的,所以有大量的不接触这些数据的代码你并没有进行探究.例如,回到这个 web 服务器的例子,假设请求的查询字符串中存在特定的关键词时它会具有特定的内部功能,就像下面的代码一样:请注意加粗的代码行(_Markdown 代码块好像无法加粗,注意最后一个 if 语句即可 — by 译者_):</p>
-<pre><code class="lang-c">struct keyval &#123;
-    char *key;
-    char *value;
-&#125;;
-int handle_query_string(char *query_string)&#123;
-    struct keyval *qstring_values, *ent;
-    char buf[1024];
-    if(!query_string)
-        return 0;
-    qstring_values = split_keyvalue_pairs(query_string);
-    if((ent = find_entry(qstring_values, &quot;mode&quot;)) != NULL)
-    &#123;
-        sprintf(buf, &quot;MODE=%s&quot;, ent-&gt;value);
-        putenv(buf);
-    &#125;
-    ... more stuff here ...
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">keyval</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> *key;</span><br><span class="line">    <span class="keyword">char</span> *value;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">handle_query_string</span><span class="params">(<span class="keyword">char</span> *query_string)</span></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">keyval</span> *<span class="title">qstring_values</span>, *<span class="title">ent</span>;</span></span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">if</span>(!query_string)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    qstring_values = split_keyvalue_pairs(query_string);</span><br><span class="line">    <span class="keyword">if</span>((ent = find_entry(qstring_values, <span class="string">&quot;mode&quot;</span>)) != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(buf, <span class="string">&quot;MODE=%s&quot;</span>, ent-&gt;value);</span><br><span class="line">        putenv(buf);</span><br><span class="line">    &#125;</span><br><span class="line">    ... more stuff here ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个 web 服务器有一个特殊的不规范的行为:如果查询字符串中含有 <code>mode=</code>,那么环境变量<code>MODE</code>就会被修改为<code>xxx</code>.这个特别的行为在实现上有一个缺陷,如果粗心地使用函数<code>sprintf()</code>就会造成缓冲区溢出.如果你不清楚为什么这段代码很危险,不必担心,缓冲区溢出漏洞会在第五章详细讨论.</p>
 <p>从这个例子可以看出段存在 bug 的代码在黑盒测试中完全可能正常运行，简单的漏洞也无法探测出来。因此，你需要对程序代码本身进行评估而不是只靠跑几个测试例子然后记录结果就行。这也是代码审计很重要的原因。你需要能够分析代码然后发现自动测试工具无法探测到的漏洞。</p>
 <p>幸运的是，代码审计配合黑盒测试能够利用最少的时间得到最好的修补漏洞的结果。这本书将会教会你这些知识和技术来彻底地分析一个应用程序方方面面的漏洞以及怎样应用你对这些知识的理解和创造力来发现一个应用程序的缺陷。</p>
@@ -1726,25 +1011,7 @@ int handle_query_string(char *query_string)&#123;
 <p>因为运行时栈是程序运行不可分割的一部分 ，因此它们在CPU的帮助下实现而不是通过纯净的软件抽象。处理器通常有专门用来指向栈顶的寄存器，这些寄存器用机器指令<code>push()</code>和<code>pop()</code>来对栈进行修改。在因特尔x86 CPU中，这个指针叫ESP（ESP表示扩展堆栈指针，extended stack pointer）。</p>
 <p>在几乎所有现代CPU中，栈都是向下生长的，也就是说栈通常在虚拟内存的一个高地址开始，然后顺着低地址生长。一个<code>push</code>操作让栈指针减去固定值，然后栈指针就移动到了更低的进程内存。相应的，<code>pop</code>操作让栈指针加一个固定值将它移动到更高位置的内存。</p>
 <p>每当函数被调用时，程序都会创建一个新的栈区， 它只是一个保留的连续内存块，用于存储本地变量和内部状态信息。 函数在它返回之前就使用这一段内存，在返回之后，它会被移出栈。为了了解这个过程，考虑以下程序：</p>
-<pre><code class="lang-c">int function_B(int a, int b)&#123;
-    int x,y;
-    x = a * a;
-    y = b * b;
-    return (x+y);
-&#125;
-
-int function_A(int p, int q)&#123;
-    int c;
-    c = p * q * function_B(p, p);
-    return c;
-&#125;
-
-int main(int argc, char **argv, char **envp)&#123;
-    int ret;
-    ret = function_A(1, 2);
-    return ret;
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">function_B</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x,y;</span><br><span class="line">    x = a * a;</span><br><span class="line">    y = b * b;</span><br><span class="line">    <span class="keyword">return</span> (x+y);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">function_A</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> q)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> c;</span><br><span class="line">    c = p * q * function_B(p, p);</span><br><span class="line">    <span class="keyword">return</span> c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> **argv, <span class="keyword">char</span> **envp)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> ret;</span><br><span class="line">    ret = function_A(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">    <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>当<code>function_A()</code>调用时，一个新的栈会被分配出来然后放置在堆栈的顶部，如图5-1所示。</p>
 <p>这张图只是程序栈的一个简化版本，但你可以看到<code>main()</code>函数栈的布局中调用了<code>function_A()</code>.</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-1.png" alt="5-1" class="lazyload"></p>
@@ -1760,26 +1027,14 @@ int main(int argc, char **argv, char **envp)&#123;
 <p>语言特性也可以造成不同的调用约定。一个典型的例子就是要求访问类实例的<code>this</code>指针的C++类成员函数。在windows x86系统中，<code>this</code>指针会被传入ECX寄存器中传递给具有固定数量参数的函数。相反，在GCC C++编译器中会将<code>this</code>指针当作函数最后一个变量将它push到栈中。</p>
 <p>栈指针也必须被恢复到它以前的状态，但这个过程不是隐式的，被调用的函数必须在返回前重置栈指针到正确的位置。这个过程时必须的，因为储存的帧指针以及返回的地址会从栈顶被恢复。通过使用隐式使用栈指针的<code>pop</code>指令，帧指针能够被恢复。用于从函数返回的<code>ret</code>指令也隐式地使用ESP寄存器获取返回地址。</p>
 <p>每个函数会分配自己的栈段，因此，它们需储存自己的段指针。下面这段代码显示了在Intel机器中函数在开头是怎样储存自己的栈段指针的。</p>
-<pre><code class="lang-assembly">text:5B891A50        mov edi, edi
-text:5B891A52         push ebp
-text:5B891A53        mov ebp, esp
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text:5B891A50		mov edi, edi</span><br><span class="line">text:5B891A52 		push ebp</span><br><span class="line">text:5B891A53		mov ebp, esp</span><br></pre></td></tr></table></figure>
 <p>这段函数开头的代码并不要求调用者具体地将返回地址push到栈中，这个过程会被<code>call</code>指令完成。因此当<code>function_B()</code>被调用时栈地布局会如图5-3所示。</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-3.png" alt="5-3" class="lazyload"></p>
 <h6 id="注-4"><a href="#注-4" class="headerlink" title="注"></a>注</h6><p>你可能注意到了在上面那段代码中一个看起来没有用的指令<code>(mov edi, edi)</code>。这个指令只是一个占位符，添加它时为了简化系统监视和debug。</p>
 <h5 id="利用栈溢出"><a href="#利用栈溢出" class="headerlink" title="利用栈溢出"></a>利用栈溢出</h5><p>如你所见，局部变量非常接近彼此。事实上，它们被安排在了连续的内存中。因此如果一个程序有这样一个漏洞，它允许数据将数据写入到本地栈缓冲区末尾之后的地方，那么与数据相邻的变量就会被重写。这些相邻的变量可以包括其他的局部变量，程序状态信息，甚至函数参数。取决于有多少个字节能够被写入，攻击者能够在前面的栈段中损坏变量以及状态信息。</p>
 <h6 id="注-5"><a href="#注-5" class="headerlink" title="注"></a>注</h6><p>编译器有时会在一个变量和下一个变量之间添加填充，这取决于优化级别异界变量大小等多个因素。出于讨论目的，可以将变量视为连续的。</p>
 <p>我们来考虑一个简单的写入覆盖局部变量的情况。写入一个局部变量的危险性就是你可以任意更改一个应用不想让你更改的变量的值。状态的变化通常也可以造成你不想要的后果。考虑以下代码：</p>
-<pre><code class="lang-c">int authenticate(char *username, char *password)&#123;
-    int authenticated;char buffer[1024];
-    authenticated = verify_password(username, password);
-    if(authenticated == 0)&#123;
-        sprintf(buffer,&quot;password is incorrect for user %s\n&quot;,username);
-        log(&quot;%s&quot;, buffer);
-    &#125;
-    return authenticated;
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">authenticate</span><span class="params">(<span class="keyword">char</span> *username, <span class="keyword">char</span> *password)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> authenticated;<span class="keyword">char</span> buffer[<span class="number">1024</span>];</span><br><span class="line">    authenticated = verify_password(username, password);</span><br><span class="line">    <span class="keyword">if</span>(authenticated == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(buffer,<span class="string">&quot;password is incorrect for user %s\n&quot;</span>,username);</span><br><span class="line">        <span class="built_in">log</span>(<span class="string">&quot;%s&quot;</span>, buffer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> authenticated;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>假设用来验证的变量位于栈段的顶部，将其放置在比buffer变量更高的内存位置。函数栈就像图5-4那样</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-4.png" alt="5-4" class="lazyload"></p>
 <h6 id="注-6"><a href="#注-6" class="headerlink" title="注"></a>注</h6><p>图5-4展现了代码可能的布局。然而你不能从源代码中推断出变量在栈段中是怎样分布的。为了优化性能，编译器可以（通常也会这样做）重新布局变量。</p>
@@ -1800,22 +1055,10 @@ text:5B891A53        mov ebp, esp
 <p>当异常发生时，这些记录将从最近注册的处理程序遍历到第一个处理程序。在每一层中，处理程序都运行决定当前抛出的异常是否合适。（这个说明有点过于简化了，但有一篇很好的文章描述了这一过程，见： www.microsoft.com/msj/0197/exception/exception.aspx.）因此，如果攻击者能够通过任何方法触发溢出，然后触发任何类型的异常，检查这些异常注册结构时，异常处理程序会定位到每个调用的结构直到找到其中合适的哪一个。因为它们是被攻击者损坏过的栈，程序就会跳转到攻击者选择的地址。当能够造成大量数据溢出缓冲区时，攻击者就可以复制整个栈区，在栈基指针被修改时导致异常抛出。然后应用程序在栈上使用被损坏的SEH信息然后跳跃到任意地址，这个过程见图5-8：</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-8.png" alt="5-8" class="lazyload"></p>
 <h5 id="单字节溢出-Off-by-One-Errors"><a href="#单字节溢出-Off-by-One-Errors" class="headerlink" title="单字节溢出(Off-by-One Errors)"></a>单字节溢出(Off-by-One Errors)</h5><p>内存损坏经常会由算错了数组的长度造成。其中最常见的错误就是单字节溢出一错误，即算错了数组1个单位的长度。这种错误最典型的原因就是没用考虑终止符号或者错误地理解了数组索引的工作方式。考虑下面的例子：</p>
-<pre><code class="lang-c">...
-void process_string(char *src)&#123;
-    char dest[32];
-    for (i = 0; src[i] &amp;&amp; (i &lt;= sizeof(dest)); i++)
-        dest[i] = src[i];
-...
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process_string</span><span class="params">(<span class="keyword">char</span> *src)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> dest[<span class="number">32</span>];</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; src[i] &amp;&amp; (i &lt;= <span class="keyword">sizeof</span>(dest)); i++)</span><br><span class="line">        dest[i] = src[i];</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p><code>process_string()</code>函数一开始从变量<code>src</code>读入一定数量的字符然后将它们存入栈中的缓冲区<code>dest</code>。这份代码想要防止在<code>src</code>大于32个字符时产生缓冲区溢出。然而这里面有一个简单的问题：这个过程可以从<code>dest</code>写入超过边界1个单位的元素。数组索引从0开始，到<code>sizeof(array)-1</code>结束，所以一个长度为32的数组应该从0到31进行索引。上面代码的过程会越过<code>dest</code>的末尾，因为控制循环的语句是<code>(i&lt;= sizeof(dest))</code>，但正确的情况应该是<code>(i&lt; sizeof(dest))</code>。在这份有漏洞的代码中如果<code>i</code>增加到32时，就会越过长度的检查，程序就会将<code>dest[32]</code>设置为<code>src[32]</code>。</p>
 <p>这种类型的问题重复地出现在C语言的字符串中。C字符串在要求为每个字符提供存储空间时还会额外加上一个空字节用来存储终止符。这个空字节经常没有被正确地考虑进来，因此就造成了难以被察觉的单字节溢出一错误，就像下面这份代码一样：</p>
-<pre><code class="lang-c">int get_user(char *user)&#123;
-    char buf[1024];
-    if(strlen(user) &gt; sizeof(buf))
-        die(&quot;error: user string too long\n&quot;);strcpy(buf, user);
-    ...
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_user</span><span class="params">(<span class="keyword">char</span> *user)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">strlen</span>(user) &gt; <span class="keyword">sizeof</span>(buf))</span><br><span class="line">        die(<span class="string">&quot;error: user string too long\n&quot;</span>);<span class="built_in">strcpy</span>(buf, user);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这份代码使用<code>strlen()</code>函数来检查是否有足够的空间来将用户名复制到缓冲区中。<code>strlen()</code>函数返回C字符串的长度，但没有考虑终止符所占的空间。所以一个<code>strlen()</code>返回长度1024的字符串实际上占用了1025个字节的内存。在<code>get_user()</code>函数中，如果<code>user</code>字符串正好是1024个字符，<code>strlen()</code>返回1024，<code>sizeof()</code>返回1024，长度检查通过，于是<code>strcpy()</code>函数写入1024个字节的数据再加上一个字节的空字符，导致<code>buf</code>中被多写入了一个字节。</p>
 <p>你可能觉得单字节溢出一错误很罕见，就算发生，也很难被利用。然而，再Intel x86架构机器上运行的操作系统上，这种错误往往是可以被利用的，因为你至少可以向存储在栈上的帧指针写入至少一个字节的数据。在程序执行的课程上你就知道，每个函数都会分配一个栈帧指针用于局部变量的存储。这个被叫做帧指针或者基址指针的地址由寄存器 EBP 来存储。在函数开始运行前，程序会将旧的基址指针存入返回地址相邻的栈中。如果在一个正好位于基址指针存储位置之下的缓冲区引发了单字节溢出一错误，空字节被写入了缓冲区末尾之后，就会导致至少一个字节写入了保存后的基址指针。这就意味着当函数返回时基址指针至少会出现255个字节的跳转错误，就像图5-9显示的这样。</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-9.png" alt="5-9" class="lazyload"></p>
@@ -1841,14 +1084,7 @@ void process_string(char *src)&#123;
 <li>当unlink操作执行后，一个由攻击者提供的，一定长度的值就被攻击者写入他们决定的内存位置上</li>
 </ul>
 <p>为了理解为什么将两个块unlink能够导致任意地址被改写，考虑下面的在双向链表中用来unlink一个元素的代码：</p>
-<pre><code class="lang-c">int unlink(ListElement *element)&#123;
-    ListElement *next = element-&gt;next;
-    ListElement *prev = element-&gt;prev;
-    next-&gt;prev = prev;
-    prev-&gt;next = next;
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">unlink</span><span class="params">(ListElement *element)</span></span>&#123;</span><br><span class="line">    ListElement *next = element-&gt;next;</span><br><span class="line">    ListElement *prev = element-&gt;prev;</span><br><span class="line">    next-&gt;prev = prev;</span><br><span class="line">    prev-&gt;next = next;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个代码通过更新相邻两个链表元素的指针，移出对当前元素的引用来移出元素。如果你可以修改 <code>element-&gt;next</code> 和 <code>element-&gt;prev</code>的值，你就能看到这份代码不经意地将任意地址的值修改为了你可以控制的值。这个过程在图5-11 unlink前和图5-12 unlink后可以显示：</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/5-11_12.png" alt="5-11_12" class="lazyload"></p>
 <p>能够向任意内存位置写入可控制的值通常就是攻击者能够得到进程控制权所有需要的前提。许多有用的值都可以让攻击者利用。一些比较常见的目标在下面列出：</p>
@@ -1862,9 +1098,7 @@ void process_string(char *src)&#123;
 <h5 id="全局和静态数据溢出"><a href="#全局和静态数据溢出" class="headerlink" title="全局和静态数据溢出"></a>全局和静态数据溢出</h5><p>全局和静态变量用于存储在不同函数调用之间持久存在的数据，因此他们通常存储在不同于栈和堆的内存段中。通常，这些位置不含有广义的程序运行时的数据结构，例如栈激活记录或者堆块数据，因此在这个段中的漏洞利用要求和单字节溢出一错误差不多，应用于特定程序。可利用程度取决于什么样的变量能在缓冲区溢出发生时够被损坏以及这些变量如何被使用。例如，如果一个指针变量能够被损坏，可利用的几率就增加了，因为这个被损坏的变量能够有概率向任意位置进行写入。</p>
 <h4 id="7-1-3-Shellcode"><a href="#7-1-3-Shellcode" class="headerlink" title="7.1.3 Shellcode"></a>7.1.3 Shellcode</h4><p>缓冲区溢出通常是通过将执行定向到内存中存储攻击者控制数据的已知位置来利用的。为了成功利用，该位置必须包含允许攻击者执行恶意活动的可执行机器代码。这是通过构造用于启动shell、连接回原始用户或执行攻击者选择的任何操作的一小段机器码来实现的。在撰写本文时,shellcode构造中最常见的趋势是使用能够根据需要在连接的套接字上加载额外组件的存根，这是另一端的攻击者所需要的。</p>
 <h5 id="写code"><a href="#写code" class="headerlink" title="写code"></a>写code</h5><p>在最基本的层次上，shellcode是一小块位置无关的代码，它使用系统api来实现你您的目标。要了解这是如何做到的，请考虑在UNIX中生成shell的简单情况。在本例中，要运行的代码大致如下 ：</p>
-<pre><code class="lang-c">char *args[] = &#123; &quot;/bin/sh&quot;, NULL &#125;;
-execve(&quot;/bin/sh&quot;, args, NULL);
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *args[] = &#123; <span class="string">&quot;/bin/sh&quot;</span>, <span class="literal">NULL</span> &#125;;</span><br><span class="line">execve(<span class="string">&quot;/bin/sh&quot;</span>, args, <span class="literal">NULL</span>);</span><br></pre></td></tr></table></figure>
 <p>这个简单的代码在运行时生成一个command shell。如果此代码在网络服务中运行，则需要在stdin、stdout和可选的stderr上复制用户连接的套接字描述符。</p>
 <p>要构造生成shell所需的机器码，你需要在较低的层次上理解这些代码是如何工作的。<code>execve()</code>函数由标准C库导出，因此普通程序首先在加载器的帮助下找到libc <code>execve()</code>实现，然后调用它。由于这种功能很难在适当大小的shellcode中复制，所以通常需要寻找一种更简单的解决方案。事实证明，<code>execve()</code>也是UNIX系统上的系统调用，libc函数所做的只是执行系统调用。</p>
 <p>在基于intel的操作系统上调用system call通常涉及构建参数列表(在寄存器或堆栈中，这取决于操作系统)，然后请求内核代表进程执行系统调用。这可以通过多种方法来实现。对于Intel系统，系统调用功能可以依赖于一个软件中断，由<code>int</code>指令发起;呼叫门用lcall调用;或特殊用途的机器支持，如<code>sysenter</code>。对于Linux和许多BSD变体，<code>int 128</code>中断是为系统调用保留的。当这个中断生成时，内核会处理它，确定进程需要执行一些系统功能，并执行请求的任务。Linux系统的程序如下:</p>
@@ -1874,37 +1108,13 @@ execve(&quot;/bin/sh&quot;, args, NULL);
 <li>使用<code>int 128</code>指令执行system call</li>
 </ol>
 <p>汇编代码一开始会像这样：</p>
-<pre><code class="lang-assembly">xorl %eax, %eax ; zero out EAX
-movl %eax, %edx ; EDX = envp = NULL
-movl $address_of_shell_string, %ebx; EBX = path parameter
-movl $address_of_argv, %ecx; ECX = argv
-movb $0x0b ; syscall number for execve()
-int $0x80 ; invoke the system call
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">xorl %eax, %eax ; zero out EAX</span><br><span class="line">movl %eax, %edx ; EDX = envp = NULL</span><br><span class="line">movl $address_of_shell_string, %ebx; EBX = path parameter</span><br><span class="line">movl $address_of_argv, %ecx; ECX = argv</span><br><span class="line">movb $0x0b ; syscall number for execve()</span><br><span class="line">int $0x80 ; invoke the system call</span><br></pre></td></tr></table></figure>
 <p>当你创建shellcode时，你需要的几乎所有功能都由一系列system call组成，并遵循这里给出的基本原则。在Windows中，system call number在操作系统版本中是不一致的，因此大多数Windows shellcode加载系统库并调用这些库中的函数。一个名为“谵语的最后阶段”(Last Stage of Delirium，LSD)的黑客组织在www.lsd-pl.net/projects/winasm.zip上记录了编写大多数现代Windows shellcode的基础。</p>
 <h5 id="在内存中找到你的代码"><a href="#在内存中找到你的代码" class="headerlink" title="在内存中找到你的代码"></a>在内存中找到你的代码</h5><p>所构造的机器码段必须是位置独立的，也就是说，无论它们在内存中的位置如何，它们都必须能够成功运行。要理解为什么这很重要，请考虑上一节中的示例;你需要提供参数数组向量的地址和<code>pathname</code>参数的字符串<code>&quot;/bin/sh&quot;</code>的地址。通过使用绝对地址，你在很大程度上限制了shell代码的可靠性，并且需要针对你编写的每个漏洞修改它。因此，你应该有一种动态确定这些地址的方法，而与代码运行的进程环境无关。</p>
 <p>通常，在Intel x86 cpu上，shellcode所需要的字符串或数据是与代码一起提供的，它们的地址是独立计算的。要理解这是如何工作的，请考虑调用指令的语义。这个函数隐式地在堆栈上保存一个返回地址;它是调用指令后的第一个字节的地址。因此，通常使用以下格式构造shellcode:</p>
-<pre><code class="lang-assembly">jmp end
-code:
-... shellcode ...
-end:
-call code
-.string &quot;/bin/sh&quot;
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jmp end</span><br><span class="line">code:</span><br><span class="line">... shellcode ...</span><br><span class="line">end:</span><br><span class="line">call code</span><br><span class="line">.string &quot;/bin/sh&quot;</span><br></pre></td></tr></table></figure>
 <p>这个示例跳到代码的末尾，然后使用call运行直接位于<code>jmp</code>指令之后的代码。这种间接的意义是什么?基本上，你将字符串<code>&quot;/bin/sh&quot;</code>的相对地址定位在堆栈上，因为调用指令隐式地将返回地址推入堆栈。因此，无论shellcode位于目标应用程序中的何处，都可以自动计算<code>“/bin/sh”</code>的地址。结合上面的信息，<code>execve()</code> shellcode看起来像这样:</p>
-<pre><code class="lang-assembly">jmp end
-code:
-popl %ebx ; EBX = pathname argument
-xorl %eax, %eax ; zero out EAX
-movl %eax, %edx ; EDX = envp
-pushl %eax ; put NULL in argv array
-pushl %ebx ; put &quot;/bin/sh&quot; in argv array
-movl %esp, %ecx ; ECX = argv
-movb $0x0b, %al ; 0x0b = execve() system call
-int $0x80 ; system call
-call code
-.string &quot;/bin/sh&quot;
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">jmp end</span><br><span class="line">code:</span><br><span class="line">popl %ebx ; EBX = pathname argument</span><br><span class="line">xorl %eax, %eax ; zero out EAX</span><br><span class="line">movl %eax, %edx ; EDX = envp</span><br><span class="line">pushl %eax ; put NULL in argv array</span><br><span class="line">pushl %ebx ; put &quot;/bin/sh&quot; in argv array</span><br><span class="line">movl %esp, %ecx ; ECX = argv</span><br><span class="line">movb $0x0b, %al ; 0x0b = execve() system call</span><br><span class="line">int $0x80 ; system call</span><br><span class="line">call code</span><br><span class="line">.string &quot;/bin/sh&quot;</span><br></pre></td></tr></table></figure>
 <p>如你所见，启动shell的代码相当简单;你只需分别用<code>pathname</code>、<code>argv</code>和<code>envp</code>填充<code>EBX</code>、<code>ECX</code>和<code>EDX</code>，然后调用一个system call。这个示例是一个简单的shellcode片段，但是更复杂的shellcode基于相同的原则。</p>
 <h4 id="7-1-4-保护机制"><a href="#7-1-4-保护机制" class="headerlink" title="7.1.4 保护机制"></a>7.1.4 保护机制</h4><p>到目前为止所涵盖的基础知识代表了一些当代系统的可行的开发技术，但是安全前景正在迅速变化。现代操作系统通常包括预防技术，使其难以利用缓冲区溢出。这些技术通常会减少攻击者利用漏洞的机会，或者至少减少构建程序可靠地利用目标主机上的漏洞的机会。</p>
 <p>第三章“操作审查”，从高级操作的角度讨论了这些技术中。本节以第三章的内容，侧重于常见的反内存损坏保护的技术细节，并解决这些机制中潜在的和真正的弱点。本讨论并不是对保护机制的全面研究，但确实涉及了最常用的保护机制 。（第三章我没有翻译 — by译者）</p>
@@ -1957,16 +1167,7 @@ call code
 <p>因此，大多数审计员认为软件供应商应该将所有问题视为高优先级;毕竟，为什么供应商不希望他们的代码尽可能安全，而不尽快修复问题呢?事实上，修复软件缺陷总是要付出代价的，包括开发人员时间、补丁部署成本以及可能的产品召回或重新发布。例如，考虑一下向广泛部署的嵌入式系统(如智能卡或手机)发布漏洞更新的成本。更新这些嵌入式系统通常需要硬件修改或由合格技术人员进行其他干预。如果一个公司没有合理地预期漏洞会被利用，那么它就会不负责任地承担与更新相关的成本。</p>
 <h5 id="缓冲区位于内存的哪个地方？"><a href="#缓冲区位于内存的哪个地方？" class="headerlink" title="缓冲区位于内存的哪个地方？"></a>缓冲区位于内存的哪个地方？</h5><p>缓冲区在内存的位置非常重要，它影响了攻击者做出什么样的选择去获得进程的控制权。变量通常存储在三个内存的位置：栈，堆和不变数据(persistent data)，包括静态和全局变量。然而，不同的操作系统常常将这些地区再进行分段或者添加新的地区。初始化的和未初始化的全局数据会有所不同(未初始化的全局变量在数据区中只有一个placeholder，初始化的全局变量会占一定内存空间—by译者)，或者操作系统会将线程本地存储(thread local storage, TLS)放置在一个特定的位置。并且，共享库还会有它专门的初始化和未初始化的数据在程序代码运行后迅速映射到进程内存中。当在确定可利用性时，你需要跟踪发生内存损坏的位置以及应用特定的注意事项。这项任务可能包括进行一些额外的研究，以了解特定操作系统的进程内存布局</p>
 <h5 id="哪些其他的数据会被覆盖重写？"><a href="#哪些其他的数据会被覆盖重写？" class="headerlink" title="哪些其他的数据会被覆盖重写？"></a>哪些其他的数据会被覆盖重写？</h5><p>内存损坏可能不能仅与攻击者所针对的变量有关。它还可以覆盖可能使开发过程复杂化的其他变量。当试图利用进程栈上的损坏时，通常会发生这种情况。你已经知道，通过覆盖保存的程序计数器，栈段中的漏洞经常被利用。然而，它并不总是那么直接;攻击者通常会在重写保存的程序计数器之前先重写本地变量，这可能会使利用程序变得复杂，例如下面的代码：</p>
-<pre><code class="lang-c">int dostuff(char *login)&#123;
-    char *ptr = (char *)malloc(1024);
-    char buf[1024];
-    ...
-    strcpy(buf, login);
-    ...
-    free(ptr);
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">dostuff</span><span class="params">(<span class="keyword">char</span> *login)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> *ptr = (<span class="keyword">char</span> *)<span class="built_in">malloc</span>(<span class="number">1024</span>);</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">1024</span>];</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">strcpy</span>(buf, login);</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">free</span>(ptr);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个例子有一个很小的问题：尽管攻击者可以覆盖保存的程序计数器，但它们也会覆盖<code>ptr</code>变量，让它在函数返回前就被释放。这意味着攻击者必须将<code>ptr</code>覆盖成一个内存中合法位置的值并且不会在<code>free()</code>调用前导致程序崩溃。尽管这个方法让攻击者可能利用对<code>free()</code>的调用，但这就让漏洞利用的方法比简单的计数器覆盖要更加复杂，特别是当在内存静态区域中没有用户控制的数据时。</p>
 <p>在评估缓冲区溢出漏洞的风险时，要特别注意溢出路径中可以减少利用尝试的任何变量。另外，请记住编译器可能会在编译期间重新排序变量的布局，因此你可能需要检查二进制文件以确认可利用性。</p>
 <h6 id="注-10"><a href="#注-10" class="headerlink" title="注"></a>注</h6><p>有时需要多个函数返回才能利用错误。例如，由于Sun SPARC cpu注册窗口的工作方式，运行在Sun SPARC cpu上的操作系统经常需要两个函数返回。</p>
@@ -1976,47 +1177,10 @@ call code
 <p>此外，一些错误可能导致对内存中任意位置的多次写操作。尽管通常只能执行一次覆盖，但如果可以执行多次覆盖，攻击者在选择如何利用脆弱的程序时就有更大的优势。例如，对于格式化字符串漏洞，攻击者通常可以任意写入任意位置，这增加了成功利用的可能性。</p>
 <h6 id="注-11"><a href="#注-11" class="headerlink" title="注"></a>注</h6><p>有时，1到2字节的覆盖比4字节的覆盖更容易被利用。例如，假设你覆盖了一个指向一个对象的指针，该对象由几个指针和一个带有你控制的数据的缓冲区组成。在这种情况下，可以覆盖指针值的最低有效字节，以便指向对象中的数据缓冲区而不是对象本身。你可以任意更改任何对象属性的状态，并可能相当可靠地利用该缺陷。</p>
 <h5 id="什么样的数据能够用来损坏内存？"><a href="#什么样的数据能够用来损坏内存？" class="headerlink" title="什么样的数据能够用来损坏内存？"></a>什么样的数据能够用来损坏内存？</h5><p>一些内存损坏漏洞不允许直接控制用于覆盖内存的数据。可能会根据使用方式对数据进行限制，如字符限制、单字节覆盖或对攻击者能延展的(attaker-malleable)<code>memset()</code>的调用。下面是一个漏洞示例，其中内存被攻击者无法控制的数据覆盖。</p>
-<pre><code class="lang-c">int process_string(char *string)&#123;
-    char **tokens, *ptr;
-    int tokencount;
-    tokens = (char **)calloc(64, sizeof(char *));
-    if(!tokens)
-        return -1;
-    for(ptr = string; *ptr;)&#123;
-        int c;
-        for(end = ptr; *end &amp;&amp; !isspace(end); end++);
-        c = *end;
-        *end = &#39;\0&#39;;       
-        tokens[tokencount++] = ptr; //这一行是粗体 --by译者
-        ptr = (c == 0 ? end : end + 1);
-&#125;
-...
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">process_string</span><span class="params">(<span class="keyword">char</span> *<span class="built_in">string</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> **tokens, *ptr;</span><br><span class="line">    <span class="keyword">int</span> tokencount;</span><br><span class="line">    tokens = (<span class="keyword">char</span> **)<span class="built_in">calloc</span>(<span class="number">64</span>, <span class="keyword">sizeof</span>(<span class="keyword">char</span> *));</span><br><span class="line">    <span class="keyword">if</span>(!tokens)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">for</span>(ptr = <span class="built_in">string</span>; *ptr;)&#123;</span><br><span class="line">        <span class="keyword">int</span> c;</span><br><span class="line">        <span class="keyword">for</span>(end = ptr; *end &amp;&amp; !<span class="built_in">isspace</span>(end); end++);</span><br><span class="line">        c = *end;</span><br><span class="line">        *end = <span class="string">&#x27;\0&#x27;</span>;       </span><br><span class="line">        tokens[tokencount++] = ptr; <span class="comment">//这一行是粗体 --by译者</span></span><br><span class="line">        ptr = (c == <span class="number">0</span> ? end : end + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>这份代码在操作<code>tokens</code>数组的粗体行中有缓冲区溢出。用于覆盖内存的数据不能被攻击者直接控制，但被覆盖的内存中包含指向攻击者可控制数据的指针。这使得漏洞利用比使用标准技术更容易。例如，如果函数指针被覆盖，攻击者不需要内存布局信息，因为可以用指向攻击者控制的数据的指针替换函数指针。但是，如果覆盖了堆的头部或其他复杂结构，漏洞利用可能会更加复杂。</p>
 <p>单字节溢出漏洞是最常见的漏洞之一，涉及到攻击者无法控制的数据覆盖。下面是一个单字节溢出的漏洞示例：</p>
-<pre><code class="lang-c">struct session &#123;
-    int sequence;
-    int mac[MAX_MAC];
-    char *key;
-&#125;;
-
-int delete_session(struct session *session)&#123;
-    memset(session-&gt;key, 0, KEY_SIZE);
-    free(session-&gt;key);
-    free(session);
-
-&#125;
-
-int get_mac(int fd, struct session *session)&#123;
-    unsigned int i, n;
-    n = read_network_integer(fd);
-    if(n &gt; MAX_MAC) // 这一行是粗体 --by译者
-        return 1;
-    for(i = 0; i &lt;= n; i++)
-        session-&gt;mac[i] = read_network_integer(fd);
-    return 0;
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">session</span> &#123;</span></span><br><span class="line">    <span class="keyword">int</span> sequence;</span><br><span class="line">    <span class="keyword">int</span> mac[MAX_MAC];</span><br><span class="line">    <span class="keyword">char</span> *key;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">delete_session</span><span class="params">(struct session *session)</span></span>&#123;</span><br><span class="line">    <span class="built_in">memset</span>(session-&gt;key, <span class="number">0</span>, KEY_SIZE);</span><br><span class="line">    <span class="built_in">free</span>(session-&gt;key);</span><br><span class="line">    <span class="built_in">free</span>(session);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">get_mac</span><span class="params">(<span class="keyword">int</span> fd, struct session *session)</span></span>&#123;</span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i, n;</span><br><span class="line">    n = read_network_integer(fd);</span><br><span class="line">    <span class="keyword">if</span>(n &gt; MAX_MAC) <span class="comment">// 这一行是粗体 --by译者</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt;= n; i++)</span><br><span class="line">        session-&gt;mac[i] = read_network_integer(fd);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果攻击者将<code>mac</code>的长度设定为正好等于<code>MAX_MAC</code>，<code>get_mac()</code>函数就会在分配的空间中读取一个多余元素(在粗体的一行中显示)。在这种情况下，最后一个整数被读入后会覆盖变量<code>key</code>。变量<code>key</code>在被删除前会被传入<code>menset</code>，这样就允许攻击者能够向任意内存的位置进行写入操作。此外，攻击者提供的内存位置随后被释放，这意味着攻击很可能指向内存管理例程。成功地执行这种攻击可能非常困难，特别是在多线程应用程序中。</p>
 <p>这两段代码显示了当覆盖的数据无法控制时，攻击者可能难以利用漏洞。在检查类似问题时，你需要确定覆盖的数据中包含什么，以及攻击者是否可以控制它。通常，攻击者对写入的数据有相当直接的控制，或者可以损坏结果来访问攻击者控制的数据。</p>
 <h5 id="内存块是否是共享的？"><a href="#内存块是否是共享的？" class="headerlink" title="内存块是否是共享的？"></a>内存块是否是共享的？</h5><p>偶尔，应用程序中会出现一些bug，其中内存管理器错误地多次分配相同的内存块，即使它仍在使用中。当这种情况发生时，应用程序的两个或多个独立部分使用内存块，期望它们能够独占地访问它，而实际上它们并没有。这些漏洞通常是由以下两个错误之一引起的 ：</p>
@@ -2127,17 +1291,15 @@ int get_mac(int fd, struct session *session)&#123;
 <h5 id="授权"><a href="#授权" class="headerlink" title="授权"></a>授权</h5><p>授权是一个决定系统中的用户拥有什么样的权限在信任域中去做一些特定事务的过程。它作为<strong>权限控制</strong>(access control)策略的一部分与身份验证是一致的：身份验证告诉了这个用户是谁，授权决定了这个验证过的身份拥有做什么的权限。 有许多访问控制系统的正式设计，包括自由访问控制、强制访问控制和基于角色的访问控制。 此外，有几种技术可用于将访问控制集中到各种框架、操作系统和库中。由于不同访问控制方案的复杂性，最好从一般的角度来看待授权。</p>
 <h6 id="一般的授权漏洞"><a href="#一般的授权漏洞" class="headerlink" title="一般的授权漏洞"></a>一般的授权漏洞</h6><p>Web应用经常没有或者缺少足够的授权。你经常能发现只有一小部分网站做到了授权的检查。带有授权逻辑的页面通常是主菜单页面和主要子页面，但是实际的处理程序页面省略了授权检查。通常情况下，找到一种方法以相对低权限的用户登陆，然后能执行一些访问不属于你的账户信息以及做一些不属于你账户的行为这些为高权限用户所准备的操作。</p>
 <h6 id="不安全的授权"><a href="#不安全的授权" class="headerlink" title="不安全的授权"></a>不安全的授权</h6><p>缺少授权显然是一个问题。你还可能遇到授权检查的逻辑不一致或者留下滥用空间的情况。例如，假如你有一个简单的消费跟踪系统，每个在公司的用户都有自己的账号。这个系统使用了公司的等级架构进行编写，所以它直到哪些员工是管理者，哪些是被管理者。它的主逻辑是像下面这样的数据驱动：</p>
-<pre><code>Enter New Expensefor each employee you manage    View/Approve expenses
-</code></pre><p>这个系统非常简单。假设初始化的公司员工等级架构是正确的，管理者可以审查与批准他们下属的费用。一般员工只能见到<code>Enter New Expense</code>的界面因为他们并不是管理者。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Enter New Expensefor each employee you manage	View/Approve expenses</span><br></pre></td></tr></table></figure>
+<p>这个系统非常简单。假设初始化的公司员工等级架构是正确的，管理者可以审查与批准他们下属的费用。一般员工只能见到<code>Enter New Expense</code>的界面因为他们并不是管理者。</p>
 <p>现在假设你在这样一种情况下运行这个程序，即一些员工都被一个人管理，但实际上他们要向另一个管理者报告日常事务。为了解决这个问题，你对这个程序做了这样的更改，即允许每个用户去选择其他用户作为自己的“虚拟的”管理员。一个用户的虚拟管理员(virtual manager)拥有查看与批准这个用户费用的权力，就像这个用户真正的管理员一样。这个解决方案第一眼看起来似乎还行，但它是有缺陷的。它可以允许用户将自己亲密的同事设置为虚拟管理员，包括他自己，这将导致费用的批准不受到任何限制。</p>
 <p>这个简单的系统有一个明显的问题，可能看起来是人为设计的，但它是从实际应用中遇到的问题派生出来的。随着应用程序中的用户和组数量的增加以及系统复杂性的增加，设计人员很容易忽略授权逻辑中潜在的滥用可能性。</p>
 <h5 id="可追责性"><a href="#可追责性" class="headerlink" title="可追责性"></a>可追责性</h5><p>可追责性(Accountability) 就是一个系统能够确认以及记录用户在系统中的所作所为。不可抵赖性是一个相关术语，实际上是可追责性的一个子集。 它指的是系统对某些用户操作进行日志记录的保证，这样用户就不能否认曾经执行过这些操作。 可追责性，身份验证和授权共同建立了完整的权限控制策略。不像身份验证和授权，可追责性并不形成一个信任边界或者防止漏洞的发生。但是，可追责性提供的数据对于减轻成功的入侵和进行法医式的分析(forensic analysis)是必不可少的。不幸的是，可追责行是应用程序设计安全中最容易忽视的部分之一。</p>
 <h6 id="常见的可追责性漏洞"><a href="#常见的可追责性漏洞" class="headerlink" title="常见的可追责性漏洞"></a>常见的可追责性漏洞</h6><p>最常见的可追责性漏洞就是一个系统对于登陆操作与敏感数据记录的失效。事实上，很多应用并不提供日志功能。当然，许多应用也不提供处理敏感数据时的日志记录。然而，管理者或者最终用户开发者需要决定什么样的日志记录是需要的。</p>
 <p>另外一个主要的可追责性漏洞就是系统并没有正确地保护它的日志数据。当然，这个问题也可以划分为授权，保密性或者完整性漏洞。不管如何，任何系统在维护日志时需要保证它的安全。例如，下面展示了一个简单的文本日志，每行记录了时间戳以及登陆日志：</p>
-<pre><code>20051018133106 Logon Failure: Bob
-20051018133720 Logon Success: Jim
-20051018135041 Logout: Jim
-</code></pre><p>如果我在用户名上做手脚又会发生什么呢？比如说，一个叫<code>&quot;Bob\n20051018133106 Logon Success: Greg&quot;</code>的用户名看起来人畜无害，但是它确实可以用来做坏事。攻击者可以使用假的登录信息去掩盖有害的登陆，或者破坏日志使其变得不可读或者不可写。 这种破坏可能会造成拒绝服务的情况，或者打开通向其他漏洞的通道。它甚至可以在日志系统本身中提供可利用的路径。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">20051018133106 Logon Failure: Bob</span><br><span class="line">20051018133720 Logon Success: Jim</span><br><span class="line">20051018135041 Logout: Jim</span><br></pre></td></tr></table></figure>
+<p>如果我在用户名上做手脚又会发生什么呢？比如说，一个叫<code>&quot;Bob\n20051018133106 Logon Success: Greg&quot;</code>的用户名看起来人畜无害，但是它确实可以用来做坏事。攻击者可以使用假的登录信息去掩盖有害的登陆，或者破坏日志使其变得不可读或者不可写。 这种破坏可能会造成拒绝服务的情况，或者打开通向其他漏洞的通道。它甚至可以在日志系统本身中提供可利用的路径。</p>
 <p>除了这种日志的维护以外还有其他问题。如果攻击者能够读取日志呢？至少他们能够直到什么时候哪个用户会登入或者登出。从这个数据中，他们可能推断出一些登陆规律或者监视哪些用户会有忘记密码的习惯。这种信息看起来人畜无害，但它能为更大的攻击埋下伏笔。因此，未经授权的用户不能够向系统日志读取内容进行或者写入操作。</p>
 <h5 id="保密性"><a href="#保密性" class="headerlink" title="保密性"></a>保密性</h5><p>第一章给出了保密性的定义，即只有经过授权的一方才能够查看数据。这要求通过权限控制机制来实现，这种机制囊括了身份验证和授权。然而当通信在不安全的地段发生时，我们必须对安全引入新的考量(additional measure)。在这种情况下，加密技术通常用来满足保密性的需求。</p>
 <p><strong>加密</strong>(eccryption) 就是一个对信息编码的过程，如果第三方没有相关的知识（即解码方法 —by译者），那他就无法获得信息的确切内容。加密过程通常对一些数据有核心意义。核心数据只有通过授权之后才能访问其信息。</p>
@@ -2268,20 +1430,8 @@ int get_mac(int fd, struct session *session)&#123;
 </ul>
 <p>作为用户登陆，只需要实现其中之一就可以。因此它们是OR节点。</p>
 <h6 id="文本表示"><a href="#文本表示" class="headerlink" title="文本表示"></a>文本表示</h6><p>你可以用文本和图形表示攻击树。文本版本传递的信息与图形版本相同，但有时不太容易可视化(尽管它们更紧凑)。下面的例子展示了如何用文本格式表示图2-7中的攻击树:</p>
-<pre><code>1. 对方获得访问用户个人信息的权限
-    OR  1.1 获得直接访问数据库权限            
-            1.1.1 利用系统应用或者内核的漏洞
-        1.2 作为目标用户登录
-            OR    1.2.1 蛮力登陆
-                AND 1.2.1.1 验证用户名
-                    1.2.1.2 验证用户密码
-                1.2.2 窃取用户证书
-        1.3 劫持用户会话
-            窃取用户绘画cookie
-        1.4 被动截取个人资料
-            AND 1.4.1 验证用户连接初始化
-                1.4.2 嗅探网络流量中的个人数据
-</code></pre><p>如你所见，所有相同的信息都存在。首先，根节点目标被声明为攻击树的标题，它的直接后代在标题下面进行编号和缩进。每个新层都再次缩进，并以相同的方式在父节点下面编号。AND和或关键字用于指示节点是AND还是节点。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">1. 对方获得访问用户个人信息的权限</span><br><span class="line">	OR  1.1 获得直接访问数据库权限			</span><br><span class="line">			1.1.1 利用系统应用或者内核的漏洞</span><br><span class="line">        1.2 作为目标用户登录</span><br><span class="line">        	OR	1.2.1 蛮力登陆</span><br><span class="line">            	AND 1.2.1.1 验证用户名</span><br><span class="line">                	1.2.1.2 验证用户密码</span><br><span class="line">                1.2.2 窃取用户证书</span><br><span class="line">        1.3 劫持用户会话</span><br><span class="line">        	窃取用户绘画cookie</span><br><span class="line">        1.4 被动截取个人资料</span><br><span class="line">        	AND 1.4.1 验证用户连接初始化</span><br><span class="line">            	1.4.2 嗅探网络流量中的个人数据</span><br></pre></td></tr></table></figure>
+<p>如你所见，所有相同的信息都存在。首先，根节点目标被声明为攻击树的标题，它的直接后代在标题下面进行编号和缩进。每个新层都再次缩进，并以相同的方式在父节点下面编号。AND和或关键字用于指示节点是AND还是节点。</p>
 <h6 id="威胁减轻"><a href="#威胁减轻" class="headerlink" title="威胁减轻"></a>威胁减轻</h6><p>攻击树的部分价值在于它允许你跟踪潜在的威胁。但是，如果无法确定如何减轻威胁，跟踪威胁就不是特别有用。幸运的是，攻击树包括一种特殊类型的节点来解决这个问题:循环节点。图2-8显示了一个带有适当缓解因素的示例攻击树。</p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/2-8.png" alt="2-8" class="lazyload"></p>
 <p>在此攻击树中添加了三个缓解节点，以帮助你认识到这些向量与未缓解的分支相比，不太可能成为攻击的途径。在一个缓解节点中使用的虚线是一种将分支标识为不太可能的攻击向量的简写方法。它不会移除分支，但会鼓励你将注意力转移到其他地方。</p>
@@ -2409,7 +1559,7 @@ int get_mac(int fd, struct session *session)&#123;
 
  
 
-<script async src="/js/app.js?v=1624344442081"></script>
+<script async src="/js/app.js?v=1624344514719"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
@@ -2425,6 +1575,22 @@ int get_mac(int fd, struct session *session)&#123;
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

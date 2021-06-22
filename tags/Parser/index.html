@@ -7,7 +7,7 @@
   <title>Tags：Parser - Chenyu&#39;s Blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="null">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
   
   
@@ -21,9 +21,9 @@
 <meta property="article:author" content="Chenyu Zhu">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1624344442070">
+  <link rel="stylesheet" href="/css/style.css?v=1624344514749">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344442070">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344514749">
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="mdui-drawer-body-left">
@@ -187,34 +187,12 @@
         <article>
             
                 <h1 id="GNU-Bison-Parser-深入分析"><a href="#GNU-Bison-Parser-深入分析" class="headerlink" title="GNU Bison Parser 深入分析"></a>GNU Bison Parser 深入分析</h1><h2 id="一些约定"><a href="#一些约定" class="headerlink" title="一些约定"></a>一些约定</h2><p>bison对我们定义好的文法进行了增广(augmentation)，添加了<code>$accept</code>和<code>$end</code>符号表示接收和终止，并且增加了一条规则用于判断是否完成语法分析：</p>
-<pre><code class="lang-bison">$accept : &lt;start-symbol&gt; $end
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$accept : &lt;start-symbol&gt; $end</span><br></pre></td></tr></table></figure>
 <p>除此之外还增加了<code>$undefined</code>来表示未出现在文法中的symbol。增加了<code>error</code>用来生成错误。</p>
 <h2 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h2><p>就像flex一样，bison也是表驱动的，为了理解bison如何parse，我们用这样一个文法去生成一个parser：</p>
-<pre><code>(1) L → L;E
-(2) L → E
-(3) E → E,P
-(4) E → P
-(5) P → a
-(6) P → (M)
-(7) M → ε
-(8) M → L
-</code></pre><p>对应到bison里，就是这样：</p>
-<pre><code class="lang-bison">%%
-L : L &#39;;&#39; E
-  | E
-;
-E : E &#39;,&#39; P
-  | P
-
-;P : &#39;a&#39;
-   | (M)
-
-;M : /* nothing */
-   | L
-;
-%%
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(1) L → L;E</span><br><span class="line">(2) L → E</span><br><span class="line">(3) E → E,P</span><br><span class="line">(4) E → P</span><br><span class="line">(5) P → a</span><br><span class="line">(6) P → (M)</span><br><span class="line">(7) M → ε</span><br><span class="line">(8) M → L</span><br></pre></td></tr></table></figure>
+<p>对应到bison里，就是这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br><span class="line">L : L &#x27;;&#x27; E</span><br><span class="line">  | E</span><br><span class="line">;</span><br><span class="line">E : E &#x27;,&#x27; P</span><br><span class="line">  | P</span><br><span class="line">  </span><br><span class="line">;P : &#x27;a&#x27;</span><br><span class="line">   | (M)</span><br><span class="line"></span><br><span class="line">;M : /* nothing */</span><br><span class="line">   | L</span><br><span class="line">;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
 <p>下面是这个文法的LALR(1)算法生成的自动机表(增广后的）：</p>
 <div class="table-container">
 <table>
@@ -516,18 +494,14 @@ E : E &#39;,&#39; P
 <p>如此简单的语法都要生成一个庞大的表，更何况一门完备的语言，并且注意到了表中有很多地方是空的(对应error)，因此bison对这个表进行了压缩。</p>
 <h2 id="数据压缩"><a href="#数据压缩" class="headerlink" title="数据压缩"></a>数据压缩</h2><h3 id="default-action"><a href="#default-action" class="headerlink" title="default action"></a>default action</h3><p>首先是对action的部分进行压缩，注意到state 1，2，4，5，6，11，12，13仅仅只有1种reduction操作（有的还有shift，但它不是reduction），因此就可以先单独考量这样的行，对它们定义一个default action（reduction），也就是只要碰到这些state，在排除shift操作后一律使用reduction操作。对于空白的error部分即使进行了reduction，也仅仅是推迟了错误的发生。</p>
 <p>形式上这个就应该是这个样子：</p>
-<pre><code class="lang-c">default_reductions[] = &#123;none,r5,r7,none,r2,r4,r8,none,none,none,none,r6,r1,r3&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_reductions[] = &#123;none,r5,r7,none,r2,r4,r8,none,none,none,none,r6,r1,r3&#125;</span><br></pre></td></tr></table></figure>
 <p>在bison生成的文件种就对应了<code>yydefact[]</code>，这个表的index表示的是state number，里面的值表示reduction的rule number，0表示error：</p>
-<pre><code class="lang-c">static const yytype_uint8 yydefact[] =&#123;0,6,8,0,3,5,9,0,1,0,0,7,2,4&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yydefact[] =&#123;<span class="number">0</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">4</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>注意第一条规则是bison的默认增广规则，因此所有规则号都加了1。</p>
 <h3 id="default-GOTO"><a href="#default-GOTO" class="headerlink" title="default GOTO"></a>default GOTO</h3><p>接下来要压缩GOTO的部分，bison的压缩策略是这样的：将每一个non-terminal对应的GOTO列中最多的那一个单独拿出来(L:3,E:4,P:5,M:7)构成一个default GOTO：</p>
-<pre><code class="lang-c">default_gotos[] = &#123; 3, 4, 5, 7 &#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_gotos[] = &#123; <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span> &#125;</span><br></pre></td></tr></table></figure>
 <p>在生成文件中就对应了<code>yydefgoto[]</code>：</p>
-<pre><code class="lang-c">static const yytype_int8 yydefgoto[] =&#123; -1,3,4,5,7 &#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yydefgoto[] =&#123; <span class="number">-1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span> &#125;;</span><br></pre></td></tr></table></figure>
 <p>它的index是用non-terminal的symbol number减去terminal个数得到的（0处对应的-1好像没有什么用）。</p>
 <h3 id="压缩non-default-action"><a href="#压缩non-default-action" class="headerlink" title="压缩non-default action"></a>压缩non-default action</h3><p>在选出default reduction表之后，去除它们后action剩下的部分是：</p>
 <div class="table-container">
@@ -638,21 +612,16 @@ E : E &#39;,&#39; P
 </div>
 <p>可以看出有很多空白，接下来的操作就是要对这些空白进行压缩。</p>
 <p>bison会将这个表变成两个一维的表，一个用来存储这些非空白的信息，一个用来存储它们的dimension。一般表达式就是：</p>
-<pre><code class="lang-c">action number = T[D[state number] + symbol number]
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action number = T[D[state number] + symbol number]</span><br></pre></td></tr></table></figure>
 <p>例如，我们想要得到state 4在遇到symbol号为4时的操作，那就像这样进行索引：</p>
-<pre><code class="lang-c">T[D[4] + 4] = 10
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T[D[<span class="number">4</span>] + <span class="number">4</span>] = <span class="number">10</span></span><br></pre></td></tr></table></figure>
 <p>根据这个压缩规则，bison分别在<code>yytable[]</code>和<code>yypact[]</code>存储这个‘T’和‘D’：</p>
-<pre><code class="lang-c">static const yytype_uint8 yytable[] =&#123;8,1,2,9,11,10,9,6,12,0,0,0,13&#125;;static const yytype_int8 yypact[] =&#123;-4,-5,-4,0,1,-5,3,-3,-5,-4,-4,-5,1,-5&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yytable[] =&#123;<span class="number">8</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">9</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">9</span>,<span class="number">6</span>,<span class="number">12</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">13</span>&#125;;<span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yypact[] =&#123;<span class="number">-4</span>,<span class="number">-5</span>,<span class="number">-4</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">-5</span>,<span class="number">3</span>,<span class="number">-3</span>,<span class="number">-5</span>,<span class="number">-4</span>,<span class="number">-4</span>,<span class="number">-5</span>,<span class="number">1</span>,<span class="number">-5</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>我们可以验证一下，state 4遇到规则4时对应的是s10：</p>
-<pre><code class="lang-c">yytable[yypact[4]+4] = yytable[5] = 10
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytable[yypact[<span class="number">4</span>]+<span class="number">4</span>] = yytable[<span class="number">5</span>] = <span class="number">10</span></span><br></pre></td></tr></table></figure>
 <p>注意，尽管去除了default reduction，这里面的操作也是可能有reduction的，为此，bison使用正负号来区别它们，<code>yytable[]</code>里正号代表shift，负号代表reduction（当然这个例子里没有），如果是0就执行default action。</p>
 <h3 id="压缩non-default-GOTO"><a href="#压缩non-default-GOTO" class="headerlink" title="压缩non-default GOTO"></a>压缩non-default GOTO</h3><p>和non-default action一样，采用相同的方法去压缩non-default GOTO。只是在indexing的时候，公式变为了：</p>
-<pre><code class="lang-c">action number = T[ND[symbol number - num_terminal] + state number]
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action number = T[ND[symbol number - num_terminal] + state number]</span><br></pre></td></tr></table></figure>
 <p>在这个例子中，non-default GOTO的表是这样的：</p>
 <div class="table-container">
 <table>
@@ -693,461 +662,48 @@ E : E &#39;,&#39; P
 </table>
 </div>
 <p>压缩后的index在bison生成的表中对应了<code>yypgoto[]</code>，value仍然用<code>yytable[]</code>：</p>
-<pre><code class="lang-c">static const yytype_int8 yypgoto[] =&#123;      -5,     5,    -1,     2,    -5&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yypgoto[] =&#123;      <span class="number">-5</span>,     <span class="number">5</span>,    <span class="number">-1</span>,     <span class="number">2</span>,    <span class="number">-5</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>例如，我们要symbol 9在state 2中的GOTO：</p>
-<pre><code class="lang-c">yytable[yypgoto[9-8]+2] = yytable[7] = 6
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytable[yypgoto[<span class="number">9</span><span class="number">-8</span>]+<span class="number">2</span>] = yytable[<span class="number">7</span>] = <span class="number">6</span></span><br></pre></td></tr></table></figure>
 <h2 id="算法的实现"><a href="#算法的实现" class="headerlink" title="算法的实现"></a>算法的实现</h2><h3 id="一些static数据"><a href="#一些static数据" class="headerlink" title="一些static数据"></a>一些static数据</h3><h4 id="yytranslate"><a href="#yytranslate" class="headerlink" title="yytranslate"></a>yytranslate</h4><p><code>yytranslate[]</code>定义了文法中符号到symbol number的映射过程，假如这些符号是non-terminal，那index就对应non-terminal %token声明时的值，如果这些符号是ASCII码中的terminal，那么index就对应了ASCII值。</p>
-<pre><code class="lang-c">static const yytype_uint8 yytranslate[] =&#123;       0,     2,     2,     2,     2, ...&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yytranslate[] =&#123;       <span class="number">0</span>,     <span class="number">2</span>,     <span class="number">2</span>,     <span class="number">2</span>,     <span class="number">2</span>, ...&#125;;</span><br></pre></td></tr></table></figure>
 <p>比如说这个例子中出现的’a’，对应的ASCII值是97，根据<code>yytranslate[]</code>的索引，可以得到符号a对应的symbol number是5：</p>
-<pre><code class="lang-c">yytranslate[97] = 5;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytranslate[<span class="number">97</span>] = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
 <p>在这里面有很多的2(undefined)，因为很多ASCII表中的符号并没有出现在文法中。</p>
 <h4 id="yyr1"><a href="#yyr1" class="headerlink" title="yyr1"></a>yyr1</h4><p><code>yyr1[]</code>是每条文法规则的LHS符号的symbol number：</p>
-<pre><code class="lang-c">static const yytype_uint8 yyr1[] =&#123;       0,     8,     9,     9,    10,    10,    11,    11,    12,    12&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yyr1[] =&#123;       <span class="number">0</span>,     <span class="number">8</span>,     <span class="number">9</span>,     <span class="number">9</span>,    <span class="number">10</span>,    <span class="number">10</span>,    <span class="number">11</span>,    <span class="number">11</span>,    <span class="number">12</span>,    <span class="number">12</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>0并没有用作文法的number，所以<code>yyr1[0]</code>是0.</p>
 <h4 id="yyr2"><a href="#yyr2" class="headerlink" title="yyr2"></a>yyr2</h4><p><code>yyr2[]</code>是每条文法规则的RHS符号的个数：</p>
-<pre><code class="lang-c">static const yytype_uint8 yyr2[] =&#123;       0,     2,     3,     1,     3,     1,     1,     3,     0,     1&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yyr2[] =&#123;       <span class="number">0</span>,     <span class="number">2</span>,     <span class="number">3</span>,     <span class="number">1</span>,     <span class="number">3</span>,     <span class="number">1</span>,     <span class="number">1</span>,     <span class="number">3</span>,     <span class="number">0</span>,     <span class="number">1</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>同上，yyr2[0]`是0.</p>
 <h4 id="yycheck"><a href="#yycheck" class="headerlink" title="yycheck"></a>yycheck</h4><p><code>yycheck[]</code>是用来判断使用default还是non-default的，在生成文件的代码中表现为：</p>
-<pre><code class="lang-c">/* If the proper action on seeing token YYTOKEN is to reduce or to   detect an error, take that action.  */
-yyn += yytoken;
-if (yyn &lt; 0 || YYLAST &lt; yyn || yycheck[yyn] != yytoken)
-    goto yydefault;
-
-/* Now &#39;shift&#39; the result of the reduction.  Determine what state   that goes to, based on the state we popped back to and the rule   number reduced by.  */
-yyn = yyr1[yyn];
-yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-if (0 &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-else  yystate = yydefgoto[yyn - YYNTOKENS];
-goto yynewstate;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* If the proper action on seeing token YYTOKEN is to reduce or to   detect an error, take that action.  */</span></span><br><span class="line">yyn += yytoken;</span><br><span class="line"><span class="keyword">if</span> (yyn &lt; <span class="number">0</span> || YYLAST &lt; yyn || yycheck[yyn] != yytoken)</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Now &#x27;shift&#x27; the result of the reduction.  Determine what state   that goes to, based on the state we popped back to and the rule   number reduced by.  */</span></span><br><span class="line">yyn = yyr1[yyn];</span><br><span class="line">yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;</span><br><span class="line"><span class="keyword">if</span> (<span class="number">0</span> &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)</span><br><span class="line">    yystate = yytable[yystate];</span><br><span class="line"><span class="keyword">else</span>  yystate = yydefgoto[yyn - YYNTOKENS];</span><br><span class="line"><span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>在这个例子中，<code>yycheck[]</code>的值如下：</p>
-<pre><code class="lang-c">static const yytype_int8 yycheck[] =&#123;       0,     5,     6,     3,     7,     4,     3,     2,     9,    -1,      -1,    -1,    10&#125;;
-</code></pre>
-<h4 id="其他不重要的表："><a href="#其他不重要的表：" class="headerlink" title="其他不重要的表："></a>其他不重要的表：</h4><pre><code class="lang-c">yyrhs: yyrhs[n] = 第n条规则的RHS第一个symbol
-yyprhs: yyprhs[n] = yyrhs[n]symbol的index
-yyrline： yyrline[n] = .y文法源文件中第n条规则定义时对应的行
-yytname： yytname[n] = symbol number n对应的symbol string
-yytoknum： yytoknum[n] = token n的token number
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yycheck[] =&#123;       <span class="number">0</span>,     <span class="number">5</span>,     <span class="number">6</span>,     <span class="number">3</span>,     <span class="number">7</span>,     <span class="number">4</span>,     <span class="number">3</span>,     <span class="number">2</span>,     <span class="number">9</span>,    <span class="number">-1</span>,      <span class="number">-1</span>,    <span class="number">-1</span>,    <span class="number">10</span>&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="其他不重要的表："><a href="#其他不重要的表：" class="headerlink" title="其他不重要的表："></a>其他不重要的表：</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yyrhs: yyrhs[n] = 第n条规则的RHS第一个symbol</span><br><span class="line">yyprhs: yyprhs[n] = yyrhs[n]symbol的index</span><br><span class="line">yyrline： yyrline[n] = .y文法源文件中第n条规则定义时对应的行</span><br><span class="line">yytname： yytname[n] = symbol number n对应的symbol <span class="built_in">string</span></span><br><span class="line">yytoknum： yytoknum[n] = token n的token number</span><br></pre></td></tr></table></figure>
 <h3 id="yyparse"><a href="#yyparse" class="headerlink" title="yyparse()"></a>yyparse()</h3><p>整个算法的主程序是yyparse()，具体的框架如下：</p>
 <p>首先我们要定义一个state stack:</p>
-<pre><code class="lang-c">/* The state stack.  */
-yytype_int16 yyssa[YYINITDEPTH];
-yytype_int16 *yyss;
-yytype_int16 *yyssp;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The state stack.  */</span></span><br><span class="line">yytype_int16 yyssa[YYINITDEPTH];</span><br><span class="line">yytype_int16 *yyss;</span><br><span class="line">yytype_int16 *yyssp;</span><br></pre></td></tr></table></figure>
 <p>然后定义符号的stack：</p>
-<pre><code class="lang-c">/* The semantic value stack.  */
-YYSTYPE yyvsa[YYINITDEPTH];
-YYSTYPE *yyvs;
-YYSTYPE *yyvsp;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The semantic value stack.  */</span></span><br><span class="line">YYSTYPE yyvsa[YYINITDEPTH];</span><br><span class="line">YYSTYPE *yyvs;</span><br><span class="line">YYSTYPE *yyvsp;</span><br></pre></td></tr></table></figure>
 <p>这里的<code>YYSTYPE</code>是文法的non-terminal所允许的type，可以自己定义，在这个例子里默认为了<code>int</code>。</p>
 <p>然后定义用来输出错误的一个buffer：</p>
-<pre><code class="lang-c">/* Buffer for error messages, and its allocated size.  */
-char yymsgbuf[128];
-char *yymsg = yymsgbuf;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Buffer for error messages, and its allocated size.  */</span></span><br><span class="line"><span class="keyword">char</span> yymsgbuf[<span class="number">128</span>];</span><br><span class="line"><span class="keyword">char</span> *yymsg = yymsgbuf;</span><br></pre></td></tr></table></figure>
 <p>定义将new state push到栈里的操作：</p>
-<pre><code class="lang-c">yynewstate:
-/* In all cases, when you get here, the value and location stacks
-     have just been pushed.  So pushing a state here evens the stacks.  */
-yyssp++;
-
-yysetstate:
-*yyssp = yystate;
-
-if (yyss + yystacksize - 1 &lt;= yyssp)
-&#123;
-    /* Get the current used size of the three stacks, in elements.  */
-    YYSIZE_T yysize = yyssp - yyss + 1;
-
-    #ifdef yyoverflow
-    &#123;
-        /* Give user a chance to reallocate the stack.  Use copies of
-           these so that the &amp;&#39;s don&#39;t force the real ones into
-           memory.  */
-        YYSTYPE *yyvs1 = yyvs;
-        yytype_int16 *yyss1 = yyss;
-
-        /* Each stack pointer address is followed by the size of the
-           data in use in that stack, in bytes.  This used to be a
-           conditional around just the two extra args, but that might
-           be undefined if yyoverflow is a macro.  */
-        yyoverflow (YY_(&quot;memory exhausted&quot;),
-                    &amp;yyss1, yysize * sizeof (*yyssp),
-                    &amp;yyvs1, yysize * sizeof (*yyvsp),
-                    &amp;yystacksize);
-
-        yyss = yyss1;
-        yyvs = yyvs1;
-    &#125;
-    #else /* no yyoverflow */
-    # ifndef YYSTACK_RELOCATE
-    goto yyexhaustedlab;
-    # else
-    /* Extend the stack our own way.  */
-    if (YYMAXDEPTH &lt;= yystacksize)
-        goto yyexhaustedlab;
-    yystacksize *= 2;
-    if (YYMAXDEPTH &lt; yystacksize)
-        yystacksize = YYMAXDEPTH;
-
-    &#123;
-        yytype_int16 *yyss1 = yyss;
-        union yyalloc *yyptr =
-            (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
-        if (! yyptr)
-            goto yyexhaustedlab;
-        YYSTACK_RELOCATE (yyss_alloc, yyss);
-        YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-        #  undef YYSTACK_RELOCATE
-        if (yyss1 != yyssa)
-            YYSTACK_FREE (yyss1);
-    &#125;
-    # endif
-    #endif /* no yyoverflow */
-
-    yyssp = yyss + yysize - 1;
-    yyvsp = yyvs + yysize - 1;
-
-    YYDPRINTF ((stderr, &quot;Stack size increased to %lu\n&quot;,
-                (unsigned long int) yystacksize));
-
-    if (yyss + yystacksize - 1 &lt;= yyssp)
-        YYABORT;
-&#125;
-
-YYDPRINTF ((stderr, &quot;Entering state %d\n&quot;, yystate));
-
-if (yystate == YYFINAL)
-    YYACCEPT;
-
-goto yybackup;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">yynewstate:</span><br><span class="line"><span class="comment">/* In all cases, when you get here, the value and location stacks</span></span><br><span class="line"><span class="comment">     have just been pushed.  So pushing a state here evens the stacks.  */</span></span><br><span class="line">yyssp++;</span><br><span class="line"></span><br><span class="line">yysetstate:</span><br><span class="line">*yyssp = yystate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (yyss + yystacksize - <span class="number">1</span> &lt;= yyssp)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* Get the current used size of the three stacks, in elements.  */</span></span><br><span class="line">    YYSIZE_T yysize = yyssp - yyss + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">ifdef</span> yyoverflow</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* Give user a chance to reallocate the stack.  Use copies of</span></span><br><span class="line"><span class="comment">           these so that the &amp;&#x27;s don&#x27;t force the real ones into</span></span><br><span class="line"><span class="comment">           memory.  */</span></span><br><span class="line">        YYSTYPE *yyvs1 = yyvs;</span><br><span class="line">        yytype_int16 *yyss1 = yyss;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Each stack pointer address is followed by the size of the</span></span><br><span class="line"><span class="comment">           data in use in that stack, in bytes.  This used to be a</span></span><br><span class="line"><span class="comment">           conditional around just the two extra args, but that might</span></span><br><span class="line"><span class="comment">           be undefined if yyoverflow is a macro.  */</span></span><br><span class="line">        yyoverflow (YY_(<span class="string">&quot;memory exhausted&quot;</span>),</span><br><span class="line">                    &amp;yyss1, yysize * <span class="keyword">sizeof</span> (*yyssp),</span><br><span class="line">                    &amp;yyvs1, yysize * <span class="keyword">sizeof</span> (*yyvsp),</span><br><span class="line">                    &amp;yystacksize);</span><br><span class="line"></span><br><span class="line">        yyss = yyss1;</span><br><span class="line">        yyvs = yyvs1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">else</span> <span class="comment">/* no yyoverflow */</span></span></span><br><span class="line">    <span class="meta"># <span class="meta-keyword">ifndef</span> YYSTACK_RELOCATE</span></span><br><span class="line">    <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">    <span class="meta"># <span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="comment">/* Extend the stack our own way.  */</span></span><br><span class="line">    <span class="keyword">if</span> (YYMAXDEPTH &lt;= yystacksize)</span><br><span class="line">        <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">    yystacksize *= <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (YYMAXDEPTH &lt; yystacksize)</span><br><span class="line">        yystacksize = YYMAXDEPTH;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        yytype_int16 *yyss1 = yyss;</span><br><span class="line">        <span class="class"><span class="keyword">union</span> <span class="title">yyalloc</span> *<span class="title">yyptr</span> =</span></span><br><span class="line">            (<span class="keyword">union</span> yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));</span><br><span class="line">        <span class="keyword">if</span> (! yyptr)</span><br><span class="line">            <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">        YYSTACK_RELOCATE (yyss_alloc, yyss);</span><br><span class="line">        YYSTACK_RELOCATE (yyvs_alloc, yyvs);</span><br><span class="line">        <span class="meta">#  <span class="meta-keyword">undef</span> YYSTACK_RELOCATE</span></span><br><span class="line">        <span class="keyword">if</span> (yyss1 != yyssa)</span><br><span class="line">            YYSTACK_FREE (yyss1);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta"># <span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* no yyoverflow */</span></span></span><br><span class="line"></span><br><span class="line">    yyssp = yyss + yysize - <span class="number">1</span>;</span><br><span class="line">    yyvsp = yyvs + yysize - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Stack size increased to %lu\n&quot;</span>,</span><br><span class="line">                (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>) yystacksize));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (yyss + yystacksize - <span class="number">1</span> &lt;= yyssp)</span><br><span class="line">        YYABORT;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Entering state %d\n&quot;</span>, yystate));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (yystate == YYFINAL)</span><br><span class="line">    YYACCEPT;</span><br><span class="line"></span><br><span class="line"><span class="keyword">goto</span> yybackup;</span><br></pre></td></tr></table></figure>
 <p>核心部分只是前面和后面的几行代码，中间都是在处理overflow的，用一些宏来决定是将stack size 扩张两倍还是直接扔出memory exhausted错误。</p>
 <p>然后定义读取lookahead token的操作yybackup，这里就要决定是使用default还是non-default，假如是non-default，是shift还是reduce还是报错了：</p>
-<pre><code class="lang-c">yybackup:
-
-  /* Do appropriate processing given the current state.  Read a
-     lookahead token if we need one and don&#39;t already have one.  */
-
-  /* First try to decide what to do without reference to lookahead token.  */
-  yyn = yypact[yystate];
-  if (yypact_value_is_default (yyn))
-    goto yydefault;
-
-  /* Not known =&gt; get a lookahead token if don&#39;t already have one.  */
-
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
-  if (yychar == YYEMPTY)
-    &#123;
-      YYDPRINTF ((stderr, &quot;Reading a token: &quot;));
-      yychar = yylex ();
-    &#125;
-
-  if (yychar &lt;= YYEOF)
-    &#123;
-      yychar = yytoken = YYEOF;
-      YYDPRINTF ((stderr, &quot;Now at end of input.\n&quot;));
-    &#125;
-  else
-    &#123;
-      yytoken = YYTRANSLATE (yychar);
-      YY_SYMBOL_PRINT (&quot;Next token is&quot;, yytoken, &amp;yylval, &amp;yylloc);
-    &#125;
-
-  /* If the proper action on seeing token YYTOKEN is to reduce or to
-     detect an error, take that action.  */
-  yyn += yytoken;
-  if (yyn &lt; 0 || YYLAST &lt; yyn || yycheck[yyn] != yytoken)
-    goto yydefault;
-  yyn = yytable[yyn];
-  if (yyn &lt;= 0)
-    &#123;
-      if (yytable_value_is_error (yyn))
-        goto yyerrlab;
-      yyn = -yyn;
-      goto yyreduce;
-    &#125;
-
-  /* Count tokens shifted since error; after three, turn off error
-     status.  */
-  if (yyerrstatus)
-    yyerrstatus--;
-
-  /* Shift the lookahead token.  */
-  YY_SYMBOL_PRINT (&quot;Shifting&quot;, yytoken, &amp;yylval, &amp;yylloc);
-
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
-
-  yystate = yyn;
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  *++yyvsp = yylval;
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
-
-  goto yynewstate;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">yybackup:</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Do appropriate processing given the current state.  Read a</span></span><br><span class="line"><span class="comment">     lookahead token if we need one and don&#x27;t already have one.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* First try to decide what to do without reference to lookahead token.  */</span></span><br><span class="line">  yyn = yypact[yystate];</span><br><span class="line">  <span class="keyword">if</span> (yypact_value_is_default (yyn))</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Not known =&gt; get a lookahead token if don&#x27;t already have one.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */</span></span><br><span class="line">  <span class="keyword">if</span> (yychar == YYEMPTY)</span><br><span class="line">    &#123;</span><br><span class="line">      YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Reading a token: &quot;</span>));</span><br><span class="line">      yychar = yylex ();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (yychar &lt;= YYEOF)</span><br><span class="line">    &#123;</span><br><span class="line">      yychar = yytoken = YYEOF;</span><br><span class="line">      YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Now at end of input.\n&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      yytoken = YYTRANSLATE (yychar);</span><br><span class="line">      YY_SYMBOL_PRINT (<span class="string">&quot;Next token is&quot;</span>, yytoken, &amp;yylval, &amp;yylloc);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If the proper action on seeing token YYTOKEN is to reduce or to</span></span><br><span class="line"><span class="comment">     detect an error, take that action.  */</span></span><br><span class="line">  yyn += yytoken;</span><br><span class="line">  <span class="keyword">if</span> (yyn &lt; <span class="number">0</span> || YYLAST &lt; yyn || yycheck[yyn] != yytoken)</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line">  yyn = yytable[yyn];</span><br><span class="line">  <span class="keyword">if</span> (yyn &lt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> (yytable_value_is_error (yyn))</span><br><span class="line">        <span class="keyword">goto</span> yyerrlab;</span><br><span class="line">      yyn = -yyn;</span><br><span class="line">      <span class="keyword">goto</span> yyreduce;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Count tokens shifted since error; after three, turn off error</span></span><br><span class="line"><span class="comment">     status.  */</span></span><br><span class="line">  <span class="keyword">if</span> (yyerrstatus)</span><br><span class="line">    yyerrstatus--;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Shift the lookahead token.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;Shifting&quot;</span>, yytoken, &amp;yylval, &amp;yylloc);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Discard the shifted token.  */</span></span><br><span class="line">  yychar = YYEMPTY;</span><br><span class="line"></span><br><span class="line">  yystate = yyn;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN</span><br><span class="line">  *++yyvsp = yylval;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_END</span><br><span class="line"></span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>然后定义default操作，很简单，读取yydefault[]表，如果是0就报错，不是0就进入reduce：</p>
-<pre><code class="lang-c">yydefault:
-yyn = yydefact[yystate];
-if (yyn == 0)
-    goto yyerrlab;
-goto yyreduce;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yydefault:</span><br><span class="line">yyn = yydefact[yystate];</span><br><span class="line"><span class="keyword">if</span> (yyn == <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">goto</span> yyerrlab;</span><br><span class="line"><span class="keyword">goto</span> yyreduce;</span><br></pre></td></tr></table></figure>
 <p>接下来是reduce操作：根据yyr2[]找到对应规则的reduce的RHS符号个数以用来决定pop多少，然后根据yyr1[]找到对应规则的LHS值push进去：</p>
-<pre><code class="lang-c">yyreduce:
-  /* yyn is the number of a rule to reduce with.  */
-  yylen = yyr2[yyn];
-
-  /* If YYLEN is nonzero, implement the default value of the action:
-     &#39;$$ = $1&#39;.
-
-     Otherwise, the following line sets YYVAL to garbage.
-     This behavior is undocumented and Bison
-     users should not rely upon it.  Assigning to YYVAL
-     unconditionally makes the parser a bit smaller, and it avoids a
-     GCC warning that YYVAL may be used uninitialized.  */
-  yyval = yyvsp[1-yylen];
-
-
-  YY_REDUCE_PRINT (yyn);
-  switch (yyn)
-    &#123;
-
-#line 1179 &quot;eg.tab.c&quot; /* yacc.c:1646  */
-      default: break;
-    &#125;
-  /* User semantic actions sometimes alter yychar, and that requires
-     that yytoken be updated with the new translation.  We take the
-     approach of translating immediately before every use of yytoken.
-     One alternative is translating here after every semantic action,
-     but that translation would be missed if the semantic action invokes
-     YYABORT, YYACCEPT, or YYERROR immediately after altering yychar or
-     if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an
-     incorrect destructor might then be invoked immediately.  In the
-     case of YYERROR or YYBACKUP, subsequent parser actions might lead
-     to an incorrect destructor call or verbose syntax error message
-     before the lookahead is translated.  */
-  YY_SYMBOL_PRINT (&quot;-&gt; $$ =&quot;, yyr1[yyn], &amp;yyval, &amp;yyloc);
-
-  YYPOPSTACK (yylen);
-  yylen = 0;
-  YY_STACK_PRINT (yyss, yyssp);
-
-  *++yyvsp = yyval;
-
-  /* Now &#39;shift&#39; the result of the reduction.  Determine what state
-     that goes to, based on the state we popped back to and the rule
-     number reduced by.  */
-
-  yyn = yyr1[yyn];
-
-  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-  if (0 &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-  else
-    yystate = yydefgoto[yyn - YYNTOKENS];
-
-  goto yynewstate;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">yyreduce:</span><br><span class="line">  <span class="comment">/* yyn is the number of a rule to reduce with.  */</span></span><br><span class="line">  yylen = yyr2[yyn];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If YYLEN is nonzero, implement the default value of the action:</span></span><br><span class="line"><span class="comment">     &#x27;$$ = $1&#x27;.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     Otherwise, the following line sets YYVAL to garbage.</span></span><br><span class="line"><span class="comment">     This behavior is undocumented and Bison</span></span><br><span class="line"><span class="comment">     users should not rely upon it.  Assigning to YYVAL</span></span><br><span class="line"><span class="comment">     unconditionally makes the parser a bit smaller, and it avoids a</span></span><br><span class="line"><span class="comment">     GCC warning that YYVAL may be used uninitialized.  */</span></span><br><span class="line">  yyval = yyvsp[<span class="number">1</span>-yylen];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  YY_REDUCE_PRINT (yyn);</span><br><span class="line">  <span class="keyword">switch</span> (yyn)</span><br><span class="line">    &#123;</span><br><span class="line">      </span><br><span class="line"><span class="meta">#<span class="meta-keyword">line</span> 1179 <span class="meta-string">&quot;eg.tab.c&quot;</span> <span class="comment">/* yacc.c:1646  */</span></span></span><br><span class="line">      <span class="keyword">default</span>: <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">/* User semantic actions sometimes alter yychar, and that requires</span></span><br><span class="line"><span class="comment">     that yytoken be updated with the new translation.  We take the</span></span><br><span class="line"><span class="comment">     approach of translating immediately before every use of yytoken.</span></span><br><span class="line"><span class="comment">     One alternative is translating here after every semantic action,</span></span><br><span class="line"><span class="comment">     but that translation would be missed if the semantic action invokes</span></span><br><span class="line"><span class="comment">     YYABORT, YYACCEPT, or YYERROR immediately after altering yychar or</span></span><br><span class="line"><span class="comment">     if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an</span></span><br><span class="line"><span class="comment">     incorrect destructor might then be invoked immediately.  In the</span></span><br><span class="line"><span class="comment">     case of YYERROR or YYBACKUP, subsequent parser actions might lead</span></span><br><span class="line"><span class="comment">     to an incorrect destructor call or verbose syntax error message</span></span><br><span class="line"><span class="comment">     before the lookahead is translated.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;-&gt; $$ =&quot;</span>, yyr1[yyn], &amp;yyval, &amp;yyloc);</span><br><span class="line"></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  yylen = <span class="number">0</span>;</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line"></span><br><span class="line">  *++yyvsp = yyval;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Now &#x27;shift&#x27; the result of the reduction.  Determine what state</span></span><br><span class="line"><span class="comment">     that goes to, based on the state we popped back to and the rule</span></span><br><span class="line"><span class="comment">     number reduced by.  */</span></span><br><span class="line"></span><br><span class="line">  yyn = yyr1[yyn];</span><br><span class="line"></span><br><span class="line">  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;</span><br><span class="line">  <span class="keyword">if</span> (<span class="number">0</span> &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)</span><br><span class="line">    yystate = yytable[yystate];</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    yystate = yydefgoto[yyn - YYNTOKENS];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>然后是三个用来检测error的操作：</p>
-<pre><code class="lang-c">yyerrlab:
-  /* Make sure we have latest lookahead translation.  See comments at
-     user semantic actions for why this is necessary.  */
-  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);
-
-  /* If not already recovering from an error, report this error.  */
-  if (!yyerrstatus)
-    &#123;
-      ++yynerrs;
-#if ! YYERROR_VERBOSE
-      yyerror (YY_(&quot;syntax error&quot;));
-#else
-# define YYSYNTAX_ERROR yysyntax_error (&amp;yymsg_alloc, &amp;yymsg, \
-                                        yyssp, yytoken)
-      &#123;
-        char const *yymsgp = YY_(&quot;syntax error&quot;);
-        int yysyntax_error_status;
-        yysyntax_error_status = YYSYNTAX_ERROR;
-        if (yysyntax_error_status == 0)
-          yymsgp = yymsg;
-        else if (yysyntax_error_status == 1)
-          &#123;
-            if (yymsg != yymsgbuf)
-              YYSTACK_FREE (yymsg);
-            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
-            if (!yymsg)
-              &#123;
-                yymsg = yymsgbuf;
-                yymsg_alloc = sizeof yymsgbuf;
-                yysyntax_error_status = 2;
-              &#125;
-            else
-              &#123;
-                yysyntax_error_status = YYSYNTAX_ERROR;
-                yymsgp = yymsg;
-              &#125;
-          &#125;
-        yyerror (yymsgp);
-        if (yysyntax_error_status == 2)
-          goto yyexhaustedlab;
-      &#125;
-# undef YYSYNTAX_ERROR
-#endif
-    &#125;
-
-
-
-  if (yyerrstatus == 3)
-    &#123;
-      /* If just tried and failed to reuse lookahead token after an
-         error, discard it.  */
-
-      if (yychar &lt;= YYEOF)
-        &#123;
-          /* Return failure if at end of input.  */
-          if (yychar == YYEOF)
-            YYABORT;
-        &#125;
-      else
-        &#123;
-          yydestruct (&quot;Error: discarding&quot;,
-                      yytoken, &amp;yylval);
-          yychar = YYEMPTY;
-        &#125;
-    &#125;
-
-  /* Else will try to reuse lookahead token after shifting the error
-     token.  */
-  goto yyerrlab1;
-
-
-/*---------------------------------------------------.
-| yyerrorlab -- error raised explicitly by YYERROR.  |
-`---------------------------------------------------*/
-yyerrorlab:
-
-  /* Pacify compilers like GCC when the user code never invokes
-     YYERROR and the label yyerrorlab therefore never appears in user
-     code.  */
-  if (/*CONSTCOND*/ 0)
-     goto yyerrorlab;
-
-  /* Do not reclaim the symbols of the rule whose action triggered
-     this YYERROR.  */
-  YYPOPSTACK (yylen);
-  yylen = 0;
-  YY_STACK_PRINT (yyss, yyssp);
-  yystate = *yyssp;
-  goto yyerrlab1;
-
-
-/*-------------------------------------------------------------.
-| yyerrlab1 -- common code for both syntax error and YYERROR.  |
-`-------------------------------------------------------------*/
-yyerrlab1:
-  yyerrstatus = 3;      /* Each real token shifted decrements this.  */
-
-  for (;;)
-    &#123;
-      yyn = yypact[yystate];
-      if (!yypact_value_is_default (yyn))
-        &#123;
-          yyn += YYTERROR;
-          if (0 &lt;= yyn &amp;&amp; yyn &lt;= YYLAST &amp;&amp; yycheck[yyn] == YYTERROR)
-            &#123;
-              yyn = yytable[yyn];
-              if (0 &lt; yyn)
-                break;
-            &#125;
-        &#125;
-
-      /* Pop the current state because it cannot handle the error token.  */
-      if (yyssp == yyss)
-        YYABORT;
-
-
-      yydestruct (&quot;Error: popping&quot;,
-                  yystos[yystate], yyvsp);
-      YYPOPSTACK (1);
-      yystate = *yyssp;
-      YY_STACK_PRINT (yyss, yyssp);
-    &#125;
-
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  *++yyvsp = yylval;
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
-
-
-  /* Shift the error token.  */
-  YY_SYMBOL_PRINT (&quot;Shifting&quot;, yystos[yyn], yyvsp, yylsp);
-
-  yystate = yyn;
-  goto yynewstate;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line">yyerrlab:</span><br><span class="line">  <span class="comment">/* Make sure we have latest lookahead translation.  See comments at</span></span><br><span class="line"><span class="comment">     user semantic actions for why this is necessary.  */</span></span><br><span class="line">  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If not already recovering from an error, report this error.  */</span></span><br><span class="line">  <span class="keyword">if</span> (!yyerrstatus)</span><br><span class="line">    &#123;</span><br><span class="line">      ++yynerrs;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> ! YYERROR_VERBOSE</span></span><br><span class="line">      yyerror (YY_(<span class="string">&quot;syntax error&quot;</span>));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> YYSYNTAX_ERROR yysyntax_error (&amp;yymsg_alloc, &amp;yymsg, \</span></span><br><span class="line"><span class="meta">                                        yyssp, yytoken)</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">char</span> <span class="keyword">const</span> *yymsgp = YY_(<span class="string">&quot;syntax error&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> yysyntax_error_status;</span><br><span class="line">        yysyntax_error_status = YYSYNTAX_ERROR;</span><br><span class="line">        <span class="keyword">if</span> (yysyntax_error_status == <span class="number">0</span>)</span><br><span class="line">          yymsgp = yymsg;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (yysyntax_error_status == <span class="number">1</span>)</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="keyword">if</span> (yymsg != yymsgbuf)</span><br><span class="line">              YYSTACK_FREE (yymsg);</span><br><span class="line">            yymsg = (<span class="keyword">char</span> *) YYSTACK_ALLOC (yymsg_alloc);</span><br><span class="line">            <span class="keyword">if</span> (!yymsg)</span><br><span class="line">              &#123;</span><br><span class="line">                yymsg = yymsgbuf;</span><br><span class="line">                yymsg_alloc = <span class="keyword">sizeof</span> yymsgbuf;</span><br><span class="line">                yysyntax_error_status = <span class="number">2</span>;</span><br><span class="line">              &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">              &#123;</span><br><span class="line">                yysyntax_error_status = YYSYNTAX_ERROR;</span><br><span class="line">                yymsgp = yymsg;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        yyerror (yymsgp);</span><br><span class="line">        <span class="keyword">if</span> (yysyntax_error_status == <span class="number">2</span>)</span><br><span class="line">          <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="meta"># <span class="meta-keyword">undef</span> YYSYNTAX_ERROR</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (yyerrstatus == <span class="number">3</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* If just tried and failed to reuse lookahead token after an</span></span><br><span class="line"><span class="comment">         error, discard it.  */</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (yychar &lt;= YYEOF)</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="comment">/* Return failure if at end of input.  */</span></span><br><span class="line">          <span class="keyword">if</span> (yychar == YYEOF)</span><br><span class="line">            YYABORT;</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">          yydestruct (<span class="string">&quot;Error: discarding&quot;</span>,</span><br><span class="line">                      yytoken, &amp;yylval);</span><br><span class="line">          yychar = YYEMPTY;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Else will try to reuse lookahead token after shifting the error</span></span><br><span class="line"><span class="comment">     token.  */</span></span><br><span class="line">  <span class="keyword">goto</span> yyerrlab1;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*---------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyerrorlab -- error raised explicitly by YYERROR.  |</span></span><br><span class="line"><span class="comment">`---------------------------------------------------*/</span></span><br><span class="line">yyerrorlab:</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Pacify compilers like GCC when the user code never invokes</span></span><br><span class="line"><span class="comment">     YYERROR and the label yyerrorlab therefore never appears in user</span></span><br><span class="line"><span class="comment">     code.  */</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="comment">/*CONSTCOND*/</span> <span class="number">0</span>)</span><br><span class="line">     <span class="keyword">goto</span> yyerrorlab;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Do not reclaim the symbols of the rule whose action triggered</span></span><br><span class="line"><span class="comment">     this YYERROR.  */</span></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  yylen = <span class="number">0</span>;</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">  yystate = *yyssp;</span><br><span class="line">  <span class="keyword">goto</span> yyerrlab1;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*-------------------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyerrlab1 -- common code for both syntax error and YYERROR.  |</span></span><br><span class="line"><span class="comment">`-------------------------------------------------------------*/</span></span><br><span class="line">yyerrlab1:</span><br><span class="line">  yyerrstatus = <span class="number">3</span>;      <span class="comment">/* Each real token shifted decrements this.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (;;)</span><br><span class="line">    &#123;</span><br><span class="line">      yyn = yypact[yystate];</span><br><span class="line">      <span class="keyword">if</span> (!yypact_value_is_default (yyn))</span><br><span class="line">        &#123;</span><br><span class="line">          yyn += YYTERROR;</span><br><span class="line">          <span class="keyword">if</span> (<span class="number">0</span> &lt;= yyn &amp;&amp; yyn &lt;= YYLAST &amp;&amp; yycheck[yyn] == YYTERROR)</span><br><span class="line">            &#123;</span><br><span class="line">              yyn = yytable[yyn];</span><br><span class="line">              <span class="keyword">if</span> (<span class="number">0</span> &lt; yyn)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">/* Pop the current state because it cannot handle the error token.  */</span></span><br><span class="line">      <span class="keyword">if</span> (yyssp == yyss)</span><br><span class="line">        YYABORT;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      yydestruct (<span class="string">&quot;Error: popping&quot;</span>,</span><br><span class="line">                  yystos[yystate], yyvsp);</span><br><span class="line">      YYPOPSTACK (<span class="number">1</span>);</span><br><span class="line">      yystate = *yyssp;</span><br><span class="line">      YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN</span><br><span class="line">  *++yyvsp = yylval;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_END</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Shift the error token.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;Shifting&quot;</span>, yystos[yyn], yyvsp, yylsp);</span><br><span class="line"></span><br><span class="line">  yystate = yyn;</span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>然后定义accept，abort，overflow时yyparse()分别返回什么值：</p>
-<pre><code class="lang-c">yyacceptlab:
-  yyresult = 0;
-  goto yyreturn;
-
-/*-----------------------------------.
-| yyabortlab -- YYABORT comes here.  |
-`-----------------------------------*/
-yyabortlab:
-  yyresult = 1;
-  goto yyreturn;
-
-#if !defined yyoverflow || YYERROR_VERBOSE
-/*-------------------------------------------------.
-| yyexhaustedlab -- memory exhaustion comes here.  |
-`-------------------------------------------------*/
-yyexhaustedlab:
-  yyerror (YY_(&quot;memory exhausted&quot;));
-  yyresult = 2;
-  /* Fall through.  */
-#endif
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">yyacceptlab:</span><br><span class="line">  yyresult = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">goto</span> yyreturn;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*-----------------------------------.</span></span><br><span class="line"><span class="comment">| yyabortlab -- YYABORT comes here.  |</span></span><br><span class="line"><span class="comment">`-----------------------------------*/</span></span><br><span class="line">yyabortlab:</span><br><span class="line">  yyresult = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">goto</span> yyreturn;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !defined yyoverflow || YYERROR_VERBOSE</span></span><br><span class="line"><span class="comment">/*-------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyexhaustedlab -- memory exhaustion comes here.  |</span></span><br><span class="line"><span class="comment">`-------------------------------------------------*/</span></span><br><span class="line">yyexhaustedlab:</span><br><span class="line">  yyerror (YY_(<span class="string">&quot;memory exhausted&quot;</span>));</span><br><span class="line">  yyresult = <span class="number">2</span>;</span><br><span class="line">  <span class="comment">/* Fall through.  */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>最后一步：yyreturn，返回时清空stack，error message的buf：</p>
-<pre><code class="lang-c">yyreturn:
-  if (yychar != YYEMPTY)
-    &#123;
-      /* Make sure we have latest lookahead translation.  See comments at
-         user semantic actions for why this is necessary.  */
-      yytoken = YYTRANSLATE (yychar);
-      yydestruct (&quot;Cleanup: discarding lookahead&quot;,
-                  yytoken, &amp;yylval);
-    &#125;
-  /* Do not reclaim the symbols of the rule whose action triggered
-     this YYABORT or YYACCEPT.  */
-  YYPOPSTACK (yylen);
-  YY_STACK_PRINT (yyss, yyssp);
-  while (yyssp != yyss)
-    &#123;
-      yydestruct (&quot;Cleanup: popping&quot;,
-                  yystos[*yyssp], yyvsp);
-      YYPOPSTACK (1);
-    &#125;
-#ifndef yyoverflow
-  if (yyss != yyssa)
-    YYSTACK_FREE (yyss);
-#endif
-#if YYERROR_VERBOSE
-  if (yymsg != yymsgbuf)
-    YYSTACK_FREE (yymsg);
-#endif
-  return yyresult;
-&#125;
-</code></pre>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">yyreturn:</span><br><span class="line">  <span class="keyword">if</span> (yychar != YYEMPTY)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* Make sure we have latest lookahead translation.  See comments at</span></span><br><span class="line"><span class="comment">         user semantic actions for why this is necessary.  */</span></span><br><span class="line">      yytoken = YYTRANSLATE (yychar);</span><br><span class="line">      yydestruct (<span class="string">&quot;Cleanup: discarding lookahead&quot;</span>,</span><br><span class="line">                  yytoken, &amp;yylval);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">/* Do not reclaim the symbols of the rule whose action triggered</span></span><br><span class="line"><span class="comment">     this YYABORT or YYACCEPT.  */</span></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">  <span class="keyword">while</span> (yyssp != yyss)</span><br><span class="line">    &#123;</span><br><span class="line">      yydestruct (<span class="string">&quot;Cleanup: popping&quot;</span>,</span><br><span class="line">                  yystos[*yyssp], yyvsp);</span><br><span class="line">      YYPOPSTACK (<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> yyoverflow</span></span><br><span class="line">  <span class="keyword">if</span> (yyss != yyssa)</span><br><span class="line">    YYSTACK_FREE (yyss);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> YYERROR_VERBOSE</span></span><br><span class="line">  <span class="keyword">if</span> (yymsg != yymsgbuf)</span><br><span class="line">    YYSTACK_FREE (yymsg);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="keyword">return</span> yyresult;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
             
         </article>
     </div>
@@ -1177,7 +733,7 @@ yyexhaustedlab:
 
  
 
-<script async src="/js/app.js?v=1624344442070"></script>
+<script async src="/js/app.js?v=1624344514752"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
@@ -1193,6 +749,22 @@ yyexhaustedlab:
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>

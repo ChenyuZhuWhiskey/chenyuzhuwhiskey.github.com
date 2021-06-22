@@ -7,7 +7,7 @@
   <title>the art of software security assessment Chap1. translate - Chenyu&#39;s Blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="keywords" content="null">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
   
   
@@ -26,9 +26,9 @@
 <meta property="article:tag" content="translate">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1624344442041">
+  <link rel="stylesheet" href="/css/style.css?v=1624344514665">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344442041">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624344514665">
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="mdui-drawer-body-left">
@@ -275,31 +275,12 @@
 </div>
 <p>正如你所看到的,代码审计在很多情况下都适用. 尽管具备这些技能的人员的需求大，但是，很少有专业人员具有高水平执行这些审计的培训和经验。我们希望这本书能帮助填补这一空白。</p>
 <h5 id="审计与黑盒测试"><a href="#审计与黑盒测试" class="headerlink" title="审计与黑盒测试"></a>审计与黑盒测试</h5><p><strong>黑盒测试</strong>(black box testing)是一种只通过操作软件所给的接口来评估软件的方法.特别地,这个过程更倾向于给一些精心设计的输入,这些输入能够让应用程序产生一些期望之外的结果,比如宕机或者暴露敏感数据.例如对一个 HTTP 服务器进行黑盒测试时可以向它发出一个字段大小异常大请求,这种请求可能造成内存崩溃的 bug(在第五章”内存崩溃”我们会详细讨论).这个测试的请求可以是合法的,例如下面的内容:</p>
-<pre><code class="lang-c">GET AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAA HTTP/1.0
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAA HTTP/<span class="number">1.0</span></span><br></pre></td></tr></table></figure>
 <p>或者它也可以是非法请求,就像这样:</p>
-<pre><code class="lang-c">GET / AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAA/1.0
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GET / AAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAA/<span class="number">1.0</span></span><br></pre></td></tr></table></figure>
 <p>任何这种请求导致的宕机都说明这个应用程序存在严重的 bug.当考虑可以使用自动化测试应用程序的工具时,黑盒测试更有吸引力.这种自动化的黑盒测试被称为模糊测试(fuzz-testing). 而模糊测试工具包括通用的“dumb”和协议感知的“智能”fuzzer.因此你不需要手动地去尝试所有你可能想象的到的情况,你只要根据自己的设计运行这个这个工具然后收集结果就可以了.</p>
 <p>黑盒测试的好处就是快,能迅速得到测试结果.然而,黑盒测试有几个非常关键的缺点.本质上说,黑盒测试就是丢一堆数据给应用程序然后看看他是不是做了一些设计者不想让他做的事情.你不知道这个过程中程序是如何处理数据的,所以有大量的不接触这些数据的代码你并没有进行探究.例如,回到这个 web 服务器的例子,假设请求的查询字符串中存在特定的关键词时它会具有特定的内部功能,就像下面的代码一样:请注意加粗的代码行(_Markdown 代码块好像无法加粗,注意最后一个 if 语句即可 — by 译者_):</p>
-<pre><code class="lang-c">struct keyval &#123;
-    char *key;
-    char *value;
-&#125;;
-int handle_query_string(char *query_string)&#123;
-    struct keyval *qstring_values, *ent;
-    char buf[1024];
-    if(!query_string)
-        return 0;
-    qstring_values = split_keyvalue_pairs(query_string);
-    if((ent = find_entry(qstring_values, &quot;mode&quot;)) != NULL)
-    &#123;
-        sprintf(buf, &quot;MODE=%s&quot;, ent-&gt;value);
-        putenv(buf);
-    &#125;
-    ... more stuff here ...
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">keyval</span> &#123;</span></span><br><span class="line">    <span class="keyword">char</span> *key;</span><br><span class="line">    <span class="keyword">char</span> *value;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">handle_query_string</span><span class="params">(<span class="keyword">char</span> *query_string)</span></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">keyval</span> *<span class="title">qstring_values</span>, *<span class="title">ent</span>;</span></span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">1024</span>];</span><br><span class="line">    <span class="keyword">if</span>(!query_string)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    qstring_values = split_keyvalue_pairs(query_string);</span><br><span class="line">    <span class="keyword">if</span>((ent = find_entry(qstring_values, <span class="string">&quot;mode&quot;</span>)) != <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">sprintf</span>(buf, <span class="string">&quot;MODE=%s&quot;</span>, ent-&gt;value);</span><br><span class="line">        putenv(buf);</span><br><span class="line">    &#125;</span><br><span class="line">    ... more stuff here ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个 web 服务器有一个特殊的不规范的行为:如果查询字符串中含有 <code>mode=</code>,那么环境变量<code>MODE</code>就会被修改为<code>xxx</code>.这个特别的行为在实现上有一个缺陷,如果粗心地使用函数<code>sprintf()</code>就会造成缓冲区溢出.如果你不清楚为什么这段代码很危险,不必担心,缓冲区溢出漏洞会在第五章详细讨论.</p>
 <p>从这个例子可以看出段存在 bug 的代码在黑盒测试中完全可能正常运行，简单的漏洞也无法探测出来。因此，你需要对程序代码本身进行评估而不是只靠跑几个测试例子然后记录结果就行。这也是代码审计很重要的原因。你需要能够分析代码然后发现自动测试工具无法探测到的漏洞。</p>
 <p>幸运的是，代码审计配合黑盒测试能够利用最少的时间得到最好的修补漏洞的结果。这本书将会教会你这些知识和技术来彻底地分析一个应用程序方方面面的漏洞以及怎样应用你对这些知识的理解和创造力来发现一个应用程序的缺陷。</p>
@@ -437,7 +418,7 @@ gitment.render('gitment')
 
  
 
-<script async src="/js/app.js?v=1624344442044"></script>
+<script async src="/js/app.js?v=1624344514669"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
@@ -453,6 +434,22 @@ gitment.render('gitment')
 
 
 
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 </body>
 
 </html>
