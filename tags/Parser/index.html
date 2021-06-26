@@ -21,9 +21,9 @@
 <meta property="article:author" content="Chenyu Zhu">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1624461499874">
+  <link rel="stylesheet" href="/css/style.css?v=1624705507958">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624461499874">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1624705507958">
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body class="mdui-drawer-body-left">
@@ -193,18 +193,20 @@
 
         <article>
             
-                <h1 id="GNU-Bison-Parser-深入分析"><a href="#GNU-Bison-Parser-深入分析" class="headerlink" title="GNU Bison Parser 深入分析"></a>GNU Bison Parser 深入分析</h1><h2 id="一些约定"><a href="#一些约定" class="headerlink" title="一些约定"></a>一些约定</h2><p>bison对我们定义好的文法进行了增广(augmentation)，添加了<code>$accept</code>和<code>$end</code>符号表示接收和终止，并且增加了一条规则用于判断是否完成语法分析：</p>
+                <h1 id="gnu-bison-parser-深入分析">GNU Bison Parser 深入分析</h1>
+<h2 id="一些约定">一些约定</h2>
+<p>bison对我们定义好的文法进行了增广(augmentation)，添加了<code>$accept</code>和<code>$end</code>符号表示接收和终止，并且增加了一条规则用于判断是否完成语法分析：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$accept : &lt;start-symbol&gt; $end</span><br></pre></td></tr></table></figure>
 <p>除此之外还增加了<code>$undefined</code>来表示未出现在文法中的symbol。增加了<code>error</code>用来生成错误。</p>
-<h2 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h2><p>就像flex一样，bison也是表驱动的，为了理解bison如何parse，我们用这样一个文法去生成一个parser：</p>
+<h2 id="一个简单的例子">一个简单的例子</h2>
+<p>就像flex一样，bison也是表驱动的，为了理解bison如何parse，我们用这样一个文法去生成一个parser：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(1) L → L;E</span><br><span class="line">(2) L → E</span><br><span class="line">(3) E → E,P</span><br><span class="line">(4) E → P</span><br><span class="line">(5) P → a</span><br><span class="line">(6) P → (M)</span><br><span class="line">(7) M → ε</span><br><span class="line">(8) M → L</span><br></pre></td></tr></table></figure>
 <p>对应到bison里，就是这样：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br><span class="line">L : L &#x27;;&#x27; E</span><br><span class="line">  | E</span><br><span class="line">;</span><br><span class="line">E : E &#x27;,&#x27; P</span><br><span class="line">  | P</span><br><span class="line">  </span><br><span class="line">;P : &#x27;a&#x27;</span><br><span class="line">   | (M)</span><br><span class="line"></span><br><span class="line">;M : /* nothing */</span><br><span class="line">   | L</span><br><span class="line">;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
 <p>下面是这个文法的LALR(1)算法生成的自动机表(增广后的）：</p>
-<div class="table-container">
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th></th>
 <th><em>action</em></th>
 <th></th>
@@ -220,7 +222,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><em>state</em></td>
 <td><strong>;</strong></td>
 <td><strong>,</strong></td>
@@ -234,7 +236,7 @@
 <td><strong>P</strong></td>
 <td><strong>M</strong></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>0</strong></td>
 <td></td>
 <td></td>
@@ -248,7 +250,7 @@
 <td>5</td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>1</strong></td>
 <td>r5</td>
 <td>r5</td>
@@ -262,7 +264,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>2</strong></td>
 <td>r7</td>
 <td>r7</td>
@@ -276,7 +278,7 @@
 <td>5</td>
 <td>7</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>3</strong></td>
 <td>s9</td>
 <td></td>
@@ -290,7 +292,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>4</strong></td>
 <td>r2</td>
 <td>s10</td>
@@ -304,7 +306,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>5</strong></td>
 <td>r4</td>
 <td>r4</td>
@@ -318,7 +320,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>6</strong></td>
 <td>s9</td>
 <td>r8</td>
@@ -332,7 +334,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>7</strong></td>
 <td></td>
 <td></td>
@@ -346,7 +348,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>8*</strong></td>
 <td>acc</td>
 <td>acc</td>
@@ -360,7 +362,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>9</strong></td>
 <td></td>
 <td></td>
@@ -374,7 +376,7 @@
 <td>5</td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>10</strong></td>
 <td></td>
 <td></td>
@@ -388,7 +390,7 @@
 <td>13</td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>11</strong></td>
 <td>r6</td>
 <td>r6</td>
@@ -402,7 +404,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>12</strong></td>
 <td>r1</td>
 <td>s10</td>
@@ -416,7 +418,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>13</strong></td>
 <td>r3</td>
 <td>r3</td>
@@ -428,93 +430,94 @@
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>这个例子的符号表如下：</p>
-<div class="table-container">
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th><em>Symbol</em></th>
 <th><em>Number</em></th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>$end</td>
 <td>0</td>
 </tr>
-<tr>
+<tr class="even">
 <td>error</td>
 <td>1</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>$undefined</td>
 <td>2</td>
 </tr>
-<tr>
-<td>‘;’</td>
+<tr class="even">
+<td>';'</td>
 <td>3</td>
 </tr>
-<tr>
-<td>‘,’</td>
+<tr class="odd">
+<td>','</td>
 <td>4</td>
 </tr>
-<tr>
-<td>‘a’</td>
+<tr class="even">
+<td>'a'</td>
 <td>5</td>
 </tr>
-<tr>
-<td>‘(‘</td>
+<tr class="odd">
+<td>'('</td>
 <td>6</td>
 </tr>
-<tr>
-<td>‘)’</td>
+<tr class="even">
+<td>')'</td>
 <td>7</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>$accept</td>
 <td>8</td>
 </tr>
-<tr>
+<tr class="even">
 <td>L</td>
 <td>9</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>E</td>
 <td>10</td>
 </tr>
-<tr>
+<tr class="even">
 <td>P</td>
 <td>11</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>M</td>
 <td>12</td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>注意，<code>$end</code>，<code>error</code>, <code>$undefined</code>对应的number永远是0，1，2，然后是terminal symbol，再然后是<code>$accept</code>，再然后是non-terminal。</p>
 <p>如此简单的语法都要生成一个庞大的表，更何况一门完备的语言，并且注意到了表中有很多地方是空的(对应error)，因此bison对这个表进行了压缩。</p>
-<h2 id="数据压缩"><a href="#数据压缩" class="headerlink" title="数据压缩"></a>数据压缩</h2><h3 id="default-action"><a href="#default-action" class="headerlink" title="default action"></a>default action</h3><p>首先是对action的部分进行压缩，注意到state 1，2，4，5，6，11，12，13仅仅只有1种reduction操作（有的还有shift，但它不是reduction），因此就可以先单独考量这样的行，对它们定义一个default action（reduction），也就是只要碰到这些state，在排除shift操作后一律使用reduction操作。对于空白的error部分即使进行了reduction，也仅仅是推迟了错误的发生。</p>
+<h2 id="数据压缩">数据压缩</h2>
+<h3 id="default-action">default action</h3>
+<p>首先是对action的部分进行压缩，注意到state 1，2，4，5，6，11，12，13仅仅只有1种reduction操作（有的还有shift，但它不是reduction），因此就可以先单独考量这样的行，对它们定义一个default action（reduction），也就是只要碰到这些state，在排除shift操作后一律使用reduction操作。对于空白的error部分即使进行了reduction，也仅仅是推迟了错误的发生。</p>
 <p>形式上这个就应该是这个样子：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_reductions[] = &#123;none,r5,r7,none,r2,r4,r8,none,none,none,none,r6,r1,r3&#125;</span><br></pre></td></tr></table></figure>
 <p>在bison生成的文件种就对应了<code>yydefact[]</code>，这个表的index表示的是state number，里面的值表示reduction的rule number，0表示error：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yydefact[] =&#123;<span class="number">0</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">4</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>注意第一条规则是bison的默认增广规则，因此所有规则号都加了1。</p>
-<h3 id="default-GOTO"><a href="#default-GOTO" class="headerlink" title="default GOTO"></a>default GOTO</h3><p>接下来要压缩GOTO的部分，bison的压缩策略是这样的：将每一个non-terminal对应的GOTO列中最多的那一个单独拿出来(L:3,E:4,P:5,M:7)构成一个default GOTO：</p>
+<h3 id="default-goto">default GOTO</h3>
+<p>接下来要压缩GOTO的部分，bison的压缩策略是这样的：将每一个non-terminal对应的GOTO列中最多的那一个单独拿出来(L:3,E:4,P:5,M:7)构成一个default GOTO：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_gotos[] = &#123; <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span> &#125;</span><br></pre></td></tr></table></figure>
 <p>在生成文件中就对应了<code>yydefgoto[]</code>：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yydefgoto[] =&#123; <span class="number">-1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span> &#125;;</span><br></pre></td></tr></table></figure>
 <p>它的index是用non-terminal的symbol number减去terminal个数得到的（0处对应的-1好像没有什么用）。</p>
-<h3 id="压缩non-default-action"><a href="#压缩non-default-action" class="headerlink" title="压缩non-default action"></a>压缩non-default action</h3><p>在选出default reduction表之后，去除它们后action剩下的部分是：</p>
-<div class="table-container">
+<h3 id="压缩non-default-action">压缩non-default action</h3>
+<p>在选出default reduction表之后，去除它们后action剩下的部分是：</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th></th>
 <th><em>action</em></th>
 <th></th>
@@ -525,7 +528,7 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><em>state</em></td>
 <td><strong>3</strong></td>
 <td><strong>4</strong></td>
@@ -534,7 +537,7 @@
 <td><strong>7</strong></td>
 <td><strong>0</strong></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>0</strong></td>
 <td></td>
 <td></td>
@@ -543,7 +546,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>2</strong></td>
 <td></td>
 <td></td>
@@ -552,7 +555,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>3</strong></td>
 <td>9</td>
 <td></td>
@@ -561,7 +564,7 @@
 <td></td>
 <td>8</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>4</strong></td>
 <td></td>
 <td>10</td>
@@ -570,7 +573,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>6</strong></td>
 <td>9</td>
 <td></td>
@@ -579,7 +582,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>7</strong></td>
 <td></td>
 <td></td>
@@ -588,7 +591,7 @@
 <td>11</td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>9</strong></td>
 <td></td>
 <td></td>
@@ -597,7 +600,7 @@
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>10</strong></td>
 <td></td>
 <td></td>
@@ -606,17 +609,17 @@
 <td>11</td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>12</strong></td>
 <td></td>
 <td>10</td>
 <td></td>
 <td></td>
 <td></td>
+<td></td>
 </tr>
 </tbody>
 </table>
-</div>
 <p>可以看出有很多空白，接下来的操作就是要对这些空白进行压缩。</p>
 <p>bison会将这个表变成两个一维的表，一个用来存储这些非空白的信息，一个用来存储它们的dimension。一般表达式就是：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action number = T[D[state number] + symbol number]</span><br></pre></td></tr></table></figure>
@@ -627,13 +630,13 @@
 <p>我们可以验证一下，state 4遇到规则4时对应的是s10：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytable[yypact[<span class="number">4</span>]+<span class="number">4</span>] = yytable[<span class="number">5</span>] = <span class="number">10</span></span><br></pre></td></tr></table></figure>
 <p>注意，尽管去除了default reduction，这里面的操作也是可能有reduction的，为此，bison使用正负号来区别它们，<code>yytable[]</code>里正号代表shift，负号代表reduction（当然这个例子里没有），如果是0就执行default action。</p>
-<h3 id="压缩non-default-GOTO"><a href="#压缩non-default-GOTO" class="headerlink" title="压缩non-default GOTO"></a>压缩non-default GOTO</h3><p>和non-default action一样，采用相同的方法去压缩non-default GOTO。只是在indexing的时候，公式变为了：</p>
+<h3 id="压缩non-default-goto">压缩non-default GOTO</h3>
+<p>和non-default action一样，采用相同的方法去压缩non-default GOTO。只是在indexing的时候，公式变为了：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action number = T[ND[symbol number - num_terminal] + state number]</span><br></pre></td></tr></table></figure>
 <p>在这个例子中，non-default GOTO的表是这样的：</p>
-<div class="table-container">
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th></th>
 <th><em>GOTO</em></th>
 <th></th>
@@ -641,25 +644,25 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><em>state</em></td>
 <td><strong>9</strong></td>
 <td><strong>10</strong></td>
 <td><strong>11</strong></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>2</strong></td>
 <td>6</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><strong>9</strong></td>
 <td></td>
 <td>12</td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td><strong>10</strong></td>
 <td></td>
 <td></td>
@@ -667,28 +670,35 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>压缩后的index在bison生成的表中对应了<code>yypgoto[]</code>，value仍然用<code>yytable[]</code>：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yypgoto[] =&#123;      <span class="number">-5</span>,     <span class="number">5</span>,    <span class="number">-1</span>,     <span class="number">2</span>,    <span class="number">-5</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>例如，我们要symbol 9在state 2中的GOTO：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytable[yypgoto[<span class="number">9</span><span class="number">-8</span>]+<span class="number">2</span>] = yytable[<span class="number">7</span>] = <span class="number">6</span></span><br></pre></td></tr></table></figure>
-<h2 id="算法的实现"><a href="#算法的实现" class="headerlink" title="算法的实现"></a>算法的实现</h2><h3 id="一些static数据"><a href="#一些static数据" class="headerlink" title="一些static数据"></a>一些static数据</h3><h4 id="yytranslate"><a href="#yytranslate" class="headerlink" title="yytranslate"></a>yytranslate</h4><p><code>yytranslate[]</code>定义了文法中符号到symbol number的映射过程，假如这些符号是non-terminal，那index就对应non-terminal %token声明时的值，如果这些符号是ASCII码中的terminal，那么index就对应了ASCII值。</p>
+<h2 id="算法的实现">算法的实现</h2>
+<h3 id="一些static数据">一些static数据</h3>
+<h4 id="yytranslate">yytranslate</h4>
+<p><code>yytranslate[]</code>定义了文法中符号到symbol number的映射过程，假如这些符号是non-terminal，那index就对应non-terminal %token声明时的值，如果这些符号是ASCII码中的terminal，那么index就对应了ASCII值。</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yytranslate[] =&#123;       <span class="number">0</span>,     <span class="number">2</span>,     <span class="number">2</span>,     <span class="number">2</span>,     <span class="number">2</span>, ...&#125;;</span><br></pre></td></tr></table></figure>
 <p>比如说这个例子中出现的’a’，对应的ASCII值是97，根据<code>yytranslate[]</code>的索引，可以得到符号a对应的symbol number是5：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytranslate[<span class="number">97</span>] = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
 <p>在这里面有很多的2(undefined)，因为很多ASCII表中的符号并没有出现在文法中。</p>
-<h4 id="yyr1"><a href="#yyr1" class="headerlink" title="yyr1"></a>yyr1</h4><p><code>yyr1[]</code>是每条文法规则的LHS符号的symbol number：</p>
+<h4 id="yyr1">yyr1</h4>
+<p><code>yyr1[]</code>是每条文法规则的LHS符号的symbol number：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yyr1[] =&#123;       <span class="number">0</span>,     <span class="number">8</span>,     <span class="number">9</span>,     <span class="number">9</span>,    <span class="number">10</span>,    <span class="number">10</span>,    <span class="number">11</span>,    <span class="number">11</span>,    <span class="number">12</span>,    <span class="number">12</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>0并没有用作文法的number，所以<code>yyr1[0]</code>是0.</p>
-<h4 id="yyr2"><a href="#yyr2" class="headerlink" title="yyr2"></a>yyr2</h4><p><code>yyr2[]</code>是每条文法规则的RHS符号的个数：</p>
+<h4 id="yyr2">yyr2</h4>
+<p><code>yyr2[]</code>是每条文法规则的RHS符号的个数：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yyr2[] =&#123;       <span class="number">0</span>,     <span class="number">2</span>,     <span class="number">3</span>,     <span class="number">1</span>,     <span class="number">3</span>,     <span class="number">1</span>,     <span class="number">1</span>,     <span class="number">3</span>,     <span class="number">0</span>,     <span class="number">1</span>&#125;;</span><br></pre></td></tr></table></figure>
 <p>同上，yyr2[0]`是0.</p>
-<h4 id="yycheck"><a href="#yycheck" class="headerlink" title="yycheck"></a>yycheck</h4><p><code>yycheck[]</code>是用来判断使用default还是non-default的，在生成文件的代码中表现为：</p>
+<h4 id="yycheck">yycheck</h4>
+<p><code>yycheck[]</code>是用来判断使用default还是non-default的，在生成文件的代码中表现为：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* If the proper action on seeing token YYTOKEN is to reduce or to   detect an error, take that action.  */</span></span><br><span class="line">yyn += yytoken;</span><br><span class="line"><span class="keyword">if</span> (yyn &lt; <span class="number">0</span> || YYLAST &lt; yyn || yycheck[yyn] != yytoken)</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Now &#x27;shift&#x27; the result of the reduction.  Determine what state   that goes to, based on the state we popped back to and the rule   number reduced by.  */</span></span><br><span class="line">yyn = yyr1[yyn];</span><br><span class="line">yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;</span><br><span class="line"><span class="keyword">if</span> (<span class="number">0</span> &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)</span><br><span class="line">    yystate = yytable[yystate];</span><br><span class="line"><span class="keyword">else</span>  yystate = yydefgoto[yyn - YYNTOKENS];</span><br><span class="line"><span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
 <p>在这个例子中，<code>yycheck[]</code>的值如下：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yycheck[] =&#123;       <span class="number">0</span>,     <span class="number">5</span>,     <span class="number">6</span>,     <span class="number">3</span>,     <span class="number">7</span>,     <span class="number">4</span>,     <span class="number">3</span>,     <span class="number">2</span>,     <span class="number">9</span>,    <span class="number">-1</span>,      <span class="number">-1</span>,    <span class="number">-1</span>,    <span class="number">10</span>&#125;;</span><br></pre></td></tr></table></figure>
-<h4 id="其他不重要的表："><a href="#其他不重要的表：" class="headerlink" title="其他不重要的表："></a>其他不重要的表：</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yyrhs: yyrhs[n] = 第n条规则的RHS第一个symbol</span><br><span class="line">yyprhs: yyprhs[n] = yyrhs[n]symbol的index</span><br><span class="line">yyrline： yyrline[n] = .y文法源文件中第n条规则定义时对应的行</span><br><span class="line">yytname： yytname[n] = symbol number n对应的symbol <span class="built_in">string</span></span><br><span class="line">yytoknum： yytoknum[n] = token n的token number</span><br></pre></td></tr></table></figure>
-<h3 id="yyparse"><a href="#yyparse" class="headerlink" title="yyparse()"></a>yyparse()</h3><p>整个算法的主程序是yyparse()，具体的框架如下：</p>
+<h4 id="其他不重要的表">其他不重要的表：</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yyrhs: yyrhs[n] = 第n条规则的RHS第一个symbol</span><br><span class="line">yyprhs: yyprhs[n] = yyrhs[n]symbol的index</span><br><span class="line">yyrline： yyrline[n] = .y文法源文件中第n条规则定义时对应的行</span><br><span class="line">yytname： yytname[n] = symbol number n对应的symbol <span class="built_in">string</span></span><br><span class="line">yytoknum： yytoknum[n] = token n的token number</span><br></pre></td></tr></table></figure>
+<h3 id="yyparse">yyparse()</h3>
+<p>整个算法的主程序是yyparse()，具体的框架如下：</p>
 <p>首先我们要定义一个state stack:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The state stack.  */</span></span><br><span class="line">yytype_int16 yyssa[YYINITDEPTH];</span><br><span class="line">yytype_int16 *yyss;</span><br><span class="line">yytype_int16 *yyssp;</span><br></pre></td></tr></table></figure>
 <p>然后定义符号的stack：</p>
@@ -711,6 +721,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">yyacceptlab:</span><br><span class="line">  yyresult = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">goto</span> yyreturn;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*-----------------------------------.</span></span><br><span class="line"><span class="comment">| yyabortlab -- YYABORT comes here.  |</span></span><br><span class="line"><span class="comment">`-----------------------------------*/</span></span><br><span class="line">yyabortlab:</span><br><span class="line">  yyresult = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">goto</span> yyreturn;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !defined yyoverflow || YYERROR_VERBOSE</span></span><br><span class="line"><span class="comment">/*-------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyexhaustedlab -- memory exhaustion comes here.  |</span></span><br><span class="line"><span class="comment">`-------------------------------------------------*/</span></span><br><span class="line">yyexhaustedlab:</span><br><span class="line">  yyerror (YY_(<span class="string">&quot;memory exhausted&quot;</span>));</span><br><span class="line">  yyresult = <span class="number">2</span>;</span><br><span class="line">  <span class="comment">/* Fall through.  */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
 <p>最后一步：yyreturn，返回时清空stack，error message的buf：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">yyreturn:</span><br><span class="line">  <span class="keyword">if</span> (yychar != YYEMPTY)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* Make sure we have latest lookahead translation.  See comments at</span></span><br><span class="line"><span class="comment">         user semantic actions for why this is necessary.  */</span></span><br><span class="line">      yytoken = YYTRANSLATE (yychar);</span><br><span class="line">      yydestruct (<span class="string">&quot;Cleanup: discarding lookahead&quot;</span>,</span><br><span class="line">                  yytoken, &amp;yylval);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">/* Do not reclaim the symbols of the rule whose action triggered</span></span><br><span class="line"><span class="comment">     this YYABORT or YYACCEPT.  */</span></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">  <span class="keyword">while</span> (yyssp != yyss)</span><br><span class="line">    &#123;</span><br><span class="line">      yydestruct (<span class="string">&quot;Cleanup: popping&quot;</span>,</span><br><span class="line">                  yystos[*yyssp], yyvsp);</span><br><span class="line">      YYPOPSTACK (<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> yyoverflow</span></span><br><span class="line">  <span class="keyword">if</span> (yyss != yyssa)</span><br><span class="line">    YYSTACK_FREE (yyss);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> YYERROR_VERBOSE</span></span><br><span class="line">  <span class="keyword">if</span> (yymsg != yymsgbuf)</span><br><span class="line">    YYSTACK_FREE (yymsg);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="keyword">return</span> yyresult;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
             
         </article>
     </div>
@@ -740,7 +751,7 @@
 
  
 
-<script async src="/js/app.js?v=1624461499876"></script>
+<script async src="/js/app.js?v=1624705507960"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
