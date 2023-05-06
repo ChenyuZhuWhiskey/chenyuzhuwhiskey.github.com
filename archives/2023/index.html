@@ -21,9 +21,9 @@
 <meta property="article:author" content="Chenyu Zhu">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1683374628875">
+  <link rel="stylesheet" href="/css/style.css?v=1683374863513">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1683374628875">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1683374863513">
 <meta name="generator" content="Hexo 5.4.2"></head>
 
 <body class="mdui-drawer-body-left">
@@ -219,25 +219,25 @@ z(T)-z(0)=z
 \]</span> 我们将时间段<span class="math inline">\(T\)</span>一分为二，<span class="math inline">\(T\)</span>时间的增量应该是二者之和： <span class="math display">\[
 z = z_T=z_{T_1}+z_{T_2}=z_1+z_2
 \]</span> 其中<span class="math inline">\(T=T_1+T_2\)</span>. 由于求均值是线性的算符，天然满足可加性 <span class="math display">\[
- 0 = \lang z\rang = \lang z_1+z_2\rang =\lang z_1\rangle+\lang z_2\rang = 0
+0 = \langle z\rangle = \langle z_1+z_2\rangle =\langle z_1\rangle+\langle z_2\rangle = 0
 \]</span> 但如果等号两边取方差，等式左边： <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\lang (z-\lang z\rang)^2 \rang &amp;= \lang z^2\rang
+\langle (z-\langle z\rangle)^2 \rangle &amp;= \langle z^2\rangle
 \end{aligned}
 \end{equation}
 \]</span> 等号右边为 <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\lang (z_1+z_2-\lang z_1+z_2\rang)^2 \rang &amp;=  \lang (z_1+z_2)^2 \rang\\
-&amp;= \lang z_1^2+z_2^2+2z_1z_2 \rang \\
-&amp;= \lang z_1^2 \rang + \lang z_2^2 \rang + 2\lang z_1z_2 \rang \\
-&amp;= \lang z_1^2 \rang + \lang z_2^2 \rang
+\langle (z_1+z_2-\langle z_1+z_2\rangle)^2 \rangle &amp;=  \langle (z_1+z_2)^2 \rangle\\
+&amp;= \langle z_1^2+z_2^2+2z_1z_2 \rangle \\
+&amp;= \langle z_1^2 \rangle + \langle z_2^2 \rangle + 2\langle z_1z_2 \rangle \\
+&amp;= \langle z_1^2 \rangle + \langle z_2^2 \rangle
 \end{aligned}
 \end{equation}
 \]</span> 因此 <span class="math display">\[
-T =\lang z^2\rang = \lang z_1^2\rang + \lang z_2^2\rang = T_1+T_2
-\]</span> 这个well defined的性质要由马尔可夫性才能得出，因为它保证了<span class="math inline">\(\lang z_1z_2 \rang = 0\)</span>. 对于Weiner过程，我们就可以考虑一个无穷小变化时间<span class="math inline">\(dt\)</span>内的Weiner过程的变化<span class="math inline">\(dz\)</span>, 在经过时间<span class="math inline">\(T\)</span>以后有: <span class="math display">\[
+T =\langle z^2\rangle = \langle z_1^2\rangle + \langle z_2^2\rangle = T_1+T_2
+\]</span> 这个well defined的性质要由马尔可夫性才能得出，因为它保证了<span class="math inline">\(\langle z_1z_2 \rangle = 0\)</span>. 对于Weiner过程，我们就可以考虑一个无穷小变化时间<span class="math inline">\(dt\)</span>内的Weiner过程的变化<span class="math inline">\(dz\)</span>, 在经过时间<span class="math inline">\(T\)</span>以后有: <span class="math display">\[
 \Delta z = \int_0^Tdz \sim \phi(0,T)
 \]</span> 如果一个随机变量<span class="math inline">\(X(t)\)</span>在<span class="math inline">\(\Delta t\)</span>区间内的变化<span class="math inline">\(\Delta z\)</span>服从的是一个<span class="math inline">\(\phi(a,b^2)\)</span>的正态分布，我们就称其为广义的Weiner过程，一个广义的Wiener过程的变化量可以写作： <span class="math display">\[
 \Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}
@@ -257,7 +257,7 @@ dx = adt + bdz
  &amp;= \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\epsilon^2b^2 \right)\Delta t + \frac{\partial G}{\partial x}b\epsilon\sqrt{\Delta t}
 \end{aligned}
 \end{equation}
-\]</span> 对于<span class="math inline">\(\epsilon^2\)</span>而言，<span class="math inline">\(\lang\epsilon^2\Delta t\rang=\Delta t\)</span>，而它的方差是比<span class="math inline">\(\Delta t\)</span>更高阶的无穷小，所以我们忽略掉其对variance部分的贡献，然后把<span class="math inline">\(\Delta G\rightarrow dG\)</span>，得到<span class="math inline">\(G(x,t)\)</span>满足的方程为 <span class="math display">\[
+\]</span> 对于<span class="math inline">\(\epsilon^2\)</span>而言，<span class="math inline">\(\langle\epsilon^2\Delta t\rangle=\Delta t\)</span>，而它的方差是比<span class="math inline">\(\Delta t\)</span>更高阶的无穷小，所以我们忽略掉其对variance部分的贡献，然后把<span class="math inline">\(\Delta G\rightarrow dG\)</span>，得到<span class="math inline">\(G(x,t)\)</span>满足的方程为 <span class="math display">\[
 dG = \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}b^2 \right)dt+\frac{\partial G}{\partial x}bdz
 \]</span> 这个结果称为Itô 引理。</p>
 <p>我们认为，一个金融资产的价格随着时间应当是按照指数增长的。例如一笔利率为<span class="math inline">\(r\)</span>，借出时面值<span class="math inline">\(K_0\)</span>的债务，经过时间<span class="math inline">\(t\)</span>后，按照本息偿还的面值应该为： <span class="math display">\[
@@ -280,7 +280,7 @@ dG = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} +
 d\ln S = \left(\mu-\frac{\sigma^2}{2}\right)dt+\sigma dz
 \]</span> 可以得到 <span class="math display">\[
 \ln (S_T)-\ln S_0 \sim \phi[\left(\mu-\frac{\sigma^2}{2}\right)T,\sigma^2T]
-\]</span> 注意，连续复利的收益率和离散复利收益率是两个东西，因为离散负利收益率<span class="math inline">\(\mu = \ln \lang S_T/S_0\rang\)</span>，而连续复利的收益率是<span class="math inline">\(\lang \ln S_T/S_0\rang\)</span>. 并且前者具有可加性，后者不具有，而且根据对数函数的凸性，有<span class="math inline">\(\ln \lang S_T/S_0\rang &gt; \lang \ln S_T/S_0\rang\)</span>。</p>
+\]</span> 注意，连续复利的收益率和离散复利收益率是两个东西，因为离散负利收益率<span class="math inline">\(\mu = \ln \langle S_T/S_0\rangle\)</span>，而连续复利的收益率是<span class="math inline">\(\langle \ln S_T/S_0\rangle\)</span>. 并且前者具有可加性，后者不具有，而且根据对数函数的凸性，有<span class="math inline">\(\ln \langle S_T/S_0\rangle &gt; \langle \ln S_T/S_0\rangle\)</span>。</p>
 <p>我们将资产价格表达式写成和固定利率的无风险债券相同的形式： <span class="math display">\[
 S_T = S_0e^{xT}
 \]</span> 其中 <span class="math display">\[
@@ -328,7 +328,7 @@ x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\si
 
  
 
-<script async src="/js/app.js?v=1683374628876"></script>
+<script async src="/js/app.js?v=1683374863514"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
