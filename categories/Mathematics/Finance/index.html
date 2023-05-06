@@ -4,7 +4,7 @@
 
 <head>
   
-  <title>Categories：Mathematics - Chenyu&#39;s Blog</title>
+  <title>Categories：Finance - Chenyu&#39;s Blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="">
   <meta name="keywords" content="null">
@@ -15,15 +15,15 @@
   <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
   <meta property="og:type" content="website">
 <meta property="og:title" content="Chenyu&#39;s Blog">
-<meta property="og:url" content="https://chenyuzhuwhiskey.github.io/categories/Mathematics/index.html">
+<meta property="og:url" content="https://chenyuzhuwhiskey.github.io/categories/Mathematics/Finance/index.html">
 <meta property="og:site_name" content="Chenyu&#39;s Blog">
 <meta property="og:locale" content="zh_CH">
 <meta property="article:author" content="Chenyu Zhu">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1683374628846">
+  <link rel="stylesheet" href="/css/style.css?v=1683374628848">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1683374628846">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1683374628848">
 <meta name="generator" content="Hexo 5.4.2"></head>
 
 <body class="mdui-drawer-body-left">
@@ -303,213 +303,6 @@ x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\si
         </article>
     </div>
     
-    <div class="nexmoe-post">
-        <a href="/manifold-note-0/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 62.5%;"> 
-                    <img data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wgwall.jpg" data-sizes="auto" alt="微分流形笔记0" class="lazyload">
-                    <h1>微分流形笔记0</h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2021年06月22日</a>
-            <a><i class="nexmoefont icon-areachart"></i>3.7k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 17 分钟</a>
-        </div>
-
-        <article>
-            
-                <h1 id="微分流形笔记0一些必要的前置数学工具">微分流形笔记0：一些必要的前置数学工具</h1>
-<p>微分流形研究的对象是流形，所谓的流形就是曲线和曲面的推广。我们研究可微流形的方法就是让它在局部的性质与欧氏空间一致，也就是让它在某点邻域内的的切空间同构于欧式空间，利用我们所熟知的欧式空间性质进行研究，最后再利用同构映射变换回去。因此，一些研究在坐标变换下保持不变的量，i.e. 张量的性质的掌握是必要的。并且，为了将欧式空间上的微分和积分推广到定义在流形上的函数，我们有必要引入不依赖于坐标系所定义的微分形式，而这些内容也将cover进本章。</p>
-<p>注意，以下的内容如果没有另作声明，就默认使用爱因斯坦求和约定, i.e. 遇到相同指标即求和: <span class="math display">\[
-a_ib_i=\sum_ia_ib_i
-\]</span></p>
-<h2 id="张量代数">张量代数</h2>
-<p>我们知道，一个线性空间就是由其元素以及线性的代数结构(加法,数乘)组成的，我们了解一个线性空间<span class="math inline">\(V\)</span>，只需要知道它的维数<span class="math inline">\(n\)</span>以及一组基<span class="math inline">\(e_i\)</span>，我们就可以将任意的元素<span class="math inline">\(v\)</span>线性表示出来， i.e. <span class="math inline">\(v=v^ie_i\)</span>。其中<span class="math inline">\(v^i\)</span>是元素<span class="math inline">\(v\)</span>在这组基下的坐标表示，在选用不同的基后，其坐标表示也将不同，坐标的变换恰好是基变换的逆：</p>
-<p><span class="math display">\[
-e&#39;_i= A^j_{i}e_j \\
-v^ie_i=v=v&#39;^ie&#39;_i=v&#39;^iA^j_{i}e_j\Rightarrow v&#39;_i=(A^j_{i})^{-1}v_j
-\]</span></p>
-<p>至此，一个线性空间的内部结构就已经well known了。现在，我们来继续研究基于一个线性空间的线性函数，我们定义一个空间上的线性函数是从<span class="math inline">\(V\)</span>到<span class="math inline">\(\mathbb{R}\)</span>的一个线性映射：</p>
-<p><span class="math display">\[
-f:V\rightarrow\mathbb{R}\\
-\forall u,v\in V,\lambda\in\mathbb{R}:\\f(\lambda u+v)=\lambda f(u)+f(v)
-\]</span></p>
-<p>我们容易看出，所有定义在<span class="math inline">\(V\)</span>到<span class="math inline">\(\mathbb{R}\)</span>的全体线性映射，在加法：</p>
-<p><span class="math display">\[
-(f+g)(v)=f(v)+g(v)
-\]</span></p>
-<p>和数乘：</p>
-<p><span class="math display">\[
-(\lambda f)(v)=\lambda\cdot f(v)
-\]</span></p>
-<p>下构成一个线性空间，我们记这个空间为线性空间<span class="math inline">\(V\)</span>的对偶空间<span class="math inline">\(V^*\)</span>。</p>
-<blockquote>
-<p>定义1：全体<span class="math inline">\(V\)</span>到<span class="math inline">\(\mathbb{R}\)</span>的线性映射构成<span class="math inline">\(V\)</span>的对偶空间<span class="math inline">\(V^*\)</span></p>
-</blockquote>
-<p>既然<span class="math inline">\(V^*\)</span>也是一个线性空间，那么它的维数是多少？它的基和<span class="math inline">\(V\)</span>种的基有什么关系呢？</p>
-<blockquote>
-<p>定理1. 线性函数<span class="math inline">\(e^i\)</span>构成<span class="math inline">\(V^{*}\)</span>的一组基，如果满足<span class="math inline">\(e^ie_j=\delta^i_j\)</span></p>
-</blockquote>
-<p>其中<span class="math inline">\(\delta^i_j\)</span>是Kronecker delta：</p>
-<p><span class="math display">\[
-\delta^i_j=
-\begin{cases}  
-0 &amp; i \neq j \\
-1 &amp; i = j
-\end{cases}
-\]</span></p>
-<p>注意，Kronecker delta的定义不管指标<span class="math inline">\(ij\)</span>在上标还是下标上。</p>
-<p><strong>证明</strong>：</p>
-<p>首先我们要证明<span class="math inline">\(e^i\in V^*\)</span>。我们设有<span class="math inline">\(u,v\in V,\lambda \in \mathbb{R}\)</span>，并且在基<span class="math inline">\(e_j\)</span>下，<span class="math inline">\(u=u^je_j,v=v^je_j\)</span>，根据<span class="math inline">\(e^i\)</span>的性质有：</p>
-<p><span class="math display">\[
-e^i(u+v)=e^i(u^je_j+v^je_j)=u^je^ie_j+v^je^ie_j=e^i(u)+e^i(v)\\
-e^i(\lambda u)=e^i(\lambda u^je_j)=\lambda (e^iu^je_j)=\lambda (e^iu)
-\]</span></p>
-<p>因此<span class="math inline">\(e^{i}\in V^{*}\)</span>。接下来我们需要证明它是一组基，也就是我们要证明<span class="math inline">\(\forall\alpha\in V^{*}\)</span>都能被<span class="math inline">\(e^{i}\)</span>线性表示。这里我们用线性代数里常规的反证法，设存在一组不为0的<span class="math inline">\(k_{i}\)</span> ，使得<span class="math inline">\(e^{i}k_{i}=0\)</span>，两边同时作用于<span class="math inline">\(e_j\)</span>得：</p>
-<p><span class="math display">\[
-0=0(e_j)=e^ik_ie_j=k_ie^ie_j=k_i\delta^i_j=k_j
-\]</span></p>
-<p>这就证明了$ e^i <span class="math inline">\(是\)</span> V^{*} $的一组基。并且，由定理1可以直接得到推论</p>
-<p><span class="math display">\[
-\text{dim}(V^*)=\text{dim}(V)=n
-\]</span></p>
-<p>从对偶基<span class="math inline">\(e^i\)</span>的定义就可以看到，它和<span class="math inline">\(V\)</span>的基<span class="math inline">\(e_i\)</span>是对应的，并且注意到:</p>
-<p><span class="math display">\[
-e_ie^j=\delta_i^j
-\]</span></p>
-<p>因此一个线性空间对偶空间的对偶就是其本身，正是这个原因，空间<span class="math inline">\(V^{*}\)</span>取名为<span class="math inline">\(V\)</span>的对偶空间(dual space)。</p>
-<p>既然<span class="math inline">\(e_i\)</span>和<span class="math inline">\(e^i\)</span>是对应的，那么在另一组基下它们的线性变换的关系也可以导出：</p>
-<p><span class="math display">\[
-e^ie_j=\delta^i_j=e&#39;^ie&#39;_j=e&#39;^iA^k_je_k\\
-\Rightarrow e&#39;^i=(A^i_j)^{-1}e&#39;^j
-\]</span> 我们可以看到，当基<span class="math inline">\(e_i\)</span>变换到另一组基时，其对偶基的变换关系为逆变换。基于此，我们将<span class="math inline">\(V\)</span>中的向量成为协变矢量，<span class="math inline">\(e_i\)</span>称为协变基，其对偶空间<span class="math inline">\(V^*\)</span>中的向量称为逆变矢量，<span class="math inline">\(e^i\)</span>称为逆变基。到现在为止，我们就可以解释使用上标和下标的意义了，上标表示对偶和逆变，下标表示协变，这个约定在张量的定义和使用中非常方便。以后的文字中，如果没有特别指出，那么上下标的使用均暗含这个意义。</p>
-<p>现在，在得到了线性空间和对偶空间的性质之后，我们可以对张量下定义了，所谓的张量就是在坐标变换下不变的量，它在不同的坐标下可以有不同的表示，但坐标的选取并不会影响到其本身。</p>
-<blockquote>
-<p>定义2：一个<span class="math inline">\((m,n)\)</span>张量是一个多重线性函数<span class="math inline">\(T\)</span>:</p>
-<p><span class="math display">\[
-T: \underbrace{V^*\times V^*\times...\times V^*}_m\times\underbrace{V\times V\times...\times V}_n \rightarrow \mathbb{R} \\
-T(u_1,u_2,..u_{i-1}, \lambda v+w, u_{i+1}, ...u_{m+n})=\lambda T(u_1,u_2,..u_{i-1}, v, u_{i+1}, ...u_{m+n})
-\\+
-T(u_1,u_2,..u_{i-1},w, u_{i+1}, ...u_{m+n})
-\]</span> 张量的阶数为<span class="math inline">\(m+n\)</span>。</p>
-</blockquote>
-<p>注意，这里的下标特指序数。多重线性指的是这个线性关系对任意指标下的向量都成立。我们将所有的协变向量<span class="math inline">\(u^i\)</span>和逆变向量<span class="math inline">\(v_j\)</span>用基展开，并且我们记它的基为<span class="math inline">\(T(e^{i_1},e^{i_2},...e^{i_m},e_{j_1},e_{j_2},...e_{j_n})=T^{i_1,i_2,..i_m}_{i_1,j_2,...j_n}\)</span>，得到： <span class="math display">\[
-T(u_{1i_1}e^{i_1},u_{2i_2}e^{i_2},...u_{mi_m}e^{i_m},v^{1j_1}e_{j_1},v^{2j_2}e_{j_2},...v^{nj_n}e_{j_n})\\
-=u_{1i_1}u_{2i_2}...u_{mi_m}v^{1j_1}v^{2j_2}...v^{nj_n}T^{i_1,i_2,..i_m}_{i_1,j_2,...j_n}
-\]</span> 注意这里使用的爱因斯坦求和约定。既然张量是在坐标变换下不变的量，那么坐标变换只会影响到它的表示，而不会影响到其本身，我们设其中一个逆变基有变换<span class="math inline">\(e&#39;^{i_k}=(A^{i_k}_{j_k})^{-1}e^{j_k}\)</span>，它对应的线性空间的基变换应该为<span class="math inline">\(A^{i_k}_{j_k}\)</span>。按照多重线性，那么对应的张量在坐标下的表示对应变换为<span class="math inline">\(A^{i_k}_{j_k}\)</span>，和常规的坐标变换相反。反之，如果是协变基有变换<span class="math inline">\(e&#39;_{i_k}=B_{i_k}^{j_k}e_{j_k}\)</span>，那么对应张量在坐标下的表示应该变换为<span class="math inline">\((B_{i_k}^{j_k})^{-1}\)</span>，和常规的坐标变换相同。因此，我们称<span class="math inline">\(V^{*} \times V^{*} \times ... \times V^{*} \rightarrow \mathbb{R}\)</span>的张量为逆变张量，基的指标用上标表示，称<span class="math inline">\(V\times V \times ... \times V \rightarrow \mathbb{R}\)</span>的张量为协变张量，基的指标用下标表示。</p>
-<p>并且我们发现，全体<span class="math inline">\(\underbrace{ V^{*} \times V{^*} \times ... \times V^{*} }_m \times \underbrace{ V \times V \times ... \times V}_n \rightarrow \mathbb{R}\)</span>的<span class="math inline">\((m,n)\)</span>张量构成一个线性空间<span class="math inline">\(\mathcal{L}\)</span>。我们自然想要知道这个线性空间的维度，以及基与各个协变基之间的关系。在寻找这个关系前，我们要定义张量积运算。</p>
-<blockquote>
-<p>定义3：张量积<span class="math inline">\(\cdot\otimes\cdot\)</span>是一个双线性函数：</p>
-<p><span class="math display">\[
-\forall \alpha \in V^{*}_1, \beta \in V^{*}_2, u \in V_1, v \in V_2; \alpha\otimes\beta(u,v)=\alpha(u)\beta(v)
-\]</span></p>
-</blockquote>
-<p>上面的定义是对逆变矢量的，张量积对协变矢量依然成立。我们下面可以证明，<span class="math inline">\(e^{i_1}\otimes e^{i_2}\otimes ...\otimes e^{i_m} \otimes e_{j_1} \otimes e_{j_2} \otimes... \otimes e_{j_n}\)</span>是<span class="math inline">\(\mathcal{L}\)</span>的一组基。首先显然它们是属于<span class="math inline">\(\mathcal{L}\)</span>空间的。因此我们只要证明<span class="math inline">\(\forall f \in \mathcal{L}\)</span>都可以用它们线性表示。不失一般性，我们这里给出<span class="math inline">\((2,0)\)</span>张量的证明，注意到<span class="math inline">\(\forall u\in V_1,v\in V_2\)</span>：</p>
-<p><span class="math display">\[
-f(u,v)=f(u^ie_i,v^je_j)=e^i_1(u)e_2^j(v)f(e_{1i},e_{2j})=f(e_{1i},e_{2j})(e_1^i\otimes e_2^j)(u,v)
-\]</span></p>
-<p>即<span class="math inline">\(f=f(e_{1i},e_{2j})(e_1^i\otimes e_2^j)(u,v)\)</span>，我们仍然按照反证法，设存在<span class="math inline">\(k_{ij}\)</span>使得<span class="math inline">\(k_{ij}(e_1^i\otimes e_2^j)=0\)</span>，两边同时作用于<span class="math inline">\((e_{1r},e_{2s})\)</span>有</p>
-<p><span class="math display">\[
-0=k_{ij}(e_1^i\otimes e_2^j)(e_{1k},e_{2l})=k_{ij}e_1^ie_{1r}e_2^je_{2s}=k_{ij}\delta^i_r\delta^j_s=k_{rs}
-\]</span></p>
-<p>这就证明了上面的命题。因此，张量积就是一种使用<span class="math inline">\(m\)</span>维对偶空间和<span class="math inline">\(n\)</span>维线性空间构造一个<span class="math inline">\((m,n)\)</span>的多重线性映射的方法，因此张量还可以用张量积来进行定义，并且我们立刻可以得到推论：</p>
-<blockquote>
-<p>推论1： <span class="math display">\[
-\mathcal{L}(m,n) = \underbrace{ V^{*} \otimes V^{*} \otimes ... \otimes V^{*} }_m \otimes \underbrace{ V \otimes V \otimes ... \otimes V}_n
-\]</span></p>
-</blockquote>
-<h3 id="群">群</h3>
-<p>在搞清楚了张量的定义和基本性质之后，我们要将目光转移到具有一些特殊性质的张量，例如张量的交换对称性。在给出对称性之前，我们需要回顾研究交换对称性的置换群。首先我们给出群的定义：</p>
-<blockquote>
-<p>定义4：一个群<span class="math inline">\(G\)</span>是一个定义了元素间乘法运算的集合，满足：</p>
-<ol type="1">
-<li>封闭性：<span class="math inline">\(\forall g_1,g_2\in G, g_1\cdot g_2\in G\)</span></li>
-<li>结合律：<span class="math inline">\(\forall g,h, k\in G, g\cdot(h\cdot k)=(g\cdot h)\cdot k\)</span></li>
-<li>存在单位元：<span class="math inline">\(\exists e\in G, \forall g\in G, e\cdot g=g\cdot e=g\)</span></li>
-<li>存在逆：<span class="math inline">\(\forall g\in G, \exists h\in G, g\cdot h = h\cdot g=e\)</span></li>
-</ol>
-</blockquote>
-<p>从定义中我们可以看出，一个群就是一类变换的集合，这个集合中有单位变换(什么都不做)，并且任何变换都存在对应的逆变换。</p>
-<h4 id="置换群">置换群</h4>
-<p>考虑一组序数<span class="math inline">\((1,2,...q)\)</span>，我们定义置换操作为序数的一个排列<span class="math inline">\(\sigma=(\sigma_1,\sigma_2,...\sigma_q)\)</span>到另一个排列的变换。显然，全体置换操作构成了一个群，我们称其为置换群，其中序数的数量<span class="math inline">\(q\)</span>称为置换群的阶数。我们知道，对于一组序数来说，它的排列数量是<span class="math inline">\(q!\)</span>，因此，一个<span class="math inline">\(q\)</span>阶置换群的元素为<span class="math inline">\(q!\)</span>个。</p>
-<p>接下来我们定义置换的奇偶性，我们可以简单看出，一个置换<span class="math inline">\(\sigma\)</span>可以分解为多个两序数对换操作的乘积之和，我们称分解个数奇数的为奇置换，偶数个数的为偶置换，换句话说，一个置换将序数排列<span class="math inline">\((1,2,...q)\)</span>变换到<span class="math inline">\((\sigma_1,\sigma_2,...\sigma_q)\)</span>，它分解为序数对换操作的数目就定义了其奇偶性。</p>
-<blockquote>
-<p>定义5：</p>
-<p><span class="math display">\[
-\text{sign}(\sigma)
-=
-\begin{cases}  -1 &amp; \sigma \quad is \quad odd \\
-1 &amp; \sigma \quad is \quad even
-\end{cases}
-\]</span></p>
-</blockquote>
-<p>以上群论的知识已经足够覆盖本文内容。</p>
-<h3 id="对称张量和反对称张量">对称张量和反对称张量</h3>
-<p>我们自然想看看一个张量<span class="math inline">\(T(u,v)\)</span>，<span class="math inline">\(u\)</span>和<span class="math inline">\(v\)</span>的顺序替换之后和原来值的关系，使用置换群的语言，我们能够给出对称张量和反对称张量的定义。下面的张量性质不涉及基变换，因此不区分</p>
-<blockquote>
-<p>定义6：定义<span class="math inline">\(G_q\)</span>为<span class="math inline">\(q\)</span>阶置换群，定义<span class="math inline">\(T\)</span>为<span class="math inline">\(q\)</span>阶张量，定义其对换元素为：<span class="math inline">\(\forall\sigma\in G_q,(\sigma T)(v_1,..v_q)=T(\sigma_1,...\sigma_q)\)</span>。则:</p>
-<ul>
-<li><span class="math inline">\(T\)</span>是对称张量，当且仅当</li>
-</ul>
-<p><span class="math inline">\(\forall \sigma\in G_q, \sigma(f)=f\)</span>。</p>
-<ul>
-<li>T是反对称张量，当且仅当</li>
-</ul>
-<p><span class="math inline">\(\forall \sigma\in G_q, \sigma(f)=\text{sign}(\sigma)f\)</span></p>
-</blockquote>
-<p>显然，全体<span class="math inline">\(q\)</span>阶对称张量构成一个线性空间，全体<span class="math inline">\(q\)</span>阶反对称张量也构成一个线性空间，它们都是<span class="math inline">\(\mathcal{L}\)</span>的子空间。</p>
-<p>由于对称张量的性质是平凡的，这里我们来研究反对称张量的性质。我们记全体<span class="math inline">\(q\)</span>阶反对称张量构成的线性空间为<span class="math inline">\(\Lambda^q\)</span>。研究它，我们自然就想要知道它的维数，以及其基和相应线性空间中基的关系。</p>
-<p>在得到这个关系前，我们首先要构造出将一个没有对称性的张量对称化或者反对称化的方法。一个好的动机就是观察置换的代数结构，我们注意到了一个<span class="math inline">\(k+l\)</span>阶置换可以写成一个<span class="math inline">\(k\)</span>阶置换和<span class="math inline">\(l\)</span>阶置换的积，并且观察定义6，我们就可以得到答案。</p>
-<blockquote>
-<p>定理2：<span class="math inline">\(f\)</span>是<span class="math inline">\(q\)</span>阶张量，<span class="math inline">\(f\in \mathcal{L}(q)\)</span>，则：</p>
-<ol type="1">
-<li><p><span class="math inline">\(Sf=\sum_{\sigma\in G_q}\sigma f\)</span>是对称张量</p></li>
-<li><p><span class="math inline">\(Af=\sum_{\sigma\in G_q}\text{sign}(\sigma)\sigma f\)</span>是反对称张量</p></li>
-</ol>
-</blockquote>
-<p><strong>证明</strong>：</p>
-<p>对于2.<span class="math inline">\(\forall \tau \in G_q\)</span> <span class="math display">\[
-\tau Af=\sum_{\sigma\in G_q}\text{sign}(\sigma)\tau(\sigma f)\\
-=\sum_{\sigma\in G_q}\text{sign}(\sigma)(\tau\sigma) f \\
-=\text{sign}(\tau)\sum_{\sigma\in G_q}[\text{sign}(\tau)\text{sign}(\sigma)](\tau\sigma) f\\
-=\text{sign}(\tau)\sum_{\sigma\in G_q}\text{sign}(\tau\sigma)(\tau\sigma) f\\
-=\text{sign}(\tau)Af
-\]</span> 1的证明和上面一样，只需要把sign去掉。</p>
-<p>现在我们可以利用这个构造方法得出<span class="math inline">\(\Lambda^q\)</span>的性质了。首先，我们根据反对称张量的构造来定义两个张量的楔积：</p>
-<blockquote>
-<p>定义7:一个<span class="math inline">\(k\)</span>阶张量<span class="math inline">\(f\in\mathcal{L}(k)\)</span>和一个<span class="math inline">\(l\)</span>阶张量<span class="math inline">\(f\in\mathcal{L}(l)\)</span>的楔积<span class="math inline">\((f\wedge g)\)</span>构成一个<span class="math inline">\(k+l\)</span>阶张量：</p>
-<p><span class="math display">\[
-f \wedge g (v_1,v_2,..v_{k+l}) =\frac{1}{k!l!} \sum_{\sigma\in G_{k+l}}\text{sign}(\sigma)f(\sigma_1,\sigma_2,...\sigma_k)g(\sigma_{k+1},\sigma_{k+2},...\sigma_{k+l})
-\]</span></p>
-</blockquote>
-<p>注意系数<span class="math inline">\(k!\)</span>和<span class="math inline">\(l!\)</span>的来源，它们分别是<span class="math inline">\(k\)</span>阶置换群和<span class="math inline">\(l\)</span>阶置换群群元的数目，这里相当于除以了求和符号中项数，因为我们不想要楔积的值随着项数的累计而变得巨大。显然，一个张量和常数的楔积就是定理2中的反对称形式除以系数，下面我们给出楔积的性质。</p>
-<ul>
-<li>反交换率</li>
-</ul>
-<p><span class="math inline">\(\forall f\in\mathcal{L}(k)，\forall g\in\mathcal{L}(l)\Rightarrow f\wedge g=(-1)^{kl}g \wedge f\)</span></p>
-<ul>
-<li>分配律</li>
-</ul>
-<p><span class="math inline">\(\forall f_1,f_2\in\mathcal{L}(k)，\forall g_1,g_2\in\mathcal{L}(l)\Rightarrow (f_1+f_2)\wedge g=f_1 \wedge g_1+f_2 \wedge g_1; f_1\wedge (g_1+g_2)=f_1\wedge g_1 + f_1\wedge g_2\)</span></p>
-<ul>
-<li>结合律</li>
-</ul>
-<p><span class="math inline">\(\forall f\in\mathcal{L}(k), \forall g\in\mathcal{L}(l), \forall h\in\mathcal{L}(m)\Rightarrow f\wedge (g \wedge h) = (f \wedge g)\wedge h\)</span></p>
-<p>由于篇幅原因，证明不予给出。</p>
-<p>定义完了楔积，我们就可以尝试回答<span class="math inline">\(\Lambda^q\)</span>的维数和基的问题了。首先，对于<span class="math inline">\(\forall\alpha,\beta\in\Lambda^q\)</span>，有<span class="math inline">\(\alpha\wedge\beta=(-1)^{rs}\beta\alpha\)</span>，这说明我们在取基的时候，楔积的顺序不是重要的，因为它们只差一个正负号，那么交换后的基和交换前的是可以相互线性表出的。然后，我们根据顺序无关的性质，就可以发现基数量就是组合数<span class="math inline">\(C_n^q\)</span>，进一步，我们可以得到<span class="math inline">\(\Lambda^q\)</span>的基为：</p>
-<p><span class="math display">\[
-\{e^{i_1} \otimes e^{i_2}... \otimes e^{i_q}\}\\
-1 \leqslant i_1 \leqslant i_2 \leqslant ... \leqslant i_q \leqslant n
-\]</span></p>
-<p>当然上面的只是猜想思路</p>
-
-            
-        </article>
-    </div>
-    
 </section>
 
         <div class="nexmoe-post-right">
@@ -535,7 +328,7 @@ f \wedge g (v_1,v_2,..v_{k+l}) =\frac{1}{k!l!} \sum_{\sigma\in G_{k+l}}\text{sig
 
  
 
-<script async src="/js/app.js?v=1683374628848"></script>
+<script async src="/js/app.js?v=1683374628849"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
