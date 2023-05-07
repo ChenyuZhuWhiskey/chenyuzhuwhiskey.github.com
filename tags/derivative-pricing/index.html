@@ -21,9 +21,9 @@
 <meta property="article:author" content="Chenyu Zhu">
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1683376181275">
+  <link rel="stylesheet" href="/css/style.css?v=1683452200361">
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1683376181275">
+  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1683452200361">
 <meta name="generator" content="Hexo 5.4.2"></head>
 
 <body class="mdui-drawer-body-left">
@@ -204,13 +204,16 @@
 <p>所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用<span class="math inline">\(E(X)\)</span>而是用<span class="math inline">\(\langle X\rangle\)</span>了。</p>
 <h2 id="wiener过程和itô-过程">Wiener过程和Itô 过程</h2>
 <p>一个随机变量<span class="math inline">\(X(t)\)</span>如果满足以下2个性质，我们就称其为Wiener过程:</p>
-<p>I. 任意<span class="math inline">\(\Delta t\)</span>区间内，随机变量<span class="math inline">\(X\)</span>的变化<span class="math inline">\(\Delta z\)</span>服从正态分布: <span class="math display">\[
+<ul>
+<li>任意<span class="math inline">\(\Delta t\)</span>区间内，随机变量<span class="math inline">\(X\)</span>的变化<span class="math inline">\(\Delta z\)</span>服从正态分布:</li>
+</ul>
+<p><span class="math display">\[
 \Delta z = \epsilon \sqrt{\Delta t}
 \]</span></p>
 <p>其中<span class="math inline">\(\epsilon\)</span>为标准正态分布<span class="math inline">\(\epsilon \sim \phi(0,1)\)</span>.</p>
-<ol start="2" type="I">
+<ul>
 <li>对于任意两个不相交的时间区间<span class="math inline">\(\Delta t_1, \Delta t_2\)</span>产生的变化<span class="math inline">\(\Delta z_1, \Delta z_2\)</span>分布相互独立(马尔可夫性).</li>
-</ol>
+</ul>
 <p>性质I. 中使用根号，是因为这样能保证<span class="math inline">\(\Delta z\)</span>的方差为<span class="math inline">\(\Delta t\)</span>，性质II. 的马尔可夫性，又保证了任意两个不相交区间方差的可加性。考虑这样一个情况，从时间0点开始，一个时间段<span class="math inline">\(T\)</span>内Wiener过程的变化量为 <span class="math display">\[
 z(T)-z(0)=z
 \]</span> 我们将时间段<span class="math inline">\(T\)</span>一分为二，<span class="math inline">\(T\)</span>时间的增量应该是二者之和： <span class="math display">\[
@@ -325,7 +328,7 @@ x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\si
 
  
 
-<script async src="/js/app.js?v=1683376181276"></script>
+<script async src="/js/app.js?v=1683452200362"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
