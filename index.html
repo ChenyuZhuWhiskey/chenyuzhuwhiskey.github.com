@@ -349,7 +349,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  0
+                  217
                 </span>
               
 
@@ -388,7 +388,9 @@
       
         
           
-            
+            <h1 id="衍生品的定价理论3二项式定价模型">衍生品的定价理论3：二项式定价模型</h1>
+<p>在博客的第一部分，我们将资产价格建模为几何布朗运动，根据delta对冲的方法导出其衍生品的Black-Scholes模型，现在我们考虑一个离散的玩具模型（二项式定价模型），通过这个模型，我们将阐述一个比构造delta中性投资组合，使得其收益等价于无风险利率更好的衍生品定价思想。我们将会通过标的物复制衍生品收益的方法来得出衍生品的定价理论，最终我们将得到一个结论，一个衍生品的价格，就是你从头到尾对冲掉所有标的物风险的成本。这个结论足够简洁，这种方法叫做风险中性定价原理。</p>
+
           
         
       
@@ -543,7 +545,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  2k
+                  2.1k
                 </span>
               
 
@@ -582,98 +584,101 @@
       
         
           
-            <h1 id="随机最优控制理论3-连续情况的动态规划——HJB方程"><a href="#随机最优控制理论3-连续情况的动态规划——HJB方程" class="headerlink" title="随机最优控制理论3: 连续情况的动态规划——HJB方程"></a>随机最优控制理论3: 连续情况的动态规划——HJB方程</h1><p>前面的一篇文章讲述了如何在一个时间离散的体系下进行动态规划，现在我们对时间连续的体系构建这一套理论，从离散状态下的Bellman Equation，结合经典力学中的最下作用量原理，我们就能得到连续时间下的动态规划方程——Hamilton-Jacobi-Bellman equation (HJB equation).</p>
-<h2 id="经典力学框架的回顾"><a href="#经典力学框架的回顾" class="headerlink" title="经典力学框架的回顾"></a>经典力学框架的回顾</h2><h3 id="最小作用量原理"><a href="#最小作用量原理" class="headerlink" title="最小作用量原理"></a>最小作用量原理</h3><p>考虑一个经典物理系统，一个运动质点的作用量为拉格朗日量对时间的累积：</p>
-<script type="math/tex; mode=display">
+            <h1 id="随机最优控制理论3-连续情况的动态规划hjb方程">随机最优控制理论3: 连续情况的动态规划——HJB方程</h1>
+<p>前面的一篇文章讲述了如何在一个时间离散的体系下进行动态规划，现在我们对时间连续的体系构建这一套理论，从离散状态下的Bellman Equation，结合经典力学中的最下作用量原理，我们就能得到连续时间下的动态规划方程——Hamilton-Jacobi-Bellman equation (HJB equation).</p>
+<h2 id="经典力学框架的回顾">经典力学框架的回顾</h2>
+<h3 id="最小作用量原理">最小作用量原理</h3>
+<p>考虑一个经典物理系统，一个运动质点的作用量为拉格朗日量对时间的累积： <span class="math display">\[
 \begin{equation} 
 S(q)= \int_0^{T}L(q,\dot{q},t)dt 
-\end{equation}</script><p>其中 $q=q(t)$ 是广义坐标，$\dot{q} := dq/dt$ 是广义速度。质点从 $q(0)$ 到 $q(T)$ 之间有无数条可能的路径，最小作用量原理告诉我们，满足物理学规律的那条路径，将使得作用量取到最小, 利用变分原理 $\delta S = 0$</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 其中 <span class="math inline">\(q=q(t)\)</span> 是广义坐标，<span class="math inline">\(\dot{q} := dq/dt\)</span> 是广义速度。质点从 <span class="math inline">\(q(0)\)</span> 到 <span class="math inline">\(q(T)\)</span> 之间有无数条可能的路径，最小作用量原理告诉我们，满足物理学规律的那条路径，将使得作用量取到最小, 利用变分原理 <span class="math inline">\(\delta S = 0\)</span> <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-0 &= \delta S(q,t) \\
-\Rightarrow 0 &= \delta\int_0^{T}L(q,\dot{q},t)dt  \\
-&= \int_0^{T} \left(\frac{\partial L}{\partial q}\delta q + \frac{\partial L}{\partial \dot{q}}\delta\dot{q} \right)dt \\
-&= \int_0^{T} \frac{\partial L}{\partial q}\delta q dt + \int_0^{T} \frac{\partial L}{\partial \dot{q}}\delta\dot{q}dt \\
-&= \int_0^{T} \frac{\partial L}{\partial q}\delta q dt + \int_0^{T} \frac{\partial L}{\partial \dot{q}}\frac{d \delta q}{dt}dt \\
+0 &amp;= \delta S(q,t) \\
+\Rightarrow 0 &amp;= \delta\int_0^{T}L(q,\dot{q},t)dt  \\
+&amp;= \int_0^{T} \left(\frac{\partial L}{\partial q}\delta q + \frac{\partial L}{\partial \dot{q}}\delta\dot{q} \right)dt \\
+&amp;= \int_0^{T} \frac{\partial L}{\partial q}\delta q dt + \int_0^{T} \frac{\partial L}{\partial \dot{q}}\delta\dot{q}dt \\
+&amp;= \int_0^{T} \frac{\partial L}{\partial q}\delta q dt + \int_0^{T} \frac{\partial L}{\partial \dot{q}}\frac{d \delta q}{dt}dt \\
 \end{aligned}
-\end{equation}</script><p>将等号右边第二项分部积分：</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 将等号右边第二项分部积分： <span class="math display">\[
 \begin{equation}
 \begin{aligned}
 \int_0^{T}\frac{\partial L}{\partial \dot{q}}\frac{d \delta q}{dt}dt = \frac{\partial L}{\partial \dot{q}}\delta q|_{0}^{T} - \int_0^{T}\frac{d}{dt}\frac{\partial L}{\partial \dot{q}}\delta qdt
 \end{aligned}
-\end{equation}</script><p>由于变分取到极值的条件是 $\delta q(0) = \delta q(T)=0$ ,于是代入得到</p>
-<script type="math/tex; mode=display">
-\int_0^{T} \left(\frac{\partial L}{\partial q}-\frac{d}{dt}\frac{\partial L}{\partial \dot q}\right)\delta q  dt = 0</script><p>由于积分是任意的，所以括号里的被积函数必须为0，于是得到欧拉-拉格朗日方程：</p>
-<script type="math/tex; mode=display">
-\frac{\partial L}{\partial q}-\frac{d}{dt}\frac{\partial L}{\partial \dot q} = 0</script><p>其中，$\partial L/\partial q$称为广义力，$\partial L/\partial\dot{q}$ 称为广义动量，因此拉格朗日方程这就是牛顿第二定律的高级版本。由拉格朗日方程解出来的 $q^<em> = q^</em>(t)$ 为真实世界的运动轨迹，也就是满足最小作用量的最优路径。</p>
-<h3 id="Hamilton-Jacobi方程"><a href="#Hamilton-Jacobi方程" class="headerlink" title="Hamilton-Jacobi方程"></a>Hamilton-Jacobi方程</h3><p>我们注意到，最小作用量原理，是一个过程量，也就是说，只要 $[0,T]$ 整个时间区间的过程中，如果有一个最优粒子的运动轨迹 $q^<em>(t)$，使得这个区间内的作用量是最小的，那么$[0,T]$ 区间内的最优轨迹 $q^</em>(t)$ 在 $[t1,t2]\in [0,T]$ 应该也是让作用量取到最小，也就是对于时间区间 $[0,t]$ 的作用量</p>
-<script type="math/tex; mode=display">
-S(q,t) = \int_0^t L(q,\dot{q},\tau)d\tau</script><p>于是作用量的全微分为：</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 由于变分取到极值的条件是 <span class="math inline">\(\delta q(0) = \delta q(T)=0\)</span> ,于是代入得到 <span class="math display">\[
+\int_0^{T} \left(\frac{\partial L}{\partial q}-\frac{d}{dt}\frac{\partial L}{\partial \dot q}\right)\delta q  dt = 0
+\]</span> 由于积分是任意的，所以括号里的被积函数必须为0，于是得到欧拉-拉格朗日方程： <span class="math display">\[
+\frac{\partial L}{\partial q}-\frac{d}{dt}\frac{\partial L}{\partial \dot q} = 0
+\]</span> 其中，<span class="math inline">\(\partial L/\partial q\)</span>称为广义力，<span class="math inline">\(\partial L/\partial\dot{q}\)</span> 称为广义动量，因此拉格朗日方程这就是牛顿第二定律的高级版本。由拉格朗日方程解出来的 <span class="math inline">\(q^* = q^*(t)\)</span> 为真实世界的运动轨迹，也就是满足最小作用量的最优路径。</p>
+<h3 id="hamilton-jacobi方程">Hamilton-Jacobi方程</h3>
+<p>我们注意到，最小作用量原理，是一个过程量，也就是说，只要 <span class="math inline">\([0,T]\)</span> 整个时间区间的过程中，如果有一个最优粒子的运动轨迹 <span class="math inline">\(q^*(t)\)</span>，使得这个区间内的作用量是最小的，那么<span class="math inline">\([0,T]\)</span> 区间内的最优轨迹 <span class="math inline">\(q^*(t)\)</span> 在 <span class="math inline">\([t1,t2]\in [0,T]\)</span> 应该也是让作用量取到最小，也就是对于时间区间 <span class="math inline">\([0,t]\)</span> 的作用量 <span class="math display">\[
+S(q,t) = \int_0^t L(q,\dot{q},\tau)d\tau
+\]</span> 于是作用量的全微分为： <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-Ldt =dS &= \frac{\partial S}{\partial q}dq+\frac{\partial S}{\partial t}dt \\
-&= \frac{\partial S}{\partial q}\dot{q}dt+\frac{\partial S}{\partial t}dt \\
-&= \left(\frac{\partial S}{\partial q}\dot{q}+\frac{\partial S}{\partial t}\right)dt
+Ldt =dS &amp;= \frac{\partial S}{\partial q}dq+\frac{\partial S}{\partial t}dt \\
+&amp;= \frac{\partial S}{\partial q}\dot{q}dt+\frac{\partial S}{\partial t}dt \\
+&amp;= \left(\frac{\partial S}{\partial q}\dot{q}+\frac{\partial S}{\partial t}\right)dt
 \end{aligned}
-\end{equation}</script><p>而最小作用量原理下的最优轨迹 $q^*$ , 满足拉格朗日方程，于是作用量对坐标的偏微分为</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 而最小作用量原理下的最优轨迹 <span class="math inline">\(q^*\)</span> , 满足拉格朗日方程，于是作用量对坐标的偏微分为 <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\frac{\partial S}{\partial q} &= \frac{\partial }{\partial q}\int_0^t L(q,\dot{q},\tau)d\tau \\
-&= \int_0^t \frac{\partial L}{\partial q}d\tau \\
-&= \int_0^t \frac{d}{d\tau}\left(\frac{\partial L}{\partial \dot{q}}\right)d\tau \\
-&= \frac{\partial L}{\partial \dot{q}}|_{0}^{t} = p(t)
+\frac{\partial S}{\partial q} &amp;= \frac{\partial }{\partial q}\int_0^t L(q,\dot{q},\tau)d\tau \\
+&amp;= \int_0^t \frac{\partial L}{\partial q}d\tau \\
+&amp;= \int_0^t \frac{d}{d\tau}\left(\frac{\partial L}{\partial \dot{q}}\right)d\tau \\
+&amp;= \frac{\partial L}{\partial \dot{q}}|_{0}^{t} = p(t)
 \end{aligned}
-\end{equation}</script><p>因此 $p=\partial S/\partial q = \partial L/\partial\dot{q}$，于是我们得到</p>
-<script type="math/tex; mode=display">
-p\dot{q}+\frac{\partial S}{\partial t}-L = 0</script><p>我们定义哈密顿量 $H(p,q,t)=p\dot{q}-L$ , 于是得到了哈密顿-雅克比方程</p>
-<script type="math/tex; mode=display">
-\frac{\partial S(q,t)}{\partial t} + H(p,q,t) = 0</script><ul>
-<li>Note: 哈密顿量还可以通过拉格朗日量，由勒让德变换导出一样的结果，并且后者能导出哈密顿量满足的正则方程，由于正则方程不在我们的讨论范围内，这里就略过了。</li>
-</ul>
-<p>注意对区间变化的作用量还可以使用这样的定义：</p>
-<script type="math/tex; mode=display">
-S(q,t) = \int_t^T L(q,\dot{q},\tau)d\tau</script><p>区别在于对哈密顿量的定义里，差一个正负号。后面在推导HJB方程时，我们会使用后者，这里使用前者是遵循经典力学的惯例。因为经典力学中，我们往往知道的边界条件是 $q(0)$ 和 $\dot{q}(0)$ , 而在最优控制中，我们往往知道的是在结束时 $(t=T)$ 时刻的边界值。</p>
-<h2 id="Hamilton-Jacobi-Bellman方程"><a href="#Hamilton-Jacobi-Bellman方程" class="headerlink" title="Hamilton-Jacobi-Bellman方程"></a>Hamilton-Jacobi-Bellman方程</h2><p>实际上，把离散时间的动态规划推广到连续层面，已经由最小作用量原理，在力学上做过一遍了，我们只要把它推广到任意的最优控制体系中即可。最小作用量原理，实际上就是一个动态规划问题，我们要找出一个最优的路径 $q^*$, 使得作用量取最小：</p>
-<script type="math/tex; mode=display">
-\begin{aligned} S(q,t) &= \min_{q}\int_0^TL(q,\dot{q},t)dt \\ s.t. &  \quad \dot{q} = \dot{q}(q,\dot{q},t) \end{aligned}</script><p>在这里，我们对广义速度进行控制，来控制质点的运动轨迹，使得系统的作用量达到最小。而在一个更一般化的情况里：</p>
-<script type="math/tex; mode=display">
-\begin{aligned} \text{作用量} &\to \text{收益(max) or 成本(min)} \\ \text{坐标} &\to \text{状态 }x \\ \text{速度} &\to \text{操作 }\pi \\ \end{aligned}</script><p>这里以累计收益为例，我们定义 Bellman 函数为在最优控制 $\pi^*$ 下所获得的最大收益:</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 因此 <span class="math inline">\(p=\partial S/\partial q = \partial L/\partial\dot{q}\)</span>，于是我们得到 <span class="math display">\[
+p\dot{q}+\frac{\partial S}{\partial t}-L = 0
+\]</span> 我们定义哈密顿量 <span class="math inline">\(H(p,q,t)=p\dot{q}-L\)</span> , 于是得到了哈密顿-雅克比方程 <span class="math display">\[
+\frac{\partial S(q,t)}{\partial t} + H(p,q,t) = 0
+\]</span> - Remark: 哈密顿量还可以通过拉格朗日量，由勒让德变换导出一样的结果，并且后者能导出哈密顿量满足的正则方程，由于正则方程不在我们的讨论范围内，这里就略过了。</p>
+<p>注意对区间变化的作用量还可以使用这样的定义： <span class="math display">\[
+S(q,t) = \int_t^T L(q,\dot{q},\tau)d\tau
+\]</span> 区别在于对哈密顿量的定义里，差一个正负号。后面在推导HJB方程时，我们会使用后者，这里使用前者是遵循经典力学的惯例。因为经典力学中，我们往往知道的边界条件是时间开始时 <span class="math inline">\(q(0)\)</span> 和 <span class="math inline">\(\dot{q}(0)\)</span> , 而在最优控制中，我们往往知道的是在时间结束时 <span class="math inline">\((t=T)\)</span> 时刻的边界值。</p>
+<h2 id="hamilton-jacobi-bellman方程">Hamilton-Jacobi-Bellman方程</h2>
+<p>实际上，把离散时间的动态规划推广到连续层面，已经由最小作用量原理，在力学上做过一遍了，我们只要把它推广到任意的最优控制体系中即可。最小作用量原理，实际上就是一个动态规划问题，我们要找出一个最优的路径 <span class="math inline">\(q^*\)</span>, 使得作用量取最小： <span class="math display">\[
+\begin{aligned} S(q,t) &amp;= \min_{q}\int_0^TL(q,\dot{q},t)dt \\ s.t. &amp;  \quad \dot{q} = \dot{q}(q,\dot{q},t) \end{aligned}
+\]</span> 在这里，我们对广义速度进行控制，来控制质点的运动轨迹，使得系统的作用量达到最小。而在一个更一般化的情况里： <span class="math display">\[
+\begin{aligned} \text{作用量} &amp;\to \text{收益(max) or 成本(min)} \\ \text{坐标} &amp;\to \text{状态 }x \\ \text{速度} &amp;\to \text{操作 }\pi \\ \end{aligned}
+\]</span> 这里以累计收益为例，我们定义 Bellman 函数为在最优控制 <span class="math inline">\(\pi^*\)</span> 下所获得的最大收益: <span class="math display">\[
 \begin{equation} 
-\begin{aligned} V(x,t) &= \max_\pi \left\{g(x(T))+ \int_t^T r(x(s), \pi(s))ds \right\} \\ 
-s.t. \quad \dot{x} &= f(x,\pi) 
+\begin{aligned} V(x,t) &amp;= \max_\pi \left\{g(x(T))+ \int_t^T r(x(s), \pi(s))ds \right\} \\ 
+s.t. \quad \dot{x} &amp;= f(x,\pi) 
 \end{aligned} 
-\end{equation}</script><p>其中第一项是终止收益，也是边界条件</p>
-<script type="math/tex; mode=display">
-V(X_T,T) = g(x(T))</script><p>第二项是时间累计的收益，可以看到回报函数 $r(x,\pi)$ 就是一个广义的拉格朗日量，Bellman 函数就是广义的作用量，我们定义广义的动量</p>
-<script type="math/tex; mode=display">
-p=-\frac{\partial V}{\partial x}</script><p>对 Bellman 函数求全微分得：</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 其中第一项是终止收益，也是边界条件 <span class="math display">\[
+V(X_T,T) = g(x(T))
+\]</span> 第二项是时间累计的收益，可以看到回报函数 <span class="math inline">\(r(x,\pi)\)</span> 就是一个广义的拉格朗日量，Bellman 函数就是广义的作用量，我们定义广义的动量 <span class="math display">\[
+p=-\frac{\partial V}{\partial x}
+\]</span> 对 Bellman 函数求全微分得： <span class="math display">\[
 \begin{equation}
 \begin{aligned}
--rdt = dV &= \frac{\partial V}{\partial t}dt + \frac{\partial V}{\partial x}dx \\
-&= \frac{\partial V}{\partial t}dt + \frac{\partial V}{\partial x}
+-rdt = dV &amp;= \frac{\partial V}{\partial t}dt + \frac{\partial V}{\partial x}dx \\
+&amp;= \frac{\partial V}{\partial t}dt + \frac{\partial V}{\partial x}
 \dot{x}dt \\ 
-&= \frac{\partial V}{\partial t}dt - p
+&amp;= \frac{\partial V}{\partial t}dt - p
 \dot{x}dt \\ 
-\Rightarrow 0 &= \frac{\partial V}{\partial t} + \max_{\pi}(r-p\dot{x})
+\Rightarrow 0 &amp;= \frac{\partial V}{\partial t} + \max_{\pi}(r-p\dot{x})
 \end{aligned}
-\end{equation}</script><p>定义广义的哈密顿量: $H=\max_{\pi}(r-p\dot{x})$ ，于是得到了Hamilton-Jacobi-Bellman (HJB)方程:</p>
-<script type="math/tex; mode=display">
-\begin{equation} \left\{ \begin{aligned} \frac{\partial V}{\partial t} + H(x, p,t) &= 0 \\ V(x,T) &= g(x) \end{aligned} \right. \end{equation}</script><p>这个推广的最小作用量原理称为Pontryagin Maximum Principle。</p>
-<p>进一步地，我们将连续时间的动态规划原理，推广到不确定的体系。在具有随机性的体系里，我们寻求一个最优控制 $\pi^*$, 使得目标收益的期望值取到最大:</p>
-<script type="math/tex; mode=display">
-\begin{equation} \begin{aligned} V(x,t)  &= \max_\pi \mathbb{E}_{t,x} \left[ G(X_t^\pi)+ \int_t^T F(X_s^\pi, \pi_s,s)ds \right] \\  s.t. \quad dX_t^\pi &= \mu(X_t^\pi, \pi_t,t)dt+\sigma(X_t^\pi, \pi_t,t) dW_t \end{aligned}  \end{equation}</script><p>其中 $X_t$ 为伊藤过程，$W_t$ 为布朗运动(Weiner过程)。这里就不能直接套用确定性系统里的东西了，只能类比，因为求导的方式变了(Ito 引理)：</p>
-<script type="math/tex; mode=display">
-\begin{equation} \begin{aligned} dV &= \left( \frac{\partial V}{\partial t} + \frac{\partial V}{\partial x}\mu +   \frac{1}{2}\frac{\partial^2 V}{\partial x^2}\sigma^2 \right)dt+\frac{\partial V}{\partial x}\sigma dW_t \\ V(x,t) &= \max_{\pi} \mathbb{E}_{x,t} \left[ V(x_{t+dt},t+dt) + F(X_t^\pi, \pi_t, t) dt \right]\\  & \Rightarrow \frac{\partial V}{\partial t} + \max_{\pi} \left\{ \frac{\partial V}{\partial x}\mu +   \frac{1}{2}\frac{\partial^2 V}{\partial x^2}\sigma^2 + F(X_t^\pi, \pi_t, t) \right\} = 0  \end{aligned} \end{equation}</script><p>第一行是伊藤引理，第二行是无穷小形式的动态规划原理，第三行就是最终得到的HJB方程。伊藤引理中的不确定项在求平均值的时候被消掉了：</p>
-<script type="math/tex; mode=display">
-\mathbb{E}_{x,t}\left\{ dW_t  \right\} = 0</script><p>但观察HJB方程的形式，我们仍然可以定义哈密顿量</p>
-<script type="math/tex; mode=display">
-H(x,t) = \max_{\pi} \left\{ \frac{\partial V}{\partial x}\mu +   \frac{1}{2}\frac{\partial^2 V}{\partial x^2}\sigma^2 + F(X_t^\pi, \pi_t, t) \right\}</script><p>得到与Hamilton-Jacobi方程完全一样的形式。</p>
+\end{equation}
+\]</span> 定义广义的哈密顿量: <span class="math inline">\(H=\max_{\pi}(r-p\dot{x})\)</span> ，于是得到了Hamilton-Jacobi-Bellman (HJB)方程: <span class="math display">\[
+\begin{equation} \left\{ \begin{aligned} \frac{\partial V}{\partial t} + H(x, p,t) &amp;= 0 \\ V(x,T) &amp;= g(x) \end{aligned} \right. \end{equation}
+\]</span> 这个推广的最小作用量原理称为Pontryagin Maximum Principle。</p>
+<p>进一步地，我们将连续时间的动态规划原理，推广到不确定的体系。在具有随机性的体系里，我们寻求一个最优控制 <span class="math inline">\(\pi^*\)</span>, 使得目标收益的期望值取到最大: <span class="math display">\[
+\begin{equation} \begin{aligned} V(x,t)  &amp;= \max_\pi \mathbb{E}_{t,x} \left[ G(X_t^\pi)+ \int_t^T F(X_s^\pi, \pi_s,s)ds \right] \\  s.t. \quad dX_t^\pi &amp;= \mu(X_t^\pi, \pi_t,t)dt+\sigma(X_t^\pi, \pi_t,t) dW_t \end{aligned}  \end{equation}
+\]</span> 其中 <span class="math inline">\(X_t\)</span> 为伊藤过程，<span class="math inline">\(W_t\)</span> 为布朗运动(Weiner过程)。这里就不能直接套用确定性系统里的东西了，只能类比，因为求微分的方式要使用伊藤引理： <span class="math display">\[
+\begin{equation} \begin{aligned} dV &amp;= \left( \frac{\partial V}{\partial t} + \frac{\partial V}{\partial x}\mu +   \frac{1}{2}\frac{\partial^2 V}{\partial x^2}\sigma^2 \right)dt+\frac{\partial V}{\partial x}\sigma dW_t \\ V(x,t) &amp;= \max_{\pi} \mathbb{E}_{x,t} \left[ V(x_{t+dt},t+dt) + F(X_t^\pi, \pi_t, t) dt \right]\\  &amp; \Rightarrow \frac{\partial V}{\partial t} + \max_{\pi} \left\{ \frac{\partial V}{\partial x}\mu +   \frac{1}{2}\frac{\partial^2 V}{\partial x^2}\sigma^2 + F(X_t^\pi, \pi_t, t) \right\} = 0  \end{aligned} \end{equation}
+\]</span> Eq. (18) 第一行是伊藤引理，第二行是无穷小形式的动态规划原理，第三行就是最终得到的HJB方程。伊藤引理中的不确定项在求平均值的时候被消掉了： <span class="math display">\[
+\mathbb{E}_{x,t}\left\{ dW_t  \right\} = 0
+\]</span> 但观察HJB方程的形式，我们仍然可以定义哈密顿量 <span class="math display">\[
+H(x,t) = \max_{\pi} \left\{ \frac{\partial V}{\partial x}\mu +   \frac{1}{2}\frac{\partial^2 V}{\partial x^2}\sigma^2 + F(X_t^\pi, \pi_t, t) \right\}
+\]</span> 得到与Hamilton-Jacobi方程完全一样的形式。</p>
 
           
         
@@ -818,7 +823,7 @@ H(x,t) = \max_{\pi} \left\{ \frac{\partial V}{\partial x}\mu +   \frac{1}{2}\fra
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  963
+                  975
                 </span>
               
 
@@ -857,55 +862,59 @@ H(x,t) = \max_{\pi} \left\{ \frac{\partial V}{\partial x}\mu +   \frac{1}{2}\fra
       
         
           
-            <h1 id="随机最优控制理论2-不确定的系统"><a href="#随机最优控制理论2-不确定的系统" class="headerlink" title="随机最优控制理论2: 不确定的系统"></a>随机最优控制理论2: 不确定的系统</h1><p>前面的一篇文章讲述了如何在确定性的问题下进行动态规划，现在我们把确定性的弄到不确定的体系里面。首先看一下马尔科夫链。</p>
-<h2 id="Markov-Chain"><a href="#Markov-Chain" class="headerlink" title="Markov Chain"></a>Markov Chain</h2><p><strong>定义1. 离散时间的马尔科夫链</strong></p>
-<p>设$\mathcal{X}$为一可数集，表示所有可能的状态集合，$\lambda=(\lambda_x:x\in\mathcal{X})$为一初始概率分布，也就是</p>
-<script type="math/tex; mode=display">
-\sum_{x\in\mathcal{X}}\lambda_x=1</script><p>对于任意两个状态$x,y\in\mathcal{X}$，我们定义转移矩阵$P$, 其中$P_{xy}$代表从状态$x$转移到状态$y$的概率，也就是</p>
-<script type="math/tex; mode=display">
-\sum_{y\in\mathcal{X}}P_{xy} = 1</script><p>一个离散时间的马尔科夫链为一个时间的随机变量$X=X_t\in\mathcal{X}, t\in \mathbb{Z}^+$, 在$t=0$有初始分布:</p>
-<script type="math/tex; mode=display">
-\mathbb{P}(X_0=x_0) = \lambda_{x_0}</script><p>并且满足</p>
-<script type="math/tex; mode=display">
+            <h1 id="随机最优控制理论2-不确定的系统">随机最优控制理论2: 不确定的系统</h1>
+<p>前面的一篇文章讲述了如何在确定性的问题下进行动态规划，现在我们把确定性的弄到不确定的体系里面。首先看一下马尔科夫链。</p>
+<h2 id="markov-chain">Markov Chain</h2>
+<p><strong>定义1. 离散时间的马尔科夫链</strong></p>
+<p>设<span class="math inline">\(\mathcal{X}\)</span>为一可数集，表示所有可能的状态集合，<span class="math inline">\(\lambda=(\lambda_x:x\in\mathcal{X})\)</span>为一初始概率分布，也就是 <span class="math display">\[
+\sum_{x\in\mathcal{X}}\lambda_x=1
+\]</span> 对于任意两个状态<span class="math inline">\(x,y\in\mathcal{X}\)</span>，我们定义转移矩阵<span class="math inline">\(P\)</span>, 其中<span class="math inline">\(P_{xy}\)</span>代表从状态<span class="math inline">\(x\)</span>转移到状态<span class="math inline">\(y\)</span>的概率，也就是 <span class="math display">\[
+\sum_{y\in\mathcal{X}}P_{xy} = 1
+\]</span> 一个离散时间的马尔科夫链为一个时间的随机变量<span class="math inline">\(X=X_t\in\mathcal{X}, t\in \mathbb{Z}^+\)</span>, 在<span class="math inline">\(t=0\)</span>有初始分布: <span class="math display">\[
+\mathbb{P}(X_0=x_0) = \lambda_{x_0}
+\]</span> 并且满足 <span class="math display">\[
 \begin{aligned}
-\mathbb{P}(X_{t+1}=x_{t+1}|X_t = x_t,...,X_0=x_0) &= \mathbb{P}(X_{t+1}=x_{t+1}|X_t = x_t) \\
-&=P_{x_tx_{t+1}}
-\end{aligned}</script><p>上面的性质称为马尔可夫性，也就一个马尔科夫链的未来$X_{t+1}$在当前$X_t$，与过去$(X_{1},…x_{t-1})$条件独立，换句话说就是未来每个状态的概率分布只由当前$X_t=x_t$决定。</p>
+\mathbb{P}(X_{t+1}=x_{t+1}|X_t = x_t,...,X_0=x_0) &amp;= \mathbb{P}(X_{t+1}=x_{t+1}|X_t = x_t) \\
+&amp;=P_{x_tx_{t+1}}
+\end{aligned}
+\]</span> 上面的性质称为马尔可夫性，也就一个马尔科夫链的未来<span class="math inline">\(X_{t+1}\)</span>在当前<span class="math inline">\(X_t\)</span>，与过去<span class="math inline">\((X_{1},...x_{t-1})\)</span>条件独立，换句话说就是未来每个状态的概率分布只由当前<span class="math inline">\(X_t=x_t\)</span>决定。</p>
 <p>根据上面这个性质，我们可以找出一个生成马尔科夫链的方法：</p>
-<p><strong>定理1.</strong> 设 $\mathcal{U}=U_t\in[0,1]$ 为均匀分布的随机变量, $X_0\in\mathcal{X}$为一个随机变量。通过函数 $f:\mathcal{X}\times \mathcal{U}\rightarrow \mathcal{X}$ 递推生成的随机变量$X_t$</p>
-<script type="math/tex; mode=display">
-X_{t+1}=f(X_t,U_t)</script><p>是一个马尔科夫链.</p>
-<h2 id="Markov-Decision-Process"><a href="#Markov-Decision-Process" class="headerlink" title="Markov Decision Process"></a>Markov Decision Process</h2><p>现在我们来把动态规划问题带进马尔科夫链中。如果一个动态规划问题中，其状态的演化是一个马尔科夫链，那么我们就称之为Markov Decision Process (MDP).</p>
+<p><strong>定理1.</strong> 设 <span class="math inline">\(\mathcal{U}=U_t\in[0,1]\)</span> 为均匀分布的随机变量, <span class="math inline">\(X_0\in\mathcal{X}\)</span>为一个随机变量。通过函数 <span class="math inline">\(f:\mathcal{X}\times \mathcal{U}\rightarrow \mathcal{X}\)</span> 递推生成的随机变量<span class="math inline">\(X_t\)</span> <span class="math display">\[
+X_{t+1}=f(X_t,U_t)
+\]</span> 是一个马尔科夫链.</p>
+<h2 id="markov-decision-process">Markov Decision Process</h2>
+<p>现在我们来把动态规划问题带进马尔科夫链中。如果一个动态规划问题中，其状态的演化是一个马尔科夫链，那么我们就称之为Markov Decision Process (MDP).</p>
 <p><strong>定义2. Markov Decision Process</strong></p>
-<p>考虑一个离散的时间过程 $t=0,1,…T$ ，有可数的状态集合 $x\in\mathcal{X}$ ，操作集合 $a\in\mathcal{A}$ 以及在给定状态 $x$ 后采取操作 $a$ 的回报 $r(x,a)$. 如果从动态规划函数 $f$ 是随机的，并且满足马尔可夫性：</p>
-<script type="math/tex; mode=display">
-X_{t+1}=f(X_t,a_t;U_t)\equiv f(X_t,a_t)</script><p>我们称这个过程为Markov Decision Process。其中 $U_t \in [0,1]$ 是一个均匀分布的随机过程。</p>
-<p>与确定性的系统类似，我们的动态规划目标仍然是找到一个策略 $\pi$, 使得效用函数$R(x_0,\pi)$ 达到最大。但由于 $f$ 的随机性，我们在定义效用函数的时候，就只能取其期望值：</p>
-<script type="math/tex; mode=display">
+<p>考虑一个离散的时间过程 <span class="math inline">\(t=0,1,...T\)</span> ，有可数的状态集合 <span class="math inline">\(x\in\mathcal{X}\)</span> ，操作集合 <span class="math inline">\(a\in\mathcal{A}\)</span> 以及在给定状态 <span class="math inline">\(x\)</span> 后采取操作 <span class="math inline">\(a\)</span> 的回报 <span class="math inline">\(r(x,a)\)</span>. 如果从动态规划函数 <span class="math inline">\(f\)</span> 是随机的，并且满足马尔可夫性： <span class="math display">\[
+X_{t+1}=f(X_t,a_t;U_t)\equiv f(X_t,a_t)
+\]</span> 我们称这个过程为Markov Decision Process。其中 <span class="math inline">\(U_t \in [0,1]\)</span> 是一个均匀分布的随机过程。</p>
+<p>与确定性的系统类似，我们的动态规划目标仍然是找到一个策略 <span class="math inline">\(\pi\)</span>, 使得效用函数<span class="math inline">\(R(x_0,\pi)\)</span> 达到最大。但由于 <span class="math inline">\(f\)</span> 的随机性，我们在定义效用函数的时候，就只能取其期望值： <span class="math display">\[
 \begin{equation}
 V(X_0)=\left\{
 \begin{aligned}
-\text{maximize }& R(X_0,\Pi) = \mathbb{E}\left[ r(X_T) + \sum_{i=0}^{T-1}r(X_i,\pi_i) \right]\\
-\text{over }& \Pi \in \mathcal{P}
+\text{maximize }&amp; R(X_0,\Pi) = \mathbb{E}\left[ r(X_T) + \sum_{i=0}^{T-1}r(X_i,\pi_i) \right]\\
+\text{over }&amp; \Pi \in \mathcal{P}
 \end{aligned}
 \right.
-\end{equation}</script><p>接下来我们来看其对应的Bellman Equation。仿照确定的体系，考虑从终止时间 $T$ 往前数 $\tau$ 个时间，考虑从$t=T-\tau$以后的未来回报：</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 接下来我们来看其对应的Bellman Equation。仿照确定的体系，考虑从终止时间 <span class="math inline">\(T\)</span> 往前数 <span class="math inline">\(\tau\)</span> 个时间，考虑从<span class="math inline">\(t=T-\tau\)</span>以后的未来回报： <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-R(X_{T-\tau},\pi) &= \mathbb{E}_{\tau}\left[ r(X_T) + \sum_{i=T-\tau}^{T-1}r(X_i,\pi_i) \right]
+R(X_{T-\tau},\pi) &amp;= \mathbb{E}_{\tau}\left[ r(X_T) + \sum_{i=T-\tau}^{T-1}r(X_i,\pi_i) \right]
 \end{aligned}
-\end{equation}</script><p>这一段时间的未来回报，也对应了一个动态规划 $V(\tau,X_{T-\tau})$ :</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 这一段时间的未来回报，也对应了一个动态规划 <span class="math inline">\(V(\tau,X_{T-\tau})\)</span> : <span class="math display">\[
 \begin{aligned}
-V(\tau,X_{T-\tau}) &= \max_{\pi} R(X_{T-\tau}, \pi)
+V(\tau,X_{T-\tau}) &amp;= \max_{\pi} R(X_{T-\tau}, \pi)
  \\
-&=\max_{\pi} \mathbb{E}_{\tau}\left[ r(X_T) + \sum_{i=T-(\tau-1)}^{T-1}r(X_i,\pi_i) + r(X_\tau,\pi_\tau) \right] \\
-&=\max_{\pi}\left\{ \mathbb{E}_{\tau}\left[ r(X_T) + \sum_{i=T-(\tau-1)}^{T-1}r(X_i,\pi_i)\right] +  r(X_\tau,\pi_\tau) \right\}\\
-&=\max_{\pi}\left\{ \mathbb{E}_{\tau}\left[ \max_\pi\left\{ \mathbb{E}_{\tau-1}\left[  r(X_T) + \sum_{i=T-(\tau-1)}^{T-1}r(X_i,\pi_i)\right]\right\}\right] +  r(X_\tau,\pi_\tau) \right\}\\
-&= \max_{\pi}\left\{ \mathbb{E}_{\tau}\left[V_{\tau-1}(X_{\tau-1}) \right] +  r(X_\tau,\pi_\tau)\right\} \\
-&= \max_{\pi}\left\{ \mathbb{E}_{\tau}\left[V_{\tau-1}(f(X_{\tau},\pi_\tau)) \right] +  r(X_\tau,\pi_\tau)\right\}
-\end{aligned}</script>
+&amp;=\max_{\pi} \mathbb{E}_{\tau}\left[ r(X_T) + \sum_{i=T-(\tau-1)}^{T-1}r(X_i,\pi_i) + r(X_\tau,\pi_\tau) \right] \\
+&amp;=\max_{\pi}\left\{ \mathbb{E}_{\tau}\left[ r(X_T) + \sum_{i=T-(\tau-1)}^{T-1}r(X_i,\pi_i)\right] +  r(X_\tau,\pi_\tau) \right\}\\
+&amp;=\max_{\pi}\left\{ \mathbb{E}_{\tau}\left[ \max_\pi\left\{ \mathbb{E}_{\tau-1}\left[  r(X_T) + \sum_{i=T-(\tau-1)}^{T-1}r(X_i,\pi_i)\right]\right\}\right] +  r(X_\tau,\pi_\tau) \right\}\\
+&amp;= \max_{\pi}\left\{ \mathbb{E}_{\tau}\left[V_{\tau-1}(X_{\tau-1}) \right] +  r(X_\tau,\pi_\tau)\right\} \\
+&amp;= \max_{\pi}\left\{ \mathbb{E}_{\tau}\left[V_{\tau-1}(f(X_{\tau},\pi_\tau)) \right] +  r(X_\tau,\pi_\tau)\right\}
+\end{aligned}
+\]</span></p>
+
           
         
       
@@ -1303,7 +1312,7 @@ r(x,\pi) &amp;:= \text{value}(x)
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  2k
+                  2.1k
                 </span>
               
 
@@ -1342,92 +1351,99 @@ r(x,\pi) &amp;:= \text{value}(x)
       
         
           
-            <h1 id="衍生品的定价理论1：BS模型"><a href="#衍生品的定价理论1：BS模型" class="headerlink" title="衍生品的定价理论1：BS模型"></a>衍生品的定价理论1：BS模型</h1><p>所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用$E(X)$而是用$\langle X\rangle$了。</p>
-<h2 id="Wiener过程和Ito-过程"><a href="#Wiener过程和Ito-过程" class="headerlink" title="Wiener过程和Itô 过程"></a>Wiener过程和Itô 过程</h2><p>一个随机变量$X(t)$如果满足以下2个性质，我们就称其为Wiener过程:</p>
-<p>1.任意 $\Delta t$ 区间内，随机变量 $X$ 的变化 $\Delta z$ 服从正态分布:</p>
-<script type="math/tex; mode=display">
-\Delta z = \epsilon \sqrt{\Delta t}</script><p>其中$\epsilon$为标准正态分布$\epsilon \sim \phi(0,1)$.</p>
-<p>2.对于任意两个不相交的时间区间 $\Delta t_1, \Delta t_2$ 产生的变化 $\Delta z_1, \Delta z_2$ 分布相互独立(马尔可夫性).</p>
-<p>性质I. 中使用根号，是因为这样能保证$\Delta z$的方差为$\Delta t$，性质II. 的马尔可夫性，又保证了任意两个不相交区间方差的可加性。考虑这样一个情况，从时间0点开始，一个时间段$T$内Wiener过程的变化量为</p>
-<script type="math/tex; mode=display">
-z(T)-z(0)=z</script><p>我们将时间段$T$一分为二，$T$时间的增量应该是二者之和：</p>
-<script type="math/tex; mode=display">
-z = z_T=z_{T_1}+z_{T_2}=z_1+z_2</script><p>其中$T=T_1+T_2$. 由于求均值是线性的算符，天然满足可加性</p>
-<script type="math/tex; mode=display">
-0 = \langle z\rangle = \langle z_1+z_2\rangle =\langle z_1\rangle+\langle z_2\rangle = 0</script><p>但如果等号两边取方差，等式左边：</p>
-<script type="math/tex; mode=display">
+            <h1 id="衍生品的定价理论1bs模型">衍生品的定价理论1：BS模型</h1>
+<p>所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用<span class="math inline">\(E(X)\)</span>而是用<span class="math inline">\(\langle X\rangle\)</span>了。</p>
+<h2 id="wiener过程和itô-过程">Wiener过程和Itô 过程</h2>
+<p>一个随机变量<span class="math inline">\(X(t)\)</span>如果满足以下2个性质，我们就称其为Wiener过程:</p>
+<p>1.任意 <span class="math inline">\(\Delta t\)</span> 区间内，随机变量 <span class="math inline">\(X\)</span> 的变化 <span class="math inline">\(\Delta z\)</span> 服从正态分布: <span class="math display">\[
+\Delta z = \epsilon \sqrt{\Delta t}
+\]</span></p>
+<p>其中<span class="math inline">\(\epsilon\)</span>为标准正态分布<span class="math inline">\(\epsilon \sim \phi(0,1)\)</span>.</p>
+<p>2.对于任意两个不相交的时间区间 <span class="math inline">\(\Delta t_1, \Delta t_2\)</span> 产生的变化 <span class="math inline">\(\Delta z_1, \Delta z_2\)</span> 分布相互独立(马尔可夫性).</p>
+<p>性质I. 中使用根号，是因为这样能保证<span class="math inline">\(\Delta z\)</span>的方差为<span class="math inline">\(\Delta t\)</span>，性质II. 的马尔可夫性，又保证了任意两个不相交区间方差的可加性。考虑这样一个情况，从时间0点开始，一个时间段<span class="math inline">\(T\)</span>内Wiener过程的变化量为 <span class="math display">\[
+z(T)-z(0)=z
+\]</span> 我们将时间段<span class="math inline">\(T\)</span>一分为二，<span class="math inline">\(T\)</span>时间的增量应该是二者之和： <span class="math display">\[
+z = z_T=z_{T_1}+z_{T_2}=z_1+z_2
+\]</span> 其中<span class="math inline">\(T=T_1+T_2\)</span>. 由于求均值是线性的算符，天然满足可加性 <span class="math display">\[
+0 = \langle z\rangle = \langle z_1+z_2\rangle =\langle z_1\rangle+\langle z_2\rangle = 0
+\]</span> 但如果等号两边取方差，等式左边： <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\langle (z-\langle z\rangle)^2 \rangle &= \langle z^2\rangle
+\langle (z-\langle z\rangle)^2 \rangle &amp;= \langle z^2\rangle
 \end{aligned}
-\end{equation}</script><p>等号右边为</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 等号右边为 <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\langle (z_1+z_2-\langle z_1+z_2\rangle)^2 \rangle &=  \langle (z_1+z_2)^2 \rangle\\
-&= \langle z_1^2+z_2^2+2z_1z_2 \rangle \\
-&= \langle z_1^2 \rangle + \langle z_2^2 \rangle + 2\langle z_1z_2 \rangle \\
-&= \langle z_1^2 \rangle + \langle z_2^2 \rangle
+\langle (z_1+z_2-\langle z_1+z_2\rangle)^2 \rangle &amp;=  \langle (z_1+z_2)^2 \rangle\\
+&amp;= \langle z_1^2+z_2^2+2z_1z_2 \rangle \\
+&amp;= \langle z_1^2 \rangle + \langle z_2^2 \rangle + 2\langle z_1z_2 \rangle \\
+&amp;= \langle z_1^2 \rangle + \langle z_2^2 \rangle
 \end{aligned}
-\end{equation}</script><p>因此</p>
-<script type="math/tex; mode=display">
-T =\langle z^2\rangle = \langle z_1^2\rangle + \langle z_2^2\rangle = T_1+T_2</script><p>这个well defined的性质要由马尔可夫性才能得出，因为它保证了$\langle z_1z_2 \rangle = 0$. 对于Weiner过程，我们就可以考虑一个无穷小变化时间$dt$内的Weiner过程的变化$dz$, 在经过时间$T$以后有:</p>
-<script type="math/tex; mode=display">
-\Delta z = \int_0^Tdz \sim \phi(0,T)</script><p>如果一个随机变量$X(t)$在$\Delta t$区间内的变化$\Delta z$服从的是一个$\phi(a,b^2)$的正态分布，我们就称其为广义的Weiner过程，一个广义的Wiener过程的变化量可以写作：</p>
-<script type="math/tex; mode=display">
-\Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}</script><p>资产的价格当然不是均值为0的随机游走，因此我们要把Wiener过程广义化才能用于对资产价格的建模。那么我们就将一个随机变量$X(t)$分为两部分，一部分是有确定收益的增量，另一部分是Wiener过程的随机游走项作为风险项：</p>
-<script type="math/tex; mode=display">
-\Delta x = a(x,t)\Delta t + b(x, t)\epsilon\sqrt{\Delta t}</script><p>这样一个过程就成为Itô 过程, $a$称为drift rate, $b$称为variance rate。</p>
-<h2 id="Black-Scholes模型"><a href="#Black-Scholes模型" class="headerlink" title="Black-Scholes模型"></a>Black-Scholes模型</h2><p>在写出了一个资产的价格方程后，我们就可以根据衍生品与标的物的关系，推导出其价格应当满足的方程了。具体来说，如果一个随机变量为Itô 过程，满足</p>
-<script type="math/tex; mode=display">
-dx = adt + bdz</script><p>其中$dz$是Wiener过程，那么一个以$x$为变量的随机过程$G(x,t)$, 在$\Delta t$时间内产生的变化$\Delta G$近似为</p>
-<script type="math/tex; mode=display">
-\Delta G \approx \frac{\partial G}{\partial x}\Delta x+\frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\Delta x^2 + \frac{1}{2}\frac{\partial^2 G}{\partial t^2}\Delta t^2 + \frac{\partial^2 G}{\partial x\partial t}\Delta x\Delta t</script><p>注意到了$\Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}$，一阶以上的变化可以略掉，代入得</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 因此 <span class="math display">\[
+T =\langle z^2\rangle = \langle z_1^2\rangle + \langle z_2^2\rangle = T_1+T_2
+\]</span> 这个well defined的性质要由马尔可夫性才能得出，因为它保证了<span class="math inline">\(\langle z_1z_2 \rangle = 0\)</span>. 对于Weiner过程，我们就可以考虑一个无穷小变化时间<span class="math inline">\(dt\)</span>内的Weiner过程的变化<span class="math inline">\(dz\)</span>, 在经过时间<span class="math inline">\(T\)</span>以后有: <span class="math display">\[
+\Delta z = \int_0^Tdz \sim \phi(0,T)
+\]</span> 如果一个随机变量<span class="math inline">\(X(t)\)</span>在<span class="math inline">\(\Delta t\)</span>区间内的变化<span class="math inline">\(\Delta z\)</span>服从的是一个<span class="math inline">\(\phi(a,b^2)\)</span>的正态分布，我们就称其为广义的Weiner过程，一个广义的Wiener过程的变化量可以写作： <span class="math display">\[
+\Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}
+\]</span> 资产的价格当然不是均值为0的随机游走，因此我们要把Wiener过程广义化才能用于对资产价格的建模。那么我们就将一个随机变量<span class="math inline">\(X(t)\)</span>分为两部分，一部分是有确定收益的增量，另一部分是Wiener过程的随机游走项作为风险项： <span class="math display">\[
+\Delta x = a(x,t)\Delta t + b(x, t)\epsilon\sqrt{\Delta t}
+\]</span> 这样一个过程就成为Itô 过程, <span class="math inline">\(a\)</span>称为drift rate, <span class="math inline">\(b\)</span>称为variance rate。</p>
+<h2 id="black-scholes模型">Black-Scholes模型</h2>
+<p>在写出了一个资产的价格方程后，我们就可以根据衍生品与标的物的关系，推导出其价格应当满足的方程了。具体来说，如果一个随机变量为Itô 过程，满足 <span class="math display">\[
+dx = adt + bdz
+\]</span> 其中<span class="math inline">\(dz\)</span>是Wiener过程，那么一个以<span class="math inline">\(x\)</span>为变量的随机过程<span class="math inline">\(G(x,t)\)</span>, 在<span class="math inline">\(\Delta t\)</span>时间内产生的变化<span class="math inline">\(\Delta G\)</span>近似为 <span class="math display">\[
+\Delta G \approx \frac{\partial G}{\partial x}\Delta x+\frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\Delta x^2 + \frac{1}{2}\frac{\partial^2 G}{\partial t^2}\Delta t^2 + \frac{\partial^2 G}{\partial x\partial t}\Delta x\Delta t
+\]</span> 注意到了<span class="math inline">\(\Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}\)</span>，一阶以上的变化可以略掉，代入得 <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\Delta G &\approx \frac{\partial G}{\partial x}\Delta x+\frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\Delta x^2 + \frac{1}{2}\frac{\partial^2 G}{\partial t^2}\Delta t^2 + \frac{\partial^2 G}{\partial x\partial t}\Delta x\Delta t \\
- &= \frac{\partial G}{\partial x}(a\Delta t + b\epsilon\sqrt{\Delta t}) + \frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}(a\Delta t + b\epsilon\sqrt{\Delta t})^2\\
- &= \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\epsilon^2b^2 \right)\Delta t + \frac{\partial G}{\partial x}b\epsilon\sqrt{\Delta t}
+\Delta G &amp;\approx \frac{\partial G}{\partial x}\Delta x+\frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\Delta x^2 + \frac{1}{2}\frac{\partial^2 G}{\partial t^2}\Delta t^2 + \frac{\partial^2 G}{\partial x\partial t}\Delta x\Delta t \\
+ &amp;= \frac{\partial G}{\partial x}(a\Delta t + b\epsilon\sqrt{\Delta t}) + \frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}(a\Delta t + b\epsilon\sqrt{\Delta t})^2\\
+ &amp;= \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\epsilon^2b^2 \right)\Delta t + \frac{\partial G}{\partial x}b\epsilon\sqrt{\Delta t}
 \end{aligned}
-\end{equation}</script><p>对于$\epsilon^2$而言，$\langle\epsilon^2\Delta t\rangle=\Delta t$，而它的方差是比$\Delta t$更高阶的无穷小，所以我们忽略掉其对variance部分的贡献，然后把$\Delta G\rightarrow dG$，得到$G(x,t)$满足的方程为</p>
-<script type="math/tex; mode=display">
-dG = \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}b^2 \right)dt+\frac{\partial G}{\partial x}bdz</script><p>这个结果称为Itô 引理。</p>
-<p>我们认为，一个金融资产的价格随着时间应当是按照指数增长的。例如一笔利率为$r$，借出时面值$K_0$的债务，经过时间$t$后，按照本息偿还的面值应该为：</p>
-<script type="math/tex; mode=display">
-K(t) = K_0e^{r t}</script><p>求导可以得到</p>
-<script type="math/tex; mode=display">
-\frac{dK}{dt} = rK_0e^{rt} = rK \Rightarrow \frac{dK}{K}=rdt</script><p>$r$就是无风险资产的收益率。对应到一个资产$S$上，其收益率也应当分为确定的无风险部分以及不确定的风险部分:</p>
-<script type="math/tex; mode=display">
-\frac{\Delta S}{S} = \mu \Delta t + \sigma \Delta z</script><p>也就是</p>
-<script type="math/tex; mode=display">
-\frac{\Delta S}{S}\sim\phi(\mu \Delta t, \sigma^2 \Delta t)</script><p>我们称$\sigma$为波动率(volatility)。于是一个风险资产的价格应当满足以下Itô 过程</p>
-<script type="math/tex; mode=display">
-dS = \mu Sdt + \sigma Sdz</script><p>那么，以该资产为标的物的衍生品价格$G(S(x,t),t)$应当满足：</p>
-<script type="math/tex; mode=display">
-dG = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial S^2}\sigma^2S^2 \right)dt+\frac{\partial G}{\partial S}\sigma Sdz</script><p>离散形式为</p>
-<script type="math/tex; mode=display">
-\Delta G = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial S^2}\sigma^2S^2 \right)\Delta t+\frac{\partial G}{\partial S}\sigma S\Delta z</script><h3 id="资产的对数表达式"><a href="#资产的对数表达式" class="headerlink" title="资产的对数表达式"></a>资产的对数表达式</h3><p>利用Itô 引理，我们可以导出一个资产价格的对数满足的分布。对于$G = \ln(S)$，有$\partial G/\partial S = 1/S, \partial^2G/\partial S^2 = -1/S^2, \partial G/\partial t = 0$，于是</p>
-<script type="math/tex; mode=display">
-d\ln S = \left(\mu-\frac{\sigma^2}{2}\right)dt+\sigma dz</script><p>可以得到</p>
-<script type="math/tex; mode=display">
-\ln (S_T)-\ln S_0 \sim \phi[\left(\mu-\frac{\sigma^2}{2}\right)T,\sigma^2T]</script><p>注意，连续复利的收益率和离散复利收益率是两个东西，因为离散复利收益率$\mu = \ln \langle S_T/S_0\rangle$，而连续复利的收益率是$\langle \ln S_T/S_0\rangle$. 并且前者具有可加性，后者不具有，而且根据对数函数的凸性，有$\ln \langle S_T/S_0\rangle &gt; \langle \ln S_T/S_0\rangle$。</p>
-<p>我们将资产价格表达式写成和固定利率的无风险债券相同的形式：</p>
-<script type="math/tex; mode=display">
-S_T = S_0e^{xT}</script><p>其中</p>
-<script type="math/tex; mode=display">
-x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\sigma^2}{T}\right)</script><p>称为连续复利下的收益率。</p>
-<h3 id="衍生品价格的表达式"><a href="#衍生品价格的表达式" class="headerlink" title="衍生品价格的表达式"></a>衍生品价格的表达式</h3><p>B-S模型利用了有效市场假设，即不存在无风险套利机会。考虑这样一个投资组合，卖出一份衍生品，再以$\partial f /\partial S$倍数买入标的物</p>
-<script type="math/tex; mode=display">
-\Pi = -f+\frac{\partial f}{\partial S}S</script><p>在一段$\Delta t$后，产生的收益为</p>
-<script type="math/tex; mode=display">
-\Delta \Pi = -\Delta f +\frac{\partial f}{\partial S}\Delta S = \left(-\frac{\partial f}{\partial t}-\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2\right)dt</script><p>随机项被消除了，于是这就是一个无风险的收益。根据有效市场假设，这个收益的收益率一定是无风险利率：</p>
-<script type="math/tex; mode=display">
-\Delta \Pi = r\Pi\Delta t</script><p>于是有</p>
-<script type="math/tex; mode=display">
-\left(-\frac{\partial f}{\partial t}-\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2\right) = r\left(-f+\frac{\partial f}{\partial S}S\right)</script><p>最终整理得到</p>
-<script type="math/tex; mode=display">
-\frac{\partial f}{\partial t} + rS\frac{\partial f}{\partial S}+\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2 - rf = 0</script><p>这就是BS模型。</p>
+\end{equation}
+\]</span> 对于<span class="math inline">\(\epsilon^2\)</span>而言，<span class="math inline">\(\langle\epsilon^2\Delta t\rangle=\Delta t\)</span>，而它的方差是比<span class="math inline">\(\Delta t\)</span>更高阶的无穷小，所以我们忽略掉其对variance部分的贡献，然后把<span class="math inline">\(\Delta G\rightarrow dG\)</span>，得到<span class="math inline">\(G(x,t)\)</span>满足的方程为 <span class="math display">\[
+dG = \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}b^2 \right)dt+\frac{\partial G}{\partial x}bdz
+\]</span> 这个结果称为Itô 引理。</p>
+<p>我们认为，一个金融资产的价格随着时间应当是按照指数增长的。例如一笔利率为<span class="math inline">\(r\)</span>，借出时面值<span class="math inline">\(K_0\)</span>的债务，经过时间<span class="math inline">\(t\)</span>后，按照本息偿还的面值应该为： <span class="math display">\[
+K(t) = K_0e^{r t}
+\]</span> 求导可以得到 <span class="math display">\[
+\frac{dK}{dt} = rK_0e^{rt} = rK \Rightarrow \frac{dK}{K}=rdt
+\]</span> <span class="math inline">\(r\)</span>就是无风险资产的收益率。对应到一个资产<span class="math inline">\(S\)</span>上，其收益率也应当分为确定的无风险部分以及不确定的风险部分: <span class="math display">\[
+\frac{\Delta S}{S} = \mu \Delta t + \sigma \Delta z
+\]</span> 也就是 <span class="math display">\[
+\frac{\Delta S}{S}\sim\phi(\mu \Delta t, \sigma^2 \Delta t)
+\]</span> 我们称<span class="math inline">\(\sigma\)</span>为波动率(volatility)。于是一个风险资产的价格应当满足以下Itô 过程 <span class="math display">\[
+dS = \mu Sdt + \sigma Sdz
+\]</span> 那么，以该资产为标的物的衍生品价格<span class="math inline">\(G(S(x,t),t)\)</span>应当满足： <span class="math display">\[
+dG = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial S^2}\sigma^2S^2 \right)dt+\frac{\partial G}{\partial S}\sigma Sdz
+\]</span> 离散形式为 <span class="math display">\[
+\Delta G = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial S^2}\sigma^2S^2 \right)\Delta t+\frac{\partial G}{\partial S}\sigma S\Delta z
+\]</span></p>
+<h3 id="资产的对数表达式">资产的对数表达式</h3>
+<p>利用Itô 引理，我们可以导出一个资产价格的对数满足的分布。对于<span class="math inline">\(G = \ln(S)\)</span>，有<span class="math inline">\(\partial G/\partial S = 1/S, \partial^2G/\partial S^2 = -1/S^2, \partial G/\partial t = 0\)</span>，于是 <span class="math display">\[
+d\ln S = \left(\mu-\frac{\sigma^2}{2}\right)dt+\sigma dz
+\]</span> 可以得到 <span class="math display">\[
+\ln (S_T)-\ln S_0 \sim \phi[\left(\mu-\frac{\sigma^2}{2}\right)T,\sigma^2T]
+\]</span> 注意，连续复利的收益率和离散复利收益率是两个东西，因为离散复利收益率<span class="math inline">\(\mu = \ln \langle S_T/S_0\rangle\)</span>，而连续复利的收益率是<span class="math inline">\(\langle \ln S_T/S_0\rangle\)</span>. 并且前者具有可加性，后者不具有，而且根据对数函数的凸性，有<span class="math inline">\(\ln \langle S_T/S_0\rangle &gt; \langle \ln S_T/S_0\rangle\)</span>。</p>
+<p>我们将资产价格表达式写成和固定利率的无风险债券相同的形式： <span class="math display">\[
+S_T = S_0e^{xT}
+\]</span> 其中 <span class="math display">\[
+x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\sigma^2}{T}\right)
+\]</span> 称为连续复利下的收益率。</p>
+<h3 id="衍生品价格的表达式">衍生品价格的表达式</h3>
+<p>B-S模型利用了有效市场假设，即不存在无风险套利机会。考虑这样一个投资组合，卖出一份衍生品，再以<span class="math inline">\(\partial f /\partial S\)</span>倍数买入标的物 <span class="math display">\[
+\Pi = -f+\frac{\partial f}{\partial S}S
+\]</span> 在一段<span class="math inline">\(\Delta t\)</span>后，产生的收益为 <span class="math display">\[
+\Delta \Pi = -\Delta f +\frac{\partial f}{\partial S}\Delta S = \left(-\frac{\partial f}{\partial t}-\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2\right)dt
+\]</span> 随机项被消除了，于是这就是一个无风险的收益。根据有效市场假设，这个收益的收益率一定是无风险利率： <span class="math display">\[
+\Delta \Pi = r\Pi\Delta t
+\]</span> 于是有 <span class="math display">\[
+\left(-\frac{\partial f}{\partial t}-\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2\right) = r\left(-f+\frac{\partial f}{\partial S}S\right)
+\]</span> 最终整理得到 <span class="math display">\[
+\frac{\partial f}{\partial t} + rS\frac{\partial f}{\partial S}+\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2 - rf = 0
+\]</span> 这就是BS模型。</p>
 
           
         
@@ -1611,37 +1627,40 @@ x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\si
       
         
           
-            <h1 id="衍生品的定价理论2：期权"><a href="#衍生品的定价理论2：期权" class="headerlink" title="衍生品的定价理论2：期权"></a>衍生品的定价理论2：期权</h1><p>期权(option)是一种以某种资产价格为标的物的衍生品。按照行权可以分为call option和put option. call option就是在行权日能够以某价格购买标的物的权力，put option就是在行权日能够以某价格出售某标的物的权力。按照行权时间，期权可以分为欧式期权和美式期权，欧式期权只有行权日到期那一刻才能行权，美式期权在到期之前任意一天都可以行权。</p>
-<p>对于call option的买方，如果在行权时标的物的价格$S_t$高于行权价$K$，那么持有call option在在行权以后就能以行权价$K$买入标的资产，再以$S_t$卖出平仓，获得利润$S_t-K$，因此够获得的回报为</p>
-<script type="math/tex; mode=display">
-\max\{S_t-K, 0\}-c</script><p>其中$c$为期权的价格。由于期权是0和游戏，对应卖方的回报就是</p>
-<script type="math/tex; mode=display">
-c-\max\{S_t-K, 0\}</script><p>对于put option，如果在行权时标的物价格$S_t$低于行权价$K$，那持有put option在行权后就能以行权价$K$卖出标的资产，在以$S_t$买入平仓，获得利润$K-S_t$，因此能够获得的回报为</p>
-<script type="math/tex; mode=display">
-\max\{K-S_t, 0\}-p</script><p>其中$p$为期权的价格。同样，对应卖方的回报为</p>
-<script type="math/tex; mode=display">
-p -\max\{K-S_t, 0\}</script><p>由于持有call option在未来资产价格上涨时能获利，持有put option在未来资产价格下跌时能获利，因此call option又叫看涨期权，put option又叫看跌期权。</p>
-<h2 id="期权性质"><a href="#期权性质" class="headerlink" title="期权性质"></a>期权性质</h2><p>由于欧式期权比的行权日是固定的，比较简单，这里只讨论欧式期权。首先是对于相同行权日和行权价格call/put option，其价格满足以下等式：</p>
-<script type="math/tex; mode=display">
-c+Ke^{-rT}=S_0+p</script><p>其中$c,p$为call/put option的价格，$K$为行权价，$r$为无风险利率，$T$为到期时间，$S_0$为标的物当前的价格。这个等式可以通过有效市场假设导出。我们把等号中每一项都当做一个投资组合的开仓，对于等号左边，等同于以价格$c$买入一张call option，以价格$Ke^{-rT}$买入一张无风险债券。我们计为投资组合1。到行权日时，这个投资组合的价格变为</p>
-<script type="math/tex; mode=display">
-\max\{S_t-K, 0\} + K = \max\{S_t, K\}</script><p>同样，对于等号右边，等同于以价格$p$买入一张put option，并且以当前价格$S_0$买入标的资产，我们计为投资组合2。到行权日时，这个投资组合的价格变为</p>
-<script type="math/tex; mode=display">
-\max\{K-S_t, 0\} + S_t = \max\{S_t, K\}</script><p>因此这两个投资组合未来的价格是完全一致的，如果call/put option的价格不满足这个关系，那就获得了无风险套利机会：如果$c+Ke^{-rT}&lt;S_0+p$，就开多投资组合1，开空投资组合2，最终获得$S_0+p-c-Ke^{-rT}$的无风险利润，反之亦然，这违反了有效市场假设。</p>
-<p>上面的证明方法还可以导出call option的价格区间为</p>
-<script type="math/tex; mode=display">
+            <h1 id="衍生品的定价理论2期权">衍生品的定价理论2：期权</h1>
+<p>期权(option)是一种以某种资产价格为标的物的衍生品。按照行权可以分为call option和put option. call option就是在行权日能够以某价格购买标的物的权力，put option就是在行权日能够以某价格出售某标的物的权力。按照行权时间，期权可以分为欧式期权和美式期权，欧式期权只有行权日到期那一刻才能行权，美式期权在到期之前任意一天都可以行权。</p>
+<p>对于call option的买方，如果在行权时标的物的价格<span class="math inline">\(S_t\)</span>高于行权价<span class="math inline">\(K\)</span>，那么持有call option在在行权以后就能以行权价<span class="math inline">\(K\)</span>买入标的资产，再以<span class="math inline">\(S_t\)</span>卖出平仓，获得利润<span class="math inline">\(S_t-K\)</span>，因此够获得的回报为 <span class="math display">\[
+\max\{S_t-K, 0\}-c
+\]</span></p>
+<p>其中<span class="math inline">\(c\)</span>为期权的价格。由于期权是0和游戏，对应卖方的回报就是 <span class="math display">\[
+c-\max\{S_t-K, 0\}
+\]</span> 对于put option，如果在行权时标的物价格<span class="math inline">\(S_t\)</span>低于行权价<span class="math inline">\(K\)</span>，那持有put option在行权后就能以行权价<span class="math inline">\(K\)</span>卖出标的资产，在以<span class="math inline">\(S_t\)</span>买入平仓，获得利润<span class="math inline">\(K-S_t\)</span>，因此能够获得的回报为 <span class="math display">\[
+\max\{K-S_t, 0\}-p
+\]</span> 其中<span class="math inline">\(p\)</span>为期权的价格。同样，对应卖方的回报为 <span class="math display">\[
+p -\max\{K-S_t, 0\}
+\]</span> 由于持有call option在未来资产价格上涨时能获利，持有put option在未来资产价格下跌时能获利，因此call option又叫看涨期权，put option又叫看跌期权。</p>
+<h2 id="期权性质">期权性质</h2>
+<p>由于欧式期权比的行权日是固定的，比较简单，这里只讨论欧式期权。首先是对于相同行权日和行权价格call/put option，其价格满足以下等式： <span class="math display">\[
+c+Ke^{-rT}=S_0+p
+\]</span> 其中<span class="math inline">\(c,p\)</span>为call/put option的价格，<span class="math inline">\(K\)</span>为行权价，<span class="math inline">\(r\)</span>为无风险利率，<span class="math inline">\(T\)</span>为到期时间，<span class="math inline">\(S_0\)</span>为标的物当前的价格。这个等式可以通过有效市场假设导出。我们把等号中每一项都当做一个投资组合的开仓，对于等号左边，等同于以价格<span class="math inline">\(c\)</span>买入一张call option，以价格<span class="math inline">\(Ke^{-rT}\)</span>买入一张无风险债券。我们计为投资组合1。到行权日时，这个投资组合的价格变为 <span class="math display">\[
+\max\{S_t-K, 0\} + K = \max\{S_t, K\}
+\]</span> 同样，对于等号右边，等同于以价格<span class="math inline">\(p\)</span>买入一张put option，并且以当前价格<span class="math inline">\(S_0\)</span>买入标的资产，我们计为投资组合2。到行权日时，这个投资组合的价格变为 <span class="math display">\[
+\max\{K-S_t, 0\} + S_t = \max\{S_t, K\}
+\]</span> 因此这两个投资组合未来的价格是完全一致的，如果call/put option的价格不满足这个关系，那就获得了无风险套利机会：如果<span class="math inline">\(c+Ke^{-rT}&lt;S_0+p\)</span>，就开多投资组合1，开空投资组合2，最终获得<span class="math inline">\(S_0+p-c-Ke^{-rT}\)</span>的无风险利润，反之亦然，这违反了有效市场假设。</p>
+<p>上面的证明方法还可以导出call option的价格区间为 <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-S_0 &\geq c \geq \max\{S_0-Ke^{-rT}, 0\} \\
+S_0 &amp;\geq c \geq \max\{S_0-Ke^{-rT}, 0\} \\
 \end{aligned}
-\end{equation}</script><p>call option价格不会高于标的物价格，$S_0 \geq c$是显然的，因为这会导致买call option的收益严格小于直接买入标的物的收益。对于投资组合1，在行权以后获得的收益为</p>
-<script type="math/tex; mode=display">
-\max\{S_t, K\} - c - Ke^{-rT}</script><p>如果$c &lt; \max\{S_0-Ke^{-rT}, 0\}$，投资组合1也将带来高于无风险利率的无风险收益，违反了有效市场假设。</p>
-<p>相似地，put option的价格区间为</p>
-<script type="math/tex; mode=display">
-\max\{Ke^{-rT}-S_0, 0\} \leq p \leq K</script><p>put option价格不会高于行权价格，$K \geq c$是显然的，因为这会导致买put option的收益严格小于直做空标的物的收益。我们假设资产价格不会跌至负数，那么对于下界，投资组合2在行权后获得的收益为</p>
-<script type="math/tex; mode=display">
-\max\{S_t, K\} - p - S_0 \geq \max\{K-S_0,0\}</script><p>如果$\max\{Ke^{-rT}-S_0, 0\} \leq p$，对于投资组合2也将带来高于无风险利率的无风险收益，违反了有效市场假设。</p>
+\end{equation}
+\]</span> call option价格不会高于标的物价格，<span class="math inline">\(S_0 \geq c\)</span>是显然的，因为这会导致买call option的收益严格小于直接买入标的物的收益。对于投资组合1，在行权以后获得的收益为 <span class="math display">\[
+\max\{S_t, K\} - c - Ke^{-rT}
+\]</span> 如果<span class="math inline">\(c &lt; \max\{S_0-Ke^{-rT}, 0\}\)</span>，投资组合1也将带来高于无风险利率的无风险收益，违反了有效市场假设。</p>
+<p>相似地，put option的价格区间为 <span class="math display">\[
+\max\{Ke^{-rT}-S_0, 0\} \leq p \leq K
+\]</span> put option价格不会高于行权价格，<span class="math inline">\(K \geq c\)</span>是显然的，因为这会导致买put option的收益严格小于直做空标的物的收益。我们假设资产价格不会跌至负数，那么对于下界，投资组合2在行权后获得的收益为 <span class="math display">\[
+\max\{S_t, K\} - p - S_0 \geq \max\{K-S_0,0\}
+\]</span> 如果<span class="math inline">\(\max\{Ke^{-rT}-S_0, 0\} \leq p\)</span>，对于投资组合2也将带来高于无风险利率的无风险收益，违反了有效市场假设。</p>
 
           
         

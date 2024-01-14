@@ -83,12 +83,12 @@
 
 
 
-<meta name="description" content="衍生品的定价理论1：BS模型所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用$E(">
+<meta name="description" content="衍生品的定价理论1：BS模型 所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用\">
 <meta property="og:type" content="article">
 <meta property="og:title" content="衍生品的定价理论1：BS模型">
 <meta property="og:url" content="https://chenyuzhuwhiskey.github.io/derivative-pricing-theory-1/index.html">
 <meta property="og:site_name" content="Chenyu&#39;s Blog">
-<meta property="og:description" content="衍生品的定价理论1：BS模型所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用$E(">
+<meta property="og:description" content="衍生品的定价理论1：BS模型 所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用\">
 <meta property="og:locale" content="zh_CH">
 <meta property="article:published_time" content="2023-05-05T16:00:00.000Z">
 <meta property="article:modified_time" content="2023-07-08T14:10:35.844Z">
@@ -361,7 +361,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  2k
+                  2.1k
                 </span>
               
 
@@ -398,92 +398,99 @@
       
 
       
-        <h1 id="衍生品的定价理论1：BS模型"><a href="#衍生品的定价理论1：BS模型" class="headerlink" title="衍生品的定价理论1：BS模型"></a>衍生品的定价理论1：BS模型</h1><p>所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用$E(X)$而是用$\langle X\rangle$了。</p>
-<h2 id="Wiener过程和Ito-过程"><a href="#Wiener过程和Ito-过程" class="headerlink" title="Wiener过程和Itô 过程"></a>Wiener过程和Itô 过程</h2><p>一个随机变量$X(t)$如果满足以下2个性质，我们就称其为Wiener过程:</p>
-<p>1.任意 $\Delta t$ 区间内，随机变量 $X$ 的变化 $\Delta z$ 服从正态分布:</p>
-<script type="math/tex; mode=display">
-\Delta z = \epsilon \sqrt{\Delta t}</script><p>其中$\epsilon$为标准正态分布$\epsilon \sim \phi(0,1)$.</p>
-<p>2.对于任意两个不相交的时间区间 $\Delta t_1, \Delta t_2$ 产生的变化 $\Delta z_1, \Delta z_2$ 分布相互独立(马尔可夫性).</p>
-<p>性质I. 中使用根号，是因为这样能保证$\Delta z$的方差为$\Delta t$，性质II. 的马尔可夫性，又保证了任意两个不相交区间方差的可加性。考虑这样一个情况，从时间0点开始，一个时间段$T$内Wiener过程的变化量为</p>
-<script type="math/tex; mode=display">
-z(T)-z(0)=z</script><p>我们将时间段$T$一分为二，$T$时间的增量应该是二者之和：</p>
-<script type="math/tex; mode=display">
-z = z_T=z_{T_1}+z_{T_2}=z_1+z_2</script><p>其中$T=T_1+T_2$. 由于求均值是线性的算符，天然满足可加性</p>
-<script type="math/tex; mode=display">
-0 = \langle z\rangle = \langle z_1+z_2\rangle =\langle z_1\rangle+\langle z_2\rangle = 0</script><p>但如果等号两边取方差，等式左边：</p>
-<script type="math/tex; mode=display">
+        <h1 id="衍生品的定价理论1bs模型">衍生品的定价理论1：BS模型</h1>
+<p>所谓的衍生品(derivative)，就是以某金融资产作为标的物而创造的新的金融资产。显然，衍生品的价格也应该由标的物来决定。在对衍生品的价格进行建模时，我们会将标的物与衍生品的价格都当做具有马尔可夫性的随机过程，并且我们认为，金融资产的收益应当服从lognormal分布。当然，定价当然也要假设市场为有效市场，最后作为一个学物理的，在使用求期望的数学符号上，就不用<span class="math inline">\(E(X)\)</span>而是用<span class="math inline">\(\langle X\rangle\)</span>了。</p>
+<h2 id="wiener过程和itô-过程">Wiener过程和Itô 过程</h2>
+<p>一个随机变量<span class="math inline">\(X(t)\)</span>如果满足以下2个性质，我们就称其为Wiener过程:</p>
+<p>1.任意 <span class="math inline">\(\Delta t\)</span> 区间内，随机变量 <span class="math inline">\(X\)</span> 的变化 <span class="math inline">\(\Delta z\)</span> 服从正态分布: <span class="math display">\[
+\Delta z = \epsilon \sqrt{\Delta t}
+\]</span></p>
+<p>其中<span class="math inline">\(\epsilon\)</span>为标准正态分布<span class="math inline">\(\epsilon \sim \phi(0,1)\)</span>.</p>
+<p>2.对于任意两个不相交的时间区间 <span class="math inline">\(\Delta t_1, \Delta t_2\)</span> 产生的变化 <span class="math inline">\(\Delta z_1, \Delta z_2\)</span> 分布相互独立(马尔可夫性).</p>
+<p>性质I. 中使用根号，是因为这样能保证<span class="math inline">\(\Delta z\)</span>的方差为<span class="math inline">\(\Delta t\)</span>，性质II. 的马尔可夫性，又保证了任意两个不相交区间方差的可加性。考虑这样一个情况，从时间0点开始，一个时间段<span class="math inline">\(T\)</span>内Wiener过程的变化量为 <span class="math display">\[
+z(T)-z(0)=z
+\]</span> 我们将时间段<span class="math inline">\(T\)</span>一分为二，<span class="math inline">\(T\)</span>时间的增量应该是二者之和： <span class="math display">\[
+z = z_T=z_{T_1}+z_{T_2}=z_1+z_2
+\]</span> 其中<span class="math inline">\(T=T_1+T_2\)</span>. 由于求均值是线性的算符，天然满足可加性 <span class="math display">\[
+0 = \langle z\rangle = \langle z_1+z_2\rangle =\langle z_1\rangle+\langle z_2\rangle = 0
+\]</span> 但如果等号两边取方差，等式左边： <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\langle (z-\langle z\rangle)^2 \rangle &= \langle z^2\rangle
+\langle (z-\langle z\rangle)^2 \rangle &amp;= \langle z^2\rangle
 \end{aligned}
-\end{equation}</script><p>等号右边为</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 等号右边为 <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\langle (z_1+z_2-\langle z_1+z_2\rangle)^2 \rangle &=  \langle (z_1+z_2)^2 \rangle\\
-&= \langle z_1^2+z_2^2+2z_1z_2 \rangle \\
-&= \langle z_1^2 \rangle + \langle z_2^2 \rangle + 2\langle z_1z_2 \rangle \\
-&= \langle z_1^2 \rangle + \langle z_2^2 \rangle
+\langle (z_1+z_2-\langle z_1+z_2\rangle)^2 \rangle &amp;=  \langle (z_1+z_2)^2 \rangle\\
+&amp;= \langle z_1^2+z_2^2+2z_1z_2 \rangle \\
+&amp;= \langle z_1^2 \rangle + \langle z_2^2 \rangle + 2\langle z_1z_2 \rangle \\
+&amp;= \langle z_1^2 \rangle + \langle z_2^2 \rangle
 \end{aligned}
-\end{equation}</script><p>因此</p>
-<script type="math/tex; mode=display">
-T =\langle z^2\rangle = \langle z_1^2\rangle + \langle z_2^2\rangle = T_1+T_2</script><p>这个well defined的性质要由马尔可夫性才能得出，因为它保证了$\langle z_1z_2 \rangle = 0$. 对于Weiner过程，我们就可以考虑一个无穷小变化时间$dt$内的Weiner过程的变化$dz$, 在经过时间$T$以后有:</p>
-<script type="math/tex; mode=display">
-\Delta z = \int_0^Tdz \sim \phi(0,T)</script><p>如果一个随机变量$X(t)$在$\Delta t$区间内的变化$\Delta z$服从的是一个$\phi(a,b^2)$的正态分布，我们就称其为广义的Weiner过程，一个广义的Wiener过程的变化量可以写作：</p>
-<script type="math/tex; mode=display">
-\Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}</script><p>资产的价格当然不是均值为0的随机游走，因此我们要把Wiener过程广义化才能用于对资产价格的建模。那么我们就将一个随机变量$X(t)$分为两部分，一部分是有确定收益的增量，另一部分是Wiener过程的随机游走项作为风险项：</p>
-<script type="math/tex; mode=display">
-\Delta x = a(x,t)\Delta t + b(x, t)\epsilon\sqrt{\Delta t}</script><p>这样一个过程就成为Itô 过程, $a$称为drift rate, $b$称为variance rate。</p>
-<h2 id="Black-Scholes模型"><a href="#Black-Scholes模型" class="headerlink" title="Black-Scholes模型"></a>Black-Scholes模型</h2><p>在写出了一个资产的价格方程后，我们就可以根据衍生品与标的物的关系，推导出其价格应当满足的方程了。具体来说，如果一个随机变量为Itô 过程，满足</p>
-<script type="math/tex; mode=display">
-dx = adt + bdz</script><p>其中$dz$是Wiener过程，那么一个以$x$为变量的随机过程$G(x,t)$, 在$\Delta t$时间内产生的变化$\Delta G$近似为</p>
-<script type="math/tex; mode=display">
-\Delta G \approx \frac{\partial G}{\partial x}\Delta x+\frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\Delta x^2 + \frac{1}{2}\frac{\partial^2 G}{\partial t^2}\Delta t^2 + \frac{\partial^2 G}{\partial x\partial t}\Delta x\Delta t</script><p>注意到了$\Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}$，一阶以上的变化可以略掉，代入得</p>
-<script type="math/tex; mode=display">
+\end{equation}
+\]</span> 因此 <span class="math display">\[
+T =\langle z^2\rangle = \langle z_1^2\rangle + \langle z_2^2\rangle = T_1+T_2
+\]</span> 这个well defined的性质要由马尔可夫性才能得出，因为它保证了<span class="math inline">\(\langle z_1z_2 \rangle = 0\)</span>. 对于Weiner过程，我们就可以考虑一个无穷小变化时间<span class="math inline">\(dt\)</span>内的Weiner过程的变化<span class="math inline">\(dz\)</span>, 在经过时间<span class="math inline">\(T\)</span>以后有: <span class="math display">\[
+\Delta z = \int_0^Tdz \sim \phi(0,T)
+\]</span> 如果一个随机变量<span class="math inline">\(X(t)\)</span>在<span class="math inline">\(\Delta t\)</span>区间内的变化<span class="math inline">\(\Delta z\)</span>服从的是一个<span class="math inline">\(\phi(a,b^2)\)</span>的正态分布，我们就称其为广义的Weiner过程，一个广义的Wiener过程的变化量可以写作： <span class="math display">\[
+\Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}
+\]</span> 资产的价格当然不是均值为0的随机游走，因此我们要把Wiener过程广义化才能用于对资产价格的建模。那么我们就将一个随机变量<span class="math inline">\(X(t)\)</span>分为两部分，一部分是有确定收益的增量，另一部分是Wiener过程的随机游走项作为风险项： <span class="math display">\[
+\Delta x = a(x,t)\Delta t + b(x, t)\epsilon\sqrt{\Delta t}
+\]</span> 这样一个过程就成为Itô 过程, <span class="math inline">\(a\)</span>称为drift rate, <span class="math inline">\(b\)</span>称为variance rate。</p>
+<h2 id="black-scholes模型">Black-Scholes模型</h2>
+<p>在写出了一个资产的价格方程后，我们就可以根据衍生品与标的物的关系，推导出其价格应当满足的方程了。具体来说，如果一个随机变量为Itô 过程，满足 <span class="math display">\[
+dx = adt + bdz
+\]</span> 其中<span class="math inline">\(dz\)</span>是Wiener过程，那么一个以<span class="math inline">\(x\)</span>为变量的随机过程<span class="math inline">\(G(x,t)\)</span>, 在<span class="math inline">\(\Delta t\)</span>时间内产生的变化<span class="math inline">\(\Delta G\)</span>近似为 <span class="math display">\[
+\Delta G \approx \frac{\partial G}{\partial x}\Delta x+\frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\Delta x^2 + \frac{1}{2}\frac{\partial^2 G}{\partial t^2}\Delta t^2 + \frac{\partial^2 G}{\partial x\partial t}\Delta x\Delta t
+\]</span> 注意到了<span class="math inline">\(\Delta x = a\Delta t + b\epsilon\sqrt{\Delta t}\)</span>，一阶以上的变化可以略掉，代入得 <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-\Delta G &\approx \frac{\partial G}{\partial x}\Delta x+\frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\Delta x^2 + \frac{1}{2}\frac{\partial^2 G}{\partial t^2}\Delta t^2 + \frac{\partial^2 G}{\partial x\partial t}\Delta x\Delta t \\
- &= \frac{\partial G}{\partial x}(a\Delta t + b\epsilon\sqrt{\Delta t}) + \frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}(a\Delta t + b\epsilon\sqrt{\Delta t})^2\\
- &= \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\epsilon^2b^2 \right)\Delta t + \frac{\partial G}{\partial x}b\epsilon\sqrt{\Delta t}
+\Delta G &amp;\approx \frac{\partial G}{\partial x}\Delta x+\frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\Delta x^2 + \frac{1}{2}\frac{\partial^2 G}{\partial t^2}\Delta t^2 + \frac{\partial^2 G}{\partial x\partial t}\Delta x\Delta t \\
+ &amp;= \frac{\partial G}{\partial x}(a\Delta t + b\epsilon\sqrt{\Delta t}) + \frac{\partial G}{\partial t}\Delta t + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}(a\Delta t + b\epsilon\sqrt{\Delta t})^2\\
+ &amp;= \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}\epsilon^2b^2 \right)\Delta t + \frac{\partial G}{\partial x}b\epsilon\sqrt{\Delta t}
 \end{aligned}
-\end{equation}</script><p>对于$\epsilon^2$而言，$\langle\epsilon^2\Delta t\rangle=\Delta t$，而它的方差是比$\Delta t$更高阶的无穷小，所以我们忽略掉其对variance部分的贡献，然后把$\Delta G\rightarrow dG$，得到$G(x,t)$满足的方程为</p>
-<script type="math/tex; mode=display">
-dG = \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}b^2 \right)dt+\frac{\partial G}{\partial x}bdz</script><p>这个结果称为Itô 引理。</p>
-<p>我们认为，一个金融资产的价格随着时间应当是按照指数增长的。例如一笔利率为$r$，借出时面值$K_0$的债务，经过时间$t$后，按照本息偿还的面值应该为：</p>
-<script type="math/tex; mode=display">
-K(t) = K_0e^{r t}</script><p>求导可以得到</p>
-<script type="math/tex; mode=display">
-\frac{dK}{dt} = rK_0e^{rt} = rK \Rightarrow \frac{dK}{K}=rdt</script><p>$r$就是无风险资产的收益率。对应到一个资产$S$上，其收益率也应当分为确定的无风险部分以及不确定的风险部分:</p>
-<script type="math/tex; mode=display">
-\frac{\Delta S}{S} = \mu \Delta t + \sigma \Delta z</script><p>也就是</p>
-<script type="math/tex; mode=display">
-\frac{\Delta S}{S}\sim\phi(\mu \Delta t, \sigma^2 \Delta t)</script><p>我们称$\sigma$为波动率(volatility)。于是一个风险资产的价格应当满足以下Itô 过程</p>
-<script type="math/tex; mode=display">
-dS = \mu Sdt + \sigma Sdz</script><p>那么，以该资产为标的物的衍生品价格$G(S(x,t),t)$应当满足：</p>
-<script type="math/tex; mode=display">
-dG = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial S^2}\sigma^2S^2 \right)dt+\frac{\partial G}{\partial S}\sigma Sdz</script><p>离散形式为</p>
-<script type="math/tex; mode=display">
-\Delta G = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial S^2}\sigma^2S^2 \right)\Delta t+\frac{\partial G}{\partial S}\sigma S\Delta z</script><h3 id="资产的对数表达式"><a href="#资产的对数表达式" class="headerlink" title="资产的对数表达式"></a>资产的对数表达式</h3><p>利用Itô 引理，我们可以导出一个资产价格的对数满足的分布。对于$G = \ln(S)$，有$\partial G/\partial S = 1/S, \partial^2G/\partial S^2 = -1/S^2, \partial G/\partial t = 0$，于是</p>
-<script type="math/tex; mode=display">
-d\ln S = \left(\mu-\frac{\sigma^2}{2}\right)dt+\sigma dz</script><p>可以得到</p>
-<script type="math/tex; mode=display">
-\ln (S_T)-\ln S_0 \sim \phi[\left(\mu-\frac{\sigma^2}{2}\right)T,\sigma^2T]</script><p>注意，连续复利的收益率和离散复利收益率是两个东西，因为离散复利收益率$\mu = \ln \langle S_T/S_0\rangle$，而连续复利的收益率是$\langle \ln S_T/S_0\rangle$. 并且前者具有可加性，后者不具有，而且根据对数函数的凸性，有$\ln \langle S_T/S_0\rangle &gt; \langle \ln S_T/S_0\rangle$。</p>
-<p>我们将资产价格表达式写成和固定利率的无风险债券相同的形式：</p>
-<script type="math/tex; mode=display">
-S_T = S_0e^{xT}</script><p>其中</p>
-<script type="math/tex; mode=display">
-x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\sigma^2}{T}\right)</script><p>称为连续复利下的收益率。</p>
-<h3 id="衍生品价格的表达式"><a href="#衍生品价格的表达式" class="headerlink" title="衍生品价格的表达式"></a>衍生品价格的表达式</h3><p>B-S模型利用了有效市场假设，即不存在无风险套利机会。考虑这样一个投资组合，卖出一份衍生品，再以$\partial f /\partial S$倍数买入标的物</p>
-<script type="math/tex; mode=display">
-\Pi = -f+\frac{\partial f}{\partial S}S</script><p>在一段$\Delta t$后，产生的收益为</p>
-<script type="math/tex; mode=display">
-\Delta \Pi = -\Delta f +\frac{\partial f}{\partial S}\Delta S = \left(-\frac{\partial f}{\partial t}-\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2\right)dt</script><p>随机项被消除了，于是这就是一个无风险的收益。根据有效市场假设，这个收益的收益率一定是无风险利率：</p>
-<script type="math/tex; mode=display">
-\Delta \Pi = r\Pi\Delta t</script><p>于是有</p>
-<script type="math/tex; mode=display">
-\left(-\frac{\partial f}{\partial t}-\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2\right) = r\left(-f+\frac{\partial f}{\partial S}S\right)</script><p>最终整理得到</p>
-<script type="math/tex; mode=display">
-\frac{\partial f}{\partial t} + rS\frac{\partial f}{\partial S}+\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2 - rf = 0</script><p>这就是BS模型。</p>
+\end{equation}
+\]</span> 对于<span class="math inline">\(\epsilon^2\)</span>而言，<span class="math inline">\(\langle\epsilon^2\Delta t\rangle=\Delta t\)</span>，而它的方差是比<span class="math inline">\(\Delta t\)</span>更高阶的无穷小，所以我们忽略掉其对variance部分的贡献，然后把<span class="math inline">\(\Delta G\rightarrow dG\)</span>，得到<span class="math inline">\(G(x,t)\)</span>满足的方程为 <span class="math display">\[
+dG = \left( \frac{\partial G}{\partial x}a + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial x^2}b^2 \right)dt+\frac{\partial G}{\partial x}bdz
+\]</span> 这个结果称为Itô 引理。</p>
+<p>我们认为，一个金融资产的价格随着时间应当是按照指数增长的。例如一笔利率为<span class="math inline">\(r\)</span>，借出时面值<span class="math inline">\(K_0\)</span>的债务，经过时间<span class="math inline">\(t\)</span>后，按照本息偿还的面值应该为： <span class="math display">\[
+K(t) = K_0e^{r t}
+\]</span> 求导可以得到 <span class="math display">\[
+\frac{dK}{dt} = rK_0e^{rt} = rK \Rightarrow \frac{dK}{K}=rdt
+\]</span> <span class="math inline">\(r\)</span>就是无风险资产的收益率。对应到一个资产<span class="math inline">\(S\)</span>上，其收益率也应当分为确定的无风险部分以及不确定的风险部分: <span class="math display">\[
+\frac{\Delta S}{S} = \mu \Delta t + \sigma \Delta z
+\]</span> 也就是 <span class="math display">\[
+\frac{\Delta S}{S}\sim\phi(\mu \Delta t, \sigma^2 \Delta t)
+\]</span> 我们称<span class="math inline">\(\sigma\)</span>为波动率(volatility)。于是一个风险资产的价格应当满足以下Itô 过程 <span class="math display">\[
+dS = \mu Sdt + \sigma Sdz
+\]</span> 那么，以该资产为标的物的衍生品价格<span class="math inline">\(G(S(x,t),t)\)</span>应当满足： <span class="math display">\[
+dG = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial S^2}\sigma^2S^2 \right)dt+\frac{\partial G}{\partial S}\sigma Sdz
+\]</span> 离散形式为 <span class="math display">\[
+\Delta G = \left( \frac{\partial G}{\partial S}\mu S + \frac{\partial G}{\partial t} + \frac{1}{2}\frac{\partial^2 G}{\partial S^2}\sigma^2S^2 \right)\Delta t+\frac{\partial G}{\partial S}\sigma S\Delta z
+\]</span></p>
+<h3 id="资产的对数表达式">资产的对数表达式</h3>
+<p>利用Itô 引理，我们可以导出一个资产价格的对数满足的分布。对于<span class="math inline">\(G = \ln(S)\)</span>，有<span class="math inline">\(\partial G/\partial S = 1/S, \partial^2G/\partial S^2 = -1/S^2, \partial G/\partial t = 0\)</span>，于是 <span class="math display">\[
+d\ln S = \left(\mu-\frac{\sigma^2}{2}\right)dt+\sigma dz
+\]</span> 可以得到 <span class="math display">\[
+\ln (S_T)-\ln S_0 \sim \phi[\left(\mu-\frac{\sigma^2}{2}\right)T,\sigma^2T]
+\]</span> 注意，连续复利的收益率和离散复利收益率是两个东西，因为离散复利收益率<span class="math inline">\(\mu = \ln \langle S_T/S_0\rangle\)</span>，而连续复利的收益率是<span class="math inline">\(\langle \ln S_T/S_0\rangle\)</span>. 并且前者具有可加性，后者不具有，而且根据对数函数的凸性，有<span class="math inline">\(\ln \langle S_T/S_0\rangle &gt; \langle \ln S_T/S_0\rangle\)</span>。</p>
+<p>我们将资产价格表达式写成和固定利率的无风险债券相同的形式： <span class="math display">\[
+S_T = S_0e^{xT}
+\]</span> 其中 <span class="math display">\[
+x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\sigma^2}{T}\right)
+\]</span> 称为连续复利下的收益率。</p>
+<h3 id="衍生品价格的表达式">衍生品价格的表达式</h3>
+<p>B-S模型利用了有效市场假设，即不存在无风险套利机会。考虑这样一个投资组合，卖出一份衍生品，再以<span class="math inline">\(\partial f /\partial S\)</span>倍数买入标的物 <span class="math display">\[
+\Pi = -f+\frac{\partial f}{\partial S}S
+\]</span> 在一段<span class="math inline">\(\Delta t\)</span>后，产生的收益为 <span class="math display">\[
+\Delta \Pi = -\Delta f +\frac{\partial f}{\partial S}\Delta S = \left(-\frac{\partial f}{\partial t}-\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2\right)dt
+\]</span> 随机项被消除了，于是这就是一个无风险的收益。根据有效市场假设，这个收益的收益率一定是无风险利率： <span class="math display">\[
+\Delta \Pi = r\Pi\Delta t
+\]</span> 于是有 <span class="math display">\[
+\left(-\frac{\partial f}{\partial t}-\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2\right) = r\left(-f+\frac{\partial f}{\partial S}S\right)
+\]</span> 最终整理得到 <span class="math display">\[
+\frac{\partial f}{\partial t} + rS\frac{\partial f}{\partial S}+\frac{1}{2}\frac{\partial^2 f}{\partial S^2}\sigma^2S^2 - rf = 0
+\]</span> 这就是BS模型。</p>
 
       
     </div>
@@ -755,7 +762,7 @@ x = \frac{1}{T}\ln\frac{S_T}{S_0}\sim\phi\left(\mu-\frac{\sigma^2}{2}, \frac{\si
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%8D%E7%94%9F%E5%93%81%E7%9A%84%E5%AE%9A%E4%BB%B7%E7%90%86%E8%AE%BA1%EF%BC%9ABS%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">衍生品的定价理论1：BS模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Wiener%E8%BF%87%E7%A8%8B%E5%92%8CIto-%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">Wiener过程和Itô 过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Black-Scholes%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">Black-Scholes模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E4%BA%A7%E7%9A%84%E5%AF%B9%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">资产的对数表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8D%E7%94%9F%E5%93%81%E4%BB%B7%E6%A0%BC%E7%9A%84%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">衍生品价格的表达式</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%8D%E7%94%9F%E5%93%81%E7%9A%84%E5%AE%9A%E4%BB%B7%E7%90%86%E8%AE%BA1bs%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">衍生品的定价理论1：BS模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#wiener%E8%BF%87%E7%A8%8B%E5%92%8Cit%C3%B4-%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">Wiener过程和Itô 过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#black-scholes%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.</span> <span class="nav-text">Black-Scholes模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B5%84%E4%BA%A7%E7%9A%84%E5%AF%B9%E6%95%B0%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">资产的对数表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%8D%E7%94%9F%E5%93%81%E4%BB%B7%E6%A0%BC%E7%9A%84%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">衍生品价格的表达式</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
