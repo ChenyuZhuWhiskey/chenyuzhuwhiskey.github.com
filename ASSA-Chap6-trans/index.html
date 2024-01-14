@@ -1,19 +1,89 @@
 <!DOCTYPE html>
 
-<html lang="zh-ch">
 
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-ch">
 <head>
-  
-  <title>the art of software security assessment Chap6. translate - Chenyu&#39;s Blog</title>
-  <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-  
-  
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
-  <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta name="description" content="7.2 第六章 关于C语言方面的问题(C Language Issues) “终有一天你将会明白” —— Neel Mehta ，X-Force互联网安全系统高级研究员 7.2.1 概论 当你正在检查软件并覆盖潜在的安全漏洞时，理解编程语言底层如何实现数据类型以及运算的细节，以及这些细节会如何影响到执行流(execution flow)非常重要。审计员在汇编层面上检查应用程序二进制能够明确">
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="translate," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="7.2 第六章 关于C语言方面的问题(C Language Issues) “终有一天你将会明白” —— Neel Mehta ，X-Force互联网安全系统高级研究员 7.2.1 概论 当你正在检查软件并覆盖潜在的安全漏洞时，理解编程语言底层如何实现数据类型以及运算的细节，以及这些细节会如何影响到执行流(execution flow)非常重要。审计员在汇编层面上检查应用程序二进制能够明确">
 <meta property="og:type" content="article">
 <meta property="og:title" content="the art of software security assessment Chap6. translate">
 <meta property="og:url" content="https://chenyuzhuwhiskey.github.io/ASSA-Chap6-trans/index.html">
@@ -36,185 +106,299 @@
 <meta property="article:tag" content="translate">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-1.png">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1687745583110">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://chenyuzhuwhiskey.github.io/ASSA-Chap6-trans/"/>
+
+
+
+
+
+  <title>the art of software security assessment Chap6. translate | Chenyu's Blog</title>
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1687745583110">
+
+
+
+
+
+
+
+
 <meta name="generator" content="Hexo 5.4.2"></head>
 
-<body class="mdui-drawer-body-left">
-  
-  <div id="nexmoe-background">
-    <div class="nexmoe-bg" style="background-image: url(https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wgwall.jpg)"></div>
-    <div class="mdui-appbar mdui-shadow-0">
-      <div class="mdui-toolbar">
-        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
-        <div class="mdui-toolbar-spacer"></div>
-        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
-        <a href="/" title="Chenyu Zhu" class="mdui-btn mdui-btn-icon"><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/james-clerk-maxwell.jpg" alt="Chenyu Zhu"></a>
-       </div>
-    </div>
-  </div>
-  <div id="nexmoe-header">
-      <div class="nexmoe-drawer mdui-drawer" id="drawer">
-    <div class="nexmoe-avatar mdui-ripple">
-        <a href="/" title="Chenyu Zhu">
-            <img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/james-clerk-maxwell.jpg" alt="Chenyu Zhu" alt="Chenyu Zhu">
-        </a>
-    </div>
-    <div class="nexmoe-count">
-        <div><span>Articles</span>17</div>
-        <div><span>Tags</span>16</div>
-        <div><span>Categories</span>6</div>
-    </div>
-    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="Home">
-            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
-            <div class="mdui-list-item-content">
-                Home
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="Archives">
-            <i class="mdui-list-item-icon nexmoefont icon-i-catalog"></i>
-            <div class="mdui-list-item-content">
-                Archives
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about-me" title="About ME">
-            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
-            <div class="mdui-list-item-content">
-                About ME
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/sponsorship" title="Sponsorship">
-            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
-            <div class="mdui-list-item-content">
-                Sponsorship
-            </div>
-        </a>
-        
-    </div>
-    <aside id="nexmoe-sidebar">
-  
-  <div class="nexmoe-widget-wrap">
-    <div class="nexmoe-widget nexmoe-search">
-        <form id="search_form" action_e="https://cn.bing.com/search?q=site:chenyuzhuwhiskey.github.io" onsubmit="return search();">
-            <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
-        </form>
-    </div>
-</div>
-  
-  <div class="nexmoe-widget-wrap">
-    <div class="nexmoe-widget nexmoe-social">
-        <a class="mdui-ripple" href="http://wpa.qq.com/msgrd?v=3&uin=1241585360&site=qq&menu=yes" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
-            <i class="nexmoefont icon-QQ"></i>
-        </a><a class="mdui-ripple" href="https://space.bilibili.com/12575612" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
-            <i class="nexmoefont icon-bilibili"></i>
-        </a><a class="mdui-ripple" href="https://github.com/ChenyuZhuWhiskey/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
-            <i class="nexmoefont icon-github"></i>
-        </a><a class="mdui-ripple" href="https://www.zhihu.com/people/zhu-chen-yu-9/" target="_blank" mdui-tooltip="{content: '知乎'}" style="color: rgb(12, 53, 90);background-color: rgba(30,136,229,.1);">
-            <i class="nexmoefont icon-zhihu"></i>
-        </a><a class="mdui-ripple" href="https://steamcommunity.com/profiles/76561198401617015/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(5,28,63);background-color: rbga(14,71,161,.1);">
-            <i class="nexmoefont icon-steam"></i>
-        </a><a class="mdui-ripple" href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wechat.jpg" target="_blank" mdui-tooltip="{content: '微信'}" style="color: rgb(123, 179, 46);background-color: rgba(102,187,106,.1);">
-            <i class="nexmoefont icon-wechat-fill"></i>
-        </a><a class="mdui-ripple" href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wulixuetu.jpg" target="_blank" mdui-tooltip="{content: '公众号'}" style="color: ;background-color: ;">
-            <i class="nexmoefont icon-wechat-fill"></i>
-        </a>
-    </div>
-</div>
-  
-  
-  <div class="nexmoe-widget-wrap">
-    <h3 class="nexmoe-widget-title">Categories</h3>
-    <div class="nexmoe-widget">
-
-      <ul class="category-list">
-
-        
-
-
-        
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Computer-Science/">Computer Science</a>
-          <span class="category-list-count">10</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Mathematics/Finance/">Finance</a>
-          <span class="category-list-count">4</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Mathematics/">Mathematics</a>
-          <span class="category-list-count">5</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Computer-Science/Physics/">Physics</a>
-          <span class="category-list-count">2</span>
-        </li>
-
-        
-      </ul>
-
-    </div>
-  </div>
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-ch">
 
   
   
-  <div class="nexmoe-widget-wrap">
-    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
-      <a href="/tags/Bison/" style="font-size: 10px;">Bison</a> <a href="/tags/Hamilton-Jacobi-Bellman-equation/" style="font-size: 10px;">Hamilton-Jacobi-Bellman equation</a> <a href="/tags/Markov-decision-process/" style="font-size: 10px;">Markov decision process</a> <a href="/tags/Parser/" style="font-size: 10px;">Parser</a> <a href="/tags/Statistical-Mechanics/" style="font-size: 10px;">Statistical Mechanics</a> <a href="/tags/derivative-pricing/" style="font-size: 10px;">derivative pricing</a> <a href="/tags/dynamic-programming/" style="font-size: 10px;">dynamic programming</a> <a href="/tags/flex/" style="font-size: 10px;">flex</a> <a href="/tags/lexical-analysis/" style="font-size: 10px;">lexical analysis</a> <a href="/tags/principle-of-minimum-action/" style="font-size: 10px;">principle of minimum action</a> <a href="/tags/stochastic-optimal-control-theory/" style="font-size: 16.67px;">stochastic optimal control theory</a> <a href="/tags/translate/" style="font-size: 20px;">translate</a> <a href="/tags/%E5%BE%AE%E5%88%86%E6%B5%81%E5%BD%A2/" style="font-size: 10px;">微分流形</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 16.67px;">操作系统</a> <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">源码解析</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13.33px;">编译原理</a>
-    </div>
     
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chenyu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Something valued really in my life</p>
+      
   </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
 
   
-</aside>
-    <div class="nexmoe-copyright">
-        &copy; 2023 Chenyu Zhu
-        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+    <ul id="menu" class="menu">
+      
         
-    </div>
-</div><!-- .nexmoe-drawer -->
-  </div>
-  <div id="nexmoe-content">
-    <div class="nexmoe-primary">
-        <div class="nexmoe-post">
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about-me/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sponsorship">
+          <a href="/sponsorship/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-fas fa-donate"></i> <br />
+            
+            Sponsorship
+          </a>
+        </li>
+      
 
-  <article>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-        <div class="nexmoe-post-cover" style="padding-bottom: 56.25%;"> 
-            <img data-src="https://static-ptl-eu.gcdn.co/dcont/fb/image/january18_wallpaper_1920x1080.jpg" data-sizes="auto" alt="the art of software security assessment Chap6. translate" class="lazyload">
-            <h1>the art of software security assessment Chap6. translate</h1>
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chenyuzhuwhiskey.github.io/ASSA-Chap6-trans/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenyu's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">the art of software security assessment Chap6. translate</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-21T00:00:00+08:00">
+                2020-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/ASSA-Chap6-trans/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/ASSA-Chap6-trans/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  39.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  149
+                </span>
+              
+            </div>
+          
+
+          
+
         </div>
-    
-    
-    <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2020年07月21日</a>
-    <a><i class="nexmoefont icon-areachart"></i>39.6k 字</a>
-    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 172 分钟</a>
-</div>
-
+      </header>
     
 
-    <h2 id="第六章-关于c语言方面的问题c-language-issues">7.2 第六章 关于C语言方面的问题(C Language Issues)</h2>
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="第六章-关于c语言方面的问题c-language-issues">7.2 第六章 关于C语言方面的问题(C Language Issues)</h2>
 <p>“终有一天你将会明白”</p>
 <p>—— Neel Mehta ，X-Force互联网安全系统高级研究员</p>
 <h3 id="概论">7.2.1 概论</h3>
@@ -570,37 +754,37 @@
 <p>扩展过程会出现一些没有预料的实现：如果一个较窄的带符号类型，例如<code>signed char</code>，转换为一个更宽的无符号类型，例如<code>unsigned int</code>，那么符号位扩展仍然会发生。</p>
 <p>图6-1展示了一个值为5的<code>unsigned char</code>类型保值转换为<code>signed int</code>型的过程</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-1.png" alt="6-1" class="lazyload"><figcaption aria-hidden="true">6-1</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-1.png" alt="6-1" /><figcaption aria-hidden="true">6-1</figcaption>
 </figure>
 <p>字符被放置到整数中，值被保留。在位模式级别，这只涉及零扩展:清除高位并将最低有效字节(least significant byte，LSB)移动到新对象的最低有效字节。</p>
 <p>现在考虑一下<code>signed char</code>转换为<code>int</code>。<code>int</code>能表示所有<code>signed char</code>能表示的值，因此这个转换仍然是保值的，图6-2展示了在位级别的转换过程。</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-2.png" alt="6-2" class="lazyload"><figcaption aria-hidden="true">6-2</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-2.png" alt="6-2" /><figcaption aria-hidden="true">6-2</figcaption>
 </figure>
 <p>这个情况稍微会有些不同，因为值是相同的，但转变过程更复杂了一点。-5在<code>signed char</code>中位级别的表示为1111 1011。在<code>int</code>中，-5的位级表达为1111 1111 1111 1111 1111 1111 1111 1011.为了实现这个转换，编译器会生成汇编代码来执行符号位扩展。在图6-2中你能看到符号位在<code>signed char</code>中为1，因此为了保值，符号位就会被复制到其他<code>int</code>型中剩下的24位里。</p>
 <p>前面的例子是保值转换。现在考虑一下变质扩展转换。如果你想要将一个值为-5的<code>signed char</code>转换为<code>unsigned int</code>。由于源类型是带符号的，因此符号位扩展就会执行，见图6-3：</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-3.png" alt="6-3" class="lazyload"><figcaption aria-hidden="true">6-3</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-3.png" alt="6-3" /><figcaption aria-hidden="true">6-3</figcaption>
 </figure>
 <p>正如前面所提到的，这个结果可能会震惊到开发者。你可以在本章后面“符号位扩展”小节中看到与之相关的安全影响。这种转换是变值的，因为一个<code>unsigned int</code>无法表示一个小于0的值。</p>
 <h4 id="整数类型收缩">整数类型：收缩</h4>
 <p>当将一个宽类型转换为窄类型时，机器只会使用一种机器：<strong>截断(truncation)</strong>。宽类型中与窄类型不匹配的位会被全部舍去。图6-4和图6-5展示了两个收缩转换。注意，所有的收缩转换都是变值转换，因为转换过程中精度丢失了。</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-4.png" alt="6-4" class="lazyload"><figcaption aria-hidden="true">6-4</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-4.png" alt="6-4" /><figcaption aria-hidden="true">6-4</figcaption>
 </figure>
 <p>图6-5:</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-5.png" alt="6-5" class="lazyload"><figcaption aria-hidden="true">6-5</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-5.png" alt="6-5" /><figcaption aria-hidden="true">6-5</figcaption>
 </figure>
 <h4 id="整数类型带符号与无符号">整数类型：带符号与无符号</h4>
 <p>最后我们要考虑这样的整数转换：如果转换在相同宽度的带符号和无符号数之间发生，那么在位级别上什么都不会发生。这样的转换是变值的。例如，如果你有一个<code>signed int</code>型的-1，在二进制的表示为：1111 1111 1111 1111 1111 1111 1111 1111。</p>
 <p>如果将具有相同位级别的这个数看作<code>unsigned int</code>，那么它的值就是4,294,967,295。这个过程在图6-6中有总结。 从<code>unsigned int</code>到<code>int</code>的转换在技术上可能是实现定义的，但其工作方式相同:保留位模式，值在新类型的上下文中进行解释</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-6.png" alt="6-6" class="lazyload"><figcaption aria-hidden="true">6-6</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-6.png" alt="6-6" /><figcaption aria-hidden="true">6-6</figcaption>
 </figure>
 <p>图6-7：</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-7.png" alt="6-7" class="lazyload"><figcaption aria-hidden="true">6-7</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-7.png" alt="6-7" /><figcaption aria-hidden="true">6-7</figcaption>
 </figure>
 <h4 id="整数类型转换总结">整数类型转换总结：</h4>
 <p>对于整数类型转换，这里有一些实用的规则：</p>
@@ -1232,7 +1416,7 @@
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> *indx;</span><br><span class="line"><span class="keyword">int</span> count;</span><br><span class="line"><span class="keyword">char</span> nameStr[MAX_LEN]; <span class="comment">//256</span></span><br><span class="line">...</span><br><span class="line"><span class="built_in">memset</span>(nameStr, <span class="string">&#x27;\0&#x27;</span>, <span class="keyword">sizeof</span>(nameStr));</span><br><span class="line">...</span><br><span class="line">indx = (<span class="keyword">char</span> *)(pkt + rr_offset);</span><br><span class="line">count = (<span class="keyword">char</span>)*indx;</span><br><span class="line"><span class="keyword">while</span> (count)&#123;</span><br><span class="line">	(<span class="keyword">char</span> *)indx++;</span><br><span class="line">	<span class="built_in">strncat</span>(nameStr, (<span class="keyword">char</span> *)indx, count);</span><br><span class="line">	indx += count;</span><br><span class="line">	count = (<span class="keyword">char</span>)*indx;</span><br><span class="line">	<span class="built_in">strncat</span>(nameStr, <span class="string">&quot;.&quot;</span>,</span><br><span class="line">	<span class="keyword">sizeof</span>(nameStr) <span class="built_in">strlen</span>(nameStr));</span><br><span class="line">&#125;</span><br><span class="line">nameStr[<span class="built_in">strlen</span>(nameStr)<span class="number">-1</span>] = <span class="string">&#x27;\0&#x27;</span>;</span><br></pre></td></tr></table></figure>
 <p>在理解这段代码之前，需要了解一些背景知识。<code>watch_dns_ptr()</code>函数的目的是从包中提取域名，并将其复制到<code>nameStr</code>字符串中。DNS包中的DNS域名有点像Pascal字符串。域名中的每个标签都有一个包含其长度的字节作为前缀。当你到达一个大小为0的标签时，域名结束。(DNS压缩方案与此漏洞无关。)图6-8显示了DNS域名在包中的样子。有三个标签 <code>test</code>、<code>jim</code>和<code>com</code>，以及一个0长度的标签，用于指定名称的结束。</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-8.png" alt="6-8" class="lazyload"><figcaption aria-hidden="true">6-8</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-8.png" alt="6-8" /><figcaption aria-hidden="true">6-8</figcaption>
 </figure>
 <p>该代码首先从包中读取第一个长度字节，并将其存储为整数<code>count</code>。这个长度字节是存储在整数中的带符号字符，因此你应该能够在<code>count</code>中放入-128到127之间的任何值。记住这一点，后面会用到。</p>
 <p><code>while()</code>循环继续读取标签，并在标签上调用<code>strncat()</code>到<code>nameStr</code>字符串。发布的第一个漏洞是在这个循环中没有长度检查。如果你只是在包中提供一个足够长的域名，那么它可能写过<code>nameStr[]</code>的边界。下面的代码显示了研究版本1.1中如何修复这个问题。</p>
@@ -1575,10 +1759,10 @@
 <p>在32位大端系统中，<code>netdata</code>结构体会像图6-9那样布局。一个<code>unsigned int</code>，一个<code>unsigned short</code>，两个字节的填充，一个<code>unsigned int</code>，因此结构体总的大小是12字节。图6-10显示了在网络中的布局。如果开发者没有预料到结构体填充的插入，那么他们就可能会将网络协议的解释写错。 此错误可能导致服务器接受重放攻击(replay attack)。</p>
 <p>figure 6-9:</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-9.png" alt="6-9" class="lazyload"><figcaption aria-hidden="true">6-9</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-9.png" alt="6-9" /><figcaption aria-hidden="true">6-9</figcaption>
 </figure>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-10.png" alt="6-10" class="lazyload"><figcaption aria-hidden="true">6-10</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/the_art_of_security_assessment_translate/6-10.png" alt="6-10" /><figcaption aria-hidden="true">6-10</figcaption>
 </figure>
 <p>在64位体系架构中，犯这种错误的可能性会增加。如果一个结构包含一个指针或long值，结构在内存中的布局很可能会改变。任何64位的值，例如指针或长整型，都将占用32位系统的两倍空间，并且必须放置在64位对齐边界上。</p>
 <p>填充位的内容取决于分配结构时内存中的内容。这些位可能不同，这可能导致涉及内存比较的逻辑错误，如下面代码所示。</p>
@@ -1675,89 +1859,357 @@
 <h3 id="总结">7.2.10 总结</h3>
 <p>本章讨论了C编程语言的细微差别，这些差别可能导致微妙和复杂的漏洞。这种背景应该使你能够识别操作符处理、类型转换、算术操作和常见的C输入错误可能出现的问题。然而，这一主题的复杂性并不足以让人一蹴而就地完全理解。因此，在进行应用程序审计时，请参阅本材料。毕竟，即使是最好的代码审计员也很容易忽略可能导致严重漏洞的细微错误。</p>
 
-  </article>
+      
+    </div>
+    
+    
+    
 
-  
     
-  <div class="nexmoe-post-copyright">
-    <strong>Author：</strong>Chenyu Zhu<br>
-    <strong>Link：</strong><a href="https://chenyuzhuwhiskey.github.io/ASSA-Chap6-trans/" title="https:&#x2F;&#x2F;chenyuzhuwhiskey.github.io&#x2F;ASSA-Chap6-trans&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;chenyuzhuwhiskey.github.io&#x2F;ASSA-Chap6-trans&#x2F;</a><br>
-    
-      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
-    
-  </div>
-
-
-  
-  
-  <div class="nexmoe-post-meta nexmoe-rainbow">
-    
-        <a class="nexmoefont icon-appstore-fill -link" href="/categories/Computer-Science/">Computer Science</a>
-    
-    
-        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/translate/" rel="tag">translate</a>
-    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wulixuetu.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>scan and following my wechat official account.</div>
 </div>
 
-  <div class="nexmoe-post-footer">
-    <section class="nexmoe-comment">
-    <div id="gitment"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-    id: 'Tue Jul 21 2020 00:00:00 GMT+0800',
-    owner: 'ChenyuZhuWhiskey', // 你的 GitHub ID
-    repo: 'chenyuzhuwhiskey.github.io', // 存储评论的 repo
-    oauth: {
-        client_id: 'ddd70b8e39feca5ab1e4', // 你的 client ID
-        client_secret: '72ffc4565d55cf70770e4718582b932b549ebfc8' // 你的 client secret
-    },
-})
-gitment.render('gitment')
-</script>
-</section>
-  </div>
-</div>
-        <div class="nexmoe-post-right">
-          <div class="nexmoe-fixed">
-            <div class="nexmoe-tool"> 
-              
-                
-                  
-                  
-                  
-                    <button class="mdui-fab catalog mdui-ripple" style="overflow:unset;">
-                      <i class="nexmoefont icon-i-catalog"></i>
-                      <div class="nexmoe-toc">
-                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%85%B3%E4%BA%8Ec%E8%AF%AD%E8%A8%80%E6%96%B9%E9%9D%A2%E7%9A%84%E9%97%AE%E9%A2%98c-language-issues"><span class="toc-number">1.</span> <span class="toc-text">7.2 第六章 关于C语言方面的问题(C Language Issues)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E8%AE%BA"><span class="toc-number">1.1.</span> <span class="toc-text">7.2.1 概论</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c%E8%AF%AD%E8%A8%80%E8%83%8C%E6%99%AF"><span class="toc-number">1.2.</span> <span class="toc-text">7.2.2 C语言背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%A6%82%E8%BF%B0"><span class="toc-number">1.3.</span> <span class="toc-text">7.2.3 数据存储概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81"><span class="toc-number">1.3.2.</span> <span class="toc-text">二进制编码</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%8D%E7%9A%84%E6%AC%A1%E5%BA%8F"><span class="toc-number">1.3.2.1.</span> <span class="toc-text">位的次序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.2.2.</span> <span class="toc-text">常见的实现</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AE%97%E6%9C%AF%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6"><span class="toc-number">1.4.</span> <span class="toc-text">7.2.4 算术边界条件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8-1"><span class="toc-number">1.4.1.</span> <span class="toc-text">注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8-2"><span class="toc-number">1.4.2.</span> <span class="toc-text">注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AD%A6%E5%91%8A"><span class="toc-number">1.4.3.</span> <span class="toc-text">警告</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0%E8%BE%B9%E7%95%8C"><span class="toc-number">1.4.4.</span> <span class="toc-text">无符号整数边界</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A8%A1%E8%BF%90%E7%AE%97"><span class="toc-number">1.4.5.</span> <span class="toc-text">模运算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#intel%E4%B8%AD%E7%9A%84%E4%B9%98%E6%B3%95%E6%BA%A2%E5%87%BA"><span class="toc-number">1.4.6.</span> <span class="toc-text">Intel中的乘法溢出</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0%E8%BE%B9%E7%95%8C"><span class="toc-number">1.4.7.</span> <span class="toc-text">带符号整数边界</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B3%A8-3"><span class="toc-number">1.4.7.1.</span> <span class="toc-text">注</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.5.</span> <span class="toc-text">7.2.5 类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8-4"><span class="toc-number">1.5.1.</span> <span class="toc-text">注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.5.2.</span> <span class="toc-text">概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8-5"><span class="toc-number">1.5.3.</span> <span class="toc-text">注</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99"><span class="toc-number">1.6.</span> <span class="toc-text">转换规则</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%A8-6"><span class="toc-number">1.6.1.</span> <span class="toc-text">注</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E4%BF%9D%E5%80%BC"><span class="toc-number">1.6.2.</span> <span class="toc-text">整数类型：保值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95"><span class="toc-number">1.6.3.</span> <span class="toc-text">整数类型：扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AD%A6%E5%91%8A-1"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">警告</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E6%94%B6%E7%BC%A9"><span class="toc-number">1.6.4.</span> <span class="toc-text">整数类型：收缩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E5%B8%A6%E7%AC%A6%E5%8F%B7%E4%B8%8E%E6%97%A0%E7%AC%A6%E5%8F%B7"><span class="toc-number">1.6.5.</span> <span class="toc-text">整数类型：带符号与无符号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.6.</span> <span class="toc-text">整数类型转换总结：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E5%92%8C%E5%A4%8D%E6%95%B0%E5%9E%8B"><span class="toc-number">1.6.7.</span> <span class="toc-text">浮点型和复数型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.6.8.</span> <span class="toc-text">其他类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.6.9.</span> <span class="toc-text">简单转换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2casts"><span class="toc-number">1.6.9.1.</span> <span class="toc-text">强制类型转换(casts)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%B5%8B%E5%80%BC"><span class="toc-number">1.6.9.2.</span> <span class="toc-text">赋值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E5%8E%9F%E5%9E%8Bprototype"><span class="toc-number">1.6.9.3.</span> <span class="toc-text">函数调用：原型(prototype)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E8%BF%94%E5%9B%9E"><span class="toc-number">1.6.9.4.</span> <span class="toc-text">函数调用：返回</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87integer-promotions"><span class="toc-number">1.6.9.5.</span> <span class="toc-text">整数提升(integer promotions)</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%B3%A8-7"><span class="toc-number">1.6.9.5.1.</span> <span class="toc-text">注</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E8%BF%87%E5%8E%BB%E7%89%88%E6%9C%AC%E7%9A%84%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.6.9.6.</span> <span class="toc-text">关于过去版本的注解</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87%E7%9A%84%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.9.7.</span> <span class="toc-text">整数提升的总结</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87%E5%BA%94%E7%94%A8"><span class="toc-number">1.6.9.8.</span> <span class="toc-text">整数提升应用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%80%E5%85%83%E7%AE%97%E7%AC%A6"><span class="toc-number">1.6.9.8.1.</span> <span class="toc-text">一元算符 +</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%80%E5%85%83%E7%AE%97%E7%AC%A6--"><span class="toc-number">1.6.9.8.2.</span> <span class="toc-text">一元算符 -</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#leblancian%E6%82%96%E8%AE%BA"><span class="toc-number">1.6.10.</span> <span class="toc-text">Leblancian悖论</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B8%80%E5%85%83%E7%AE%97%E7%AC%A6-1"><span class="toc-number">1.6.10.0.1.</span> <span class="toc-text">一元算符 ~</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%A7%BB%E4%BD%8D%E7%AE%97%E7%AC%A6"><span class="toc-number">1.6.10.0.2.</span> <span class="toc-text">移位算符</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#switch%E8%AF%AD%E5%8F%A5"><span class="toc-number">1.6.10.0.3.</span> <span class="toc-text">switch语句</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="toc-number">1.6.10.0.4.</span> <span class="toc-text">函数调用</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E7%AE%97%E6%9C%AF%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.6.10.1.</span> <span class="toc-text">常规算术转换</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%84%E5%88%991%E6%B5%AE%E7%82%B9%E4%BC%98%E5%85%88"><span class="toc-number">1.6.10.1.1.</span> <span class="toc-text">规则1：浮点优先</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%84%E5%88%992%E5%BA%94%E7%94%A8%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87"><span class="toc-number">1.6.10.1.2.</span> <span class="toc-text">规则2：应用整数提升</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%84%E5%88%993%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87%E5%90%8E%E4%B8%BA%E7%9B%B8%E5%90%8C%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.6.10.1.3.</span> <span class="toc-text">规则3：整数提升后为相同类型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%84%E5%88%994%E7%9B%B8%E5%90%8C%E7%AC%A6%E5%8F%B7%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.6.10.1.4.</span> <span class="toc-text">规则4：相同符号，不同类型</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%84%E5%88%995%E5%B8%A6%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%AF%94%E5%B8%A6%E6%97%A0%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%9B%B4%E5%AE%BD"><span class="toc-number">1.6.10.1.5.</span> <span class="toc-text">规则5：带符号类型比带无符号类型更宽</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%84%E5%88%996%E5%B8%A6%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%AF%94%E6%97%A0%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%9B%B4%E7%AA%84%E8%83%BD%E4%BF%9D%E5%80%BC"><span class="toc-number">1.6.10.1.6.</span> <span class="toc-text">规则6：带符号类型比无符号类型更窄，能保值</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%A7%84%E5%88%997%E5%B8%A6%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%AF%94%E6%97%A0%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%9B%B4%E7%AA%84%E4%B8%8D%E8%83%BD%E4%BF%9D%E5%80%BC"><span class="toc-number">1.6.10.1.7.</span> <span class="toc-text">规则7：带符号类型比无符号类型更窄，不能保值</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E7%AE%97%E6%9C%AF%E8%BD%AC%E6%8D%A2%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.10.1.8.</span> <span class="toc-text">算术转换总结</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B8%B8%E8%A7%84%E7%AE%97%E6%9C%AF%E8%BD%AC%E6%8D%A2%E5%BA%94%E7%94%A8"><span class="toc-number">1.6.10.2.</span> <span class="toc-text">常规算术转换应用</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%8A%A0%E6%B3%95"><span class="toc-number">1.6.10.2.1.</span> <span class="toc-text">加法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%87%8F%E6%B3%95"><span class="toc-number">1.6.10.2.2.</span> <span class="toc-text">减法</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%B9%98%E6%B3%95%E7%AE%97%E7%AC%A6"><span class="toc-number">1.6.10.2.3.</span> <span class="toc-text">乘法算符</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%85%B3%E7%B3%BB%E5%92%8C%E7%AD%89%E4%BB%B7%E7%AE%97%E7%AC%A6"><span class="toc-number">1.6.10.2.4.</span> <span class="toc-text">关系和等价算符</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BD%8D%E7%BA%A7%E7%AE%97%E7%AC%A6"><span class="toc-number">1.6.10.2.5.</span> <span class="toc-text">二进制位级算符</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E9%97%AE%E5%8F%B7%E6%A0%87%E8%AE%B0%E7%AE%97%E7%AC%A6question-mark-operator"><span class="toc-number">1.6.10.2.6.</span> <span class="toc-text">问号标记算符(question mark operator)</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.11.</span> <span class="toc-text">类型转换总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E6%8F%90%E7%A4%BA%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.6.11.1.</span> <span class="toc-text">审计提示：类型转换</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.7.</span> <span class="toc-text">7.2.6 类型转换漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%A6%E7%AC%A6%E5%8F%B7%E6%97%A0%E7%AC%A6%E5%8F%B7%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.7.1.</span> <span class="toc-text">带符号&#x2F;无符号转换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7%E5%B8%A6%E7%AC%A6%E5%8F%B7%E6%97%A0%E7%AC%A6%E5%8F%B7%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.7.1.1.</span> <span class="toc-text">审计技巧：带符号&#x2F;无符号转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AC%A6%E5%8F%B7%E4%BD%8D%E6%89%A9%E5%B1%95"><span class="toc-number">1.7.1.2.</span> <span class="toc-text">符号位扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E6%8F%90%E7%A4%BA%E7%AC%A6%E5%8F%B7%E4%BD%8D%E6%89%A9%E5%B1%95"><span class="toc-number">1.7.1.2.1.</span> <span class="toc-text">审计提示:符号位扩展</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%88%AA%E6%96%AD"><span class="toc-number">1.7.1.3.</span> <span class="toc-text">截断</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E8%AF%91%E8%80%85%E6%B3%A8"><span class="toc-number">1.7.1.3.1.</span> <span class="toc-text">译者注：</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E6%8F%90%E7%A4%BA%E6%88%AA%E6%96%AD"><span class="toc-number">1.7.1.3.2.</span> <span class="toc-text">审计提示：截断</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AF%94%E8%BE%83"><span class="toc-number">1.7.1.4.</span> <span class="toc-text">比较</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7"><span class="toc-number">1.7.1.4.1.</span> <span class="toc-text">审计技巧</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.8.</span> <span class="toc-text">7.2.7 运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#sizeof%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.8.1.</span> <span class="toc-text">sizeof运算符</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7sizeof"><span class="toc-number">1.8.2.</span> <span class="toc-text">审计技巧：sizeof</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%BA%E4%BA%BA%E6%84%8F%E6%96%99%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="toc-number">1.8.3.</span> <span class="toc-text">出人意料的结果</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7%E5%87%BA%E4%BA%BA%E6%84%8F%E6%96%99%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="toc-number">1.8.4.</span> <span class="toc-text">审计技巧：出人意料的结果</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E8%BF%90%E7%AE%97"><span class="toc-number">1.9.</span> <span class="toc-text">7.2.8 指针运算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E6%A6%82%E8%BF%B0"><span class="toc-number">1.9.1.</span> <span class="toc-text">指针概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8C%87%E9%92%88%E8%BF%90%E7%AE%97%E6%A6%82%E8%BF%B0"><span class="toc-number">1.9.2.</span> <span class="toc-text">指针运算概述</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8A%A0%E6%B3%95-1"><span class="toc-number">1.9.2.1.</span> <span class="toc-text">加法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%87%8F%E6%B3%95-1"><span class="toc-number">1.9.2.2.</span> <span class="toc-text">减法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%AF%94%E8%BE%83-1"><span class="toc-number">1.9.2.3.</span> <span class="toc-text">比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9D%A1%E4%BB%B6%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.9.2.4.</span> <span class="toc-text">条件运算符</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E"><span class="toc-number">1.9.3.</span> <span class="toc-text">漏洞</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7-1"><span class="toc-number">1.9.3.1.</span> <span class="toc-text">审计技巧</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B6%E4%BB%96c%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%88%AB"><span class="toc-number">1.10.</span> <span class="toc-text">7.2.9 其他C的细微差别</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BF%90%E7%AE%97%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.10.1.</span> <span class="toc-text">运算顺序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%A1%AB%E5%85%85"><span class="toc-number">1.10.2.</span> <span class="toc-text">结构体填充</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7"><span class="toc-number">1.10.3.</span> <span class="toc-text">优先级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8F%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8"><span class="toc-number">1.10.4.</span> <span class="toc-text">宏&#x2F;预处理器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%BC%E5%86%99%E9%94%99%E8%AF%AF"><span class="toc-number">1.10.5.</span> <span class="toc-text">拼写错误</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.11.</span> <span class="toc-text">7.2.10 总结</span></a></li></ol></li></ol>
-                      </div>
-                    </button>
-                  
-                    
-                
-              
-              <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
-            </div>
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    Chenyu Zhu
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://chenyuzhuwhiskey.github.io/ASSA-Chap6-trans/" title="the art of software security assessment Chap6. translate">https://chenyuzhuwhiskey.github.io/ASSA-Chap6-trans/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/translate/" rel="tag"># translate</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/bison-parser-analysis/" rel="next" title="bison parser深入分析">
+                <i class="fa fa-chevron-left"></i> bison parser深入分析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/glibc-malloc-analysis/" rel="prev" title="glibc malloc 源码分析">
+                glibc malloc 源码分析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
- 
 
-<script async src="/js/app.js?v=1687745583124"></script>
+          </div>
+          
 
-<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
-<script>
-	$(".justified-gallery").justifiedGallery({
-		rowHeight: 160,
-		margins: 10,
-	});
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ChenyuZhuWhiskey" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/zhu-chen-yu-9" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-zhihu"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=1241585360&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-tim"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://space.bilibili.com/12575612" target="_blank" title="哔哩哔哩">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-bilibili-fill"></i>哔哩哔哩</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://steamcommunity.com/profiles/76561198401617015/" target="_blank" title="Steam">
+                      
+                        <i class="fa fa-fw fa-steam"></i>Steam</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wechat.jpg" target="_blank" title="微信">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>微信</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wulixuetu.jpg" target="_blank" title="公众号">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>公众号</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="暂无" target="_blank" title="学术主页">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-academicdegree"></i>学术主页</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E7%AB%A0-%E5%85%B3%E4%BA%8Ec%E8%AF%AD%E8%A8%80%E6%96%B9%E9%9D%A2%E7%9A%84%E9%97%AE%E9%A2%98c-language-issues"><span class="nav-number">1.</span> <span class="nav-text">7.2 第六章 关于C语言方面的问题(C Language Issues)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%AE%BA"><span class="nav-number">1.1.</span> <span class="nav-text">7.2.1 概论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c%E8%AF%AD%E8%A8%80%E8%83%8C%E6%99%AF"><span class="nav-number">1.2.</span> <span class="nav-text">7.2.2 C语言背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E6%A6%82%E8%BF%B0"><span class="nav-number">1.3.</span> <span class="nav-text">7.2.3 数据存储概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8"><span class="nav-number">1.3.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%BC%96%E7%A0%81"><span class="nav-number">1.3.2.</span> <span class="nav-text">二进制编码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%8D%E7%9A%84%E6%AC%A1%E5%BA%8F"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">位的次序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">常见的实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%9C%AF%E8%BE%B9%E7%95%8C%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.4.</span> <span class="nav-text">7.2.4 算术边界条件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8-2"><span class="nav-number">1.4.2.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AD%A6%E5%91%8A"><span class="nav-number">1.4.3.</span> <span class="nav-text">警告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0%E8%BE%B9%E7%95%8C"><span class="nav-number">1.4.4.</span> <span class="nav-text">无符号整数边界</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E8%BF%90%E7%AE%97"><span class="nav-number">1.4.5.</span> <span class="nav-text">模运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#intel%E4%B8%AD%E7%9A%84%E4%B9%98%E6%B3%95%E6%BA%A2%E5%87%BA"><span class="nav-number">1.4.6.</span> <span class="nav-text">Intel中的乘法溢出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%A6%E7%AC%A6%E5%8F%B7%E6%95%B4%E6%95%B0%E8%BE%B9%E7%95%8C"><span class="nav-number">1.4.7.</span> <span class="nav-text">带符号整数边界</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B3%A8-3"><span class="nav-number">1.4.7.1.</span> <span class="nav-text">注</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.5.</span> <span class="nav-text">7.2.5 类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8-4"><span class="nav-number">1.5.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.5.2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8-5"><span class="nav-number">1.5.3.</span> <span class="nav-text">注</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99"><span class="nav-number">1.6.</span> <span class="nav-text">转换规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8-6"><span class="nav-number">1.6.1.</span> <span class="nav-text">注</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E4%BF%9D%E5%80%BC"><span class="nav-number">1.6.2.</span> <span class="nav-text">整数类型：保值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E6%89%A9%E5%B1%95"><span class="nav-number">1.6.3.</span> <span class="nav-text">整数类型：扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AD%A6%E5%91%8A-1"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">警告</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E6%94%B6%E7%BC%A9"><span class="nav-number">1.6.4.</span> <span class="nav-text">整数类型：收缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E5%B8%A6%E7%AC%A6%E5%8F%B7%E4%B8%8E%E6%97%A0%E7%AC%A6%E5%8F%B7"><span class="nav-number">1.6.5.</span> <span class="nav-text">整数类型：带符号与无符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%80%BB%E7%BB%93"><span class="nav-number">1.6.6.</span> <span class="nav-text">整数类型转换总结：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E5%92%8C%E5%A4%8D%E6%95%B0%E5%9E%8B"><span class="nav-number">1.6.7.</span> <span class="nav-text">浮点型和复数型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.6.8.</span> <span class="nav-text">其他类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.6.9.</span> <span class="nav-text">简单转换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BC%BA%E5%88%B6%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2casts"><span class="nav-number">1.6.9.1.</span> <span class="nav-text">强制类型转换(casts)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B5%8B%E5%80%BC"><span class="nav-number">1.6.9.2.</span> <span class="nav-text">赋值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E5%8E%9F%E5%9E%8Bprototype"><span class="nav-number">1.6.9.3.</span> <span class="nav-text">函数调用：原型(prototype)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E8%BF%94%E5%9B%9E"><span class="nav-number">1.6.9.4.</span> <span class="nav-text">函数调用：返回</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87integer-promotions"><span class="nav-number">1.6.9.5.</span> <span class="nav-text">整数提升(integer promotions)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B3%A8-7"><span class="nav-number">1.6.9.5.1.</span> <span class="nav-text">注</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%BF%87%E5%8E%BB%E7%89%88%E6%9C%AC%E7%9A%84%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.6.9.6.</span> <span class="nav-text">关于过去版本的注解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87%E7%9A%84%E6%80%BB%E7%BB%93"><span class="nav-number">1.6.9.7.</span> <span class="nav-text">整数提升的总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87%E5%BA%94%E7%94%A8"><span class="nav-number">1.6.9.8.</span> <span class="nav-text">整数提升应用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%80%E5%85%83%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.9.8.1.</span> <span class="nav-text">一元算符 +</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%80%E5%85%83%E7%AE%97%E7%AC%A6--"><span class="nav-number">1.6.9.8.2.</span> <span class="nav-text">一元算符 -</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#leblancian%E6%82%96%E8%AE%BA"><span class="nav-number">1.6.10.</span> <span class="nav-text">Leblancian悖论</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%80%E5%85%83%E7%AE%97%E7%AC%A6-1"><span class="nav-number">1.6.10.0.1.</span> <span class="nav-text">一元算符 ~</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A7%BB%E4%BD%8D%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.10.0.2.</span> <span class="nav-text">移位算符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#switch%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.6.10.0.3.</span> <span class="nav-text">switch语句</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-number">1.6.10.0.4.</span> <span class="nav-text">函数调用</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E7%AE%97%E6%9C%AF%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.6.10.1.</span> <span class="nav-text">常规算术转换</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A7%84%E5%88%991%E6%B5%AE%E7%82%B9%E4%BC%98%E5%85%88"><span class="nav-number">1.6.10.1.1.</span> <span class="nav-text">规则1：浮点优先</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A7%84%E5%88%992%E5%BA%94%E7%94%A8%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87"><span class="nav-number">1.6.10.1.2.</span> <span class="nav-text">规则2：应用整数提升</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A7%84%E5%88%993%E6%95%B4%E6%95%B0%E6%8F%90%E5%8D%87%E5%90%8E%E4%B8%BA%E7%9B%B8%E5%90%8C%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.6.10.1.3.</span> <span class="nav-text">规则3：整数提升后为相同类型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A7%84%E5%88%994%E7%9B%B8%E5%90%8C%E7%AC%A6%E5%8F%B7%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.6.10.1.4.</span> <span class="nav-text">规则4：相同符号，不同类型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A7%84%E5%88%995%E5%B8%A6%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%AF%94%E5%B8%A6%E6%97%A0%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%9B%B4%E5%AE%BD"><span class="nav-number">1.6.10.1.5.</span> <span class="nav-text">规则5：带符号类型比带无符号类型更宽</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A7%84%E5%88%996%E5%B8%A6%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%AF%94%E6%97%A0%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%9B%B4%E7%AA%84%E8%83%BD%E4%BF%9D%E5%80%BC"><span class="nav-number">1.6.10.1.6.</span> <span class="nav-text">规则6：带符号类型比无符号类型更窄，能保值</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A7%84%E5%88%997%E5%B8%A6%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%AF%94%E6%97%A0%E7%AC%A6%E5%8F%B7%E7%B1%BB%E5%9E%8B%E6%9B%B4%E7%AA%84%E4%B8%8D%E8%83%BD%E4%BF%9D%E5%80%BC"><span class="nav-number">1.6.10.1.7.</span> <span class="nav-text">规则7：带符号类型比无符号类型更窄，不能保值</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%AE%97%E6%9C%AF%E8%BD%AC%E6%8D%A2%E6%80%BB%E7%BB%93"><span class="nav-number">1.6.10.1.8.</span> <span class="nav-text">算术转换总结</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E8%A7%84%E7%AE%97%E6%9C%AF%E8%BD%AC%E6%8D%A2%E5%BA%94%E7%94%A8"><span class="nav-number">1.6.10.2.</span> <span class="nav-text">常规算术转换应用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95"><span class="nav-number">1.6.10.2.1.</span> <span class="nav-text">加法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%87%8F%E6%B3%95"><span class="nav-number">1.6.10.2.2.</span> <span class="nav-text">减法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B9%98%E6%B3%95%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.10.2.3.</span> <span class="nav-text">乘法算符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB%E5%92%8C%E7%AD%89%E4%BB%B7%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.10.2.4.</span> <span class="nav-text">关系和等价算符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E4%BD%8D%E7%BA%A7%E7%AE%97%E7%AC%A6"><span class="nav-number">1.6.10.2.5.</span> <span class="nav-text">二进制位级算符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%97%AE%E5%8F%B7%E6%A0%87%E8%AE%B0%E7%AE%97%E7%AC%A6question-mark-operator"><span class="nav-number">1.6.10.2.6.</span> <span class="nav-text">问号标记算符(question mark operator)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%80%BB%E7%BB%93"><span class="nav-number">1.6.11.</span> <span class="nav-text">类型转换总结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8F%90%E7%A4%BA%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.6.11.1.</span> <span class="nav-text">审计提示：类型转换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.7.</span> <span class="nav-text">7.2.6 类型转换漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%A6%E7%AC%A6%E5%8F%B7%E6%97%A0%E7%AC%A6%E5%8F%B7%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.7.1.</span> <span class="nav-text">带符号&#x2F;无符号转换</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7%E5%B8%A6%E7%AC%A6%E5%8F%B7%E6%97%A0%E7%AC%A6%E5%8F%B7%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.7.1.1.</span> <span class="nav-text">审计技巧：带符号&#x2F;无符号转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7%E4%BD%8D%E6%89%A9%E5%B1%95"><span class="nav-number">1.7.1.2.</span> <span class="nav-text">符号位扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8F%90%E7%A4%BA%E7%AC%A6%E5%8F%B7%E4%BD%8D%E6%89%A9%E5%B1%95"><span class="nav-number">1.7.1.2.1.</span> <span class="nav-text">审计提示:符号位扩展</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%88%AA%E6%96%AD"><span class="nav-number">1.7.1.3.</span> <span class="nav-text">截断</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%AF%91%E8%80%85%E6%B3%A8"><span class="nav-number">1.7.1.3.1.</span> <span class="nav-text">译者注：</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8F%90%E7%A4%BA%E6%88%AA%E6%96%AD"><span class="nav-number">1.7.1.3.2.</span> <span class="nav-text">审计提示：截断</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AF%94%E8%BE%83"><span class="nav-number">1.7.1.4.</span> <span class="nav-text">比较</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7"><span class="nav-number">1.7.1.4.1.</span> <span class="nav-text">审计技巧</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.8.</span> <span class="nav-text">7.2.7 运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#sizeof%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.8.1.</span> <span class="nav-text">sizeof运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7sizeof"><span class="nav-number">1.8.2.</span> <span class="nav-text">审计技巧：sizeof</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BA%E4%BA%BA%E6%84%8F%E6%96%99%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="nav-number">1.8.3.</span> <span class="nav-text">出人意料的结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7%E5%87%BA%E4%BA%BA%E6%84%8F%E6%96%99%E7%9A%84%E7%BB%93%E6%9E%9C"><span class="nav-number">1.8.4.</span> <span class="nav-text">审计技巧：出人意料的结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E8%BF%90%E7%AE%97"><span class="nav-number">1.9.</span> <span class="nav-text">7.2.8 指针运算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E6%A6%82%E8%BF%B0"><span class="nav-number">1.9.1.</span> <span class="nav-text">指针概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E9%92%88%E8%BF%90%E7%AE%97%E6%A6%82%E8%BF%B0"><span class="nav-number">1.9.2.</span> <span class="nav-text">指针运算概述</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%A0%E6%B3%95-1"><span class="nav-number">1.9.2.1.</span> <span class="nav-text">加法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%8F%E6%B3%95-1"><span class="nav-number">1.9.2.2.</span> <span class="nav-text">减法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AF%94%E8%BE%83-1"><span class="nav-number">1.9.2.3.</span> <span class="nav-text">比较</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.9.2.4.</span> <span class="nav-text">条件运算符</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.9.3.</span> <span class="nav-text">漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%A1%E8%AE%A1%E6%8A%80%E5%B7%A7-1"><span class="nav-number">1.9.3.1.</span> <span class="nav-text">审计技巧</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96c%E7%9A%84%E7%BB%86%E5%BE%AE%E5%B7%AE%E5%88%AB"><span class="nav-number">1.10.</span> <span class="nav-text">7.2.9 其他C的细微差别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E9%A1%BA%E5%BA%8F"><span class="nav-number">1.10.1.</span> <span class="nav-text">运算顺序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%A1%AB%E5%85%85"><span class="nav-number">1.10.2.</span> <span class="nav-text">结构体填充</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">1.10.3.</span> <span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8F%E9%A2%84%E5%A4%84%E7%90%86%E5%99%A8"><span class="nav-number">1.10.4.</span> <span class="nav-text">宏&#x2F;预处理器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%BC%E5%86%99%E9%94%99%E8%AF%AF"><span class="nav-number">1.10.5.</span> <span class="nav-text">拼写错误</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.11.</span> <span class="nav-text">7.2.10 总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenyu Zhu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
 
   
 
@@ -1765,6 +2217,198 @@ gitment.render('gitment')
 
 
 
-</body>
 
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'ChenyuZhuWhiskey',
+            repo: 'chenyuzhuwhiskey.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '72ffc4565d55cf70770e4718582b932b549ebfc8',
+            
+                client_id: 'ddd70b8e39feca5ab1e4'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: ,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
 </html>

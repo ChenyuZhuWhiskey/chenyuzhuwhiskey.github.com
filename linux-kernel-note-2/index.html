@@ -1,19 +1,89 @@
 <!DOCTYPE html>
 
-<html lang="zh-ch">
 
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-ch">
 <head>
-  
-  <title>简易内核实现笔记(二) - Chenyu&#39;s Blog</title>
-  <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-  
-  
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
-  <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta name="description" content="简易内核实现笔记(二)——内存寻址与安全机制 前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。 内存寻址 在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程： 1">
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="操作系统," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简易内核实现笔记(二)——内存寻址与安全机制 前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。 内存寻址 在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程： 1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="简易内核实现笔记(二)">
 <meta property="og:url" content="https://chenyuzhuwhiskey.github.io/linux-kernel-note-2/index.html">
@@ -37,185 +107,299 @@
 <meta property="article:tag" content="操作系统">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-cpu-arch.png">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1687745583057">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://chenyuzhuwhiskey.github.io/linux-kernel-note-2/"/>
+
+
+
+
+
+  <title>简易内核实现笔记(二) | Chenyu's Blog</title>
   
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1687745583057">
+
+
+
+
+
+
+
+
 <meta name="generator" content="Hexo 5.4.2"></head>
 
-<body class="mdui-drawer-body-left">
-  
-  <div id="nexmoe-background">
-    <div class="nexmoe-bg" style="background-image: url(https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wgwall.jpg)"></div>
-    <div class="mdui-appbar mdui-shadow-0">
-      <div class="mdui-toolbar">
-        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
-        <div class="mdui-toolbar-spacer"></div>
-        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
-        <a href="/" title="Chenyu Zhu" class="mdui-btn mdui-btn-icon"><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/james-clerk-maxwell.jpg" alt="Chenyu Zhu"></a>
-       </div>
-    </div>
-  </div>
-  <div id="nexmoe-header">
-      <div class="nexmoe-drawer mdui-drawer" id="drawer">
-    <div class="nexmoe-avatar mdui-ripple">
-        <a href="/" title="Chenyu Zhu">
-            <img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/james-clerk-maxwell.jpg" alt="Chenyu Zhu" alt="Chenyu Zhu">
-        </a>
-    </div>
-    <div class="nexmoe-count">
-        <div><span>Articles</span>17</div>
-        <div><span>Tags</span>16</div>
-        <div><span>Categories</span>6</div>
-    </div>
-    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="Home">
-            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
-            <div class="mdui-list-item-content">
-                Home
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="Archives">
-            <i class="mdui-list-item-icon nexmoefont icon-i-catalog"></i>
-            <div class="mdui-list-item-content">
-                Archives
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about-me" title="About ME">
-            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
-            <div class="mdui-list-item-content">
-                About ME
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/sponsorship" title="Sponsorship">
-            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
-            <div class="mdui-list-item-content">
-                Sponsorship
-            </div>
-        </a>
-        
-    </div>
-    <aside id="nexmoe-sidebar">
-  
-  <div class="nexmoe-widget-wrap">
-    <div class="nexmoe-widget nexmoe-search">
-        <form id="search_form" action_e="https://cn.bing.com/search?q=site:chenyuzhuwhiskey.github.io" onsubmit="return search();">
-            <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
-        </form>
-    </div>
-</div>
-  
-  <div class="nexmoe-widget-wrap">
-    <div class="nexmoe-widget nexmoe-social">
-        <a class="mdui-ripple" href="http://wpa.qq.com/msgrd?v=3&uin=1241585360&site=qq&menu=yes" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
-            <i class="nexmoefont icon-QQ"></i>
-        </a><a class="mdui-ripple" href="https://space.bilibili.com/12575612" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
-            <i class="nexmoefont icon-bilibili"></i>
-        </a><a class="mdui-ripple" href="https://github.com/ChenyuZhuWhiskey/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
-            <i class="nexmoefont icon-github"></i>
-        </a><a class="mdui-ripple" href="https://www.zhihu.com/people/zhu-chen-yu-9/" target="_blank" mdui-tooltip="{content: '知乎'}" style="color: rgb(12, 53, 90);background-color: rgba(30,136,229,.1);">
-            <i class="nexmoefont icon-zhihu"></i>
-        </a><a class="mdui-ripple" href="https://steamcommunity.com/profiles/76561198401617015/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(5,28,63);background-color: rbga(14,71,161,.1);">
-            <i class="nexmoefont icon-steam"></i>
-        </a><a class="mdui-ripple" href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wechat.jpg" target="_blank" mdui-tooltip="{content: '微信'}" style="color: rgb(123, 179, 46);background-color: rgba(102,187,106,.1);">
-            <i class="nexmoefont icon-wechat-fill"></i>
-        </a><a class="mdui-ripple" href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wulixuetu.jpg" target="_blank" mdui-tooltip="{content: '公众号'}" style="color: ;background-color: ;">
-            <i class="nexmoefont icon-wechat-fill"></i>
-        </a>
-    </div>
-</div>
-  
-  
-  <div class="nexmoe-widget-wrap">
-    <h3 class="nexmoe-widget-title">Categories</h3>
-    <div class="nexmoe-widget">
-
-      <ul class="category-list">
-
-        
-
-
-        
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Computer-Science/">Computer Science</a>
-          <span class="category-list-count">10</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Mathematics/Finance/">Finance</a>
-          <span class="category-list-count">4</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Mathematics/">Mathematics</a>
-          <span class="category-list-count">5</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Computer-Science/Physics/">Physics</a>
-          <span class="category-list-count">2</span>
-        </li>
-
-        
-      </ul>
-
-    </div>
-  </div>
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-ch">
 
   
   
-  <div class="nexmoe-widget-wrap">
-    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
-      <a href="/tags/Bison/" style="font-size: 10px;">Bison</a> <a href="/tags/Hamilton-Jacobi-Bellman-equation/" style="font-size: 10px;">Hamilton-Jacobi-Bellman equation</a> <a href="/tags/Markov-decision-process/" style="font-size: 10px;">Markov decision process</a> <a href="/tags/Parser/" style="font-size: 10px;">Parser</a> <a href="/tags/Statistical-Mechanics/" style="font-size: 10px;">Statistical Mechanics</a> <a href="/tags/derivative-pricing/" style="font-size: 10px;">derivative pricing</a> <a href="/tags/dynamic-programming/" style="font-size: 10px;">dynamic programming</a> <a href="/tags/flex/" style="font-size: 10px;">flex</a> <a href="/tags/lexical-analysis/" style="font-size: 10px;">lexical analysis</a> <a href="/tags/principle-of-minimum-action/" style="font-size: 10px;">principle of minimum action</a> <a href="/tags/stochastic-optimal-control-theory/" style="font-size: 16.67px;">stochastic optimal control theory</a> <a href="/tags/translate/" style="font-size: 20px;">translate</a> <a href="/tags/%E5%BE%AE%E5%88%86%E6%B5%81%E5%BD%A2/" style="font-size: 10px;">微分流形</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 16.67px;">操作系统</a> <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">源码解析</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13.33px;">编译原理</a>
-    </div>
     
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chenyu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Something valued really in my life</p>
+      
   </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
 
   
-</aside>
-    <div class="nexmoe-copyright">
-        &copy; 2023 Chenyu Zhu
-        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+    <ul id="menu" class="menu">
+      
         
-    </div>
-</div><!-- .nexmoe-drawer -->
-  </div>
-  <div id="nexmoe-content">
-    <div class="nexmoe-primary">
-        <div class="nexmoe-post">
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about-me/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sponsorship">
+          <a href="/sponsorship/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-fas fa-donate"></i> <br />
+            
+            Sponsorship
+          </a>
+        </li>
+      
 
-  <article>
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-        <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
-            <img data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wgwall.jpg" data-sizes="auto" alt="简易内核实现笔记(二)" class="lazyload">
-            <h1>简易内核实现笔记(二)</h1>
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://chenyuzhuwhiskey.github.io/linux-kernel-note-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chenyu's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">简易内核实现笔记(二)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-07T00:00:00+08:00">
+                2020-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer Science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/linux-kernel-note-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/linux-kernel-note-2/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  4.7k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  16
+                </span>
+              
+            </div>
+          
+
+          
+
         </div>
-    
-    
-    <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2020年09月07日</a>
-    <a><i class="nexmoefont icon-areachart"></i>4.7k 字</a>
-    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 19 分钟</a>
-</div>
-
+      </header>
     
 
-    <h1 id="简易内核实现笔记二内存寻址与安全机制">简易内核实现笔记(二)——内存寻址与安全机制</h1>
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简易内核实现笔记二内存寻址与安全机制">简易内核实现笔记(二)——内存寻址与安全机制</h1>
 <p>前面叙述了x86架构的CPU在加电后是怎么一步步把内核加载到内存中去运行的，但有的东西说的比较仓促，在这里会结合硬件讲述x86架构的CPU是如何与软件结合进行内存寻址的，并且在保护模式下为内存寻址提供了哪些最基本的安全机制，有的内容会和笔记（一）重复。</p>
 <h2 id="内存寻址">内存寻址</h2>
 <p>在x86 CPU的硬件支持下，保护模式的寻址(假如分页已经打开)是如下的过程：</p>
@@ -226,7 +410,7 @@
 <p>所谓的段(segment)，还是得从硬件的角度去理解。CPU通过总线连接了其他硬件设备，并通过总线与它们实现交互，而总线又可以分为三类：地址线，数据线，控制线。本质上说，所有的计算机信息都是二进制0和1，CPU也只认识0和1，不认识什么是代码，什么是数据，什么是地址，对于两个完全相同的01序列，CPU可用有不同的解释：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1000100111011000 -&gt; 89DH      (数据)</span><br><span class="line">1000100111011000 -&gt; mov ax,bx (代码)</span><br></pre></td></tr></table></figure>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-cpu-arch.png" alt="CPU-architecture" class="lazyload"><figcaption aria-hidden="true">CPU-architecture</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-cpu-arch.png" alt="CPU-architecture" /><figcaption aria-hidden="true">CPU-architecture</figcaption>
 </figure>
 <p>CPU是通过什么机制将一些01序列视为数据，另一些01序列视为代码的呢？答案就是看它们通过什么样的线，通过数据线的就是数据，通过地址线的就是地址，通过控制线的就是指令。自然地，为了在硬件上帮助这个机制实现地更彻底一点，那就创造一种分段的机制，把内存地址空间中的01序列分成一段一段的，如果在数据段中，那这段内存中的01序列CPU就把它当成数据，处于栈段中的，CPU就把它当成栈，处于代码段中的，CPU就把它当成代码。</p>
 <p>于是x86 CPU就专门设置了三个寄存器实现分段，CS存储的就是代码段的段基址，DS存储的就是数据段的段基址，SS存储的就是栈段的段基址，然后我们再给它们配套一个寄存器用来存储段的偏移地址，那么CPU只要用<code>段基址:偏移地址</code>的形式就能得到对应段的物理地址，于是就将代码，数据，栈在形式上分了开来，程序就能有条理地被执行了。</p>
@@ -241,11 +425,11 @@
 <p>描述符表分为两种，一个是全局描述符表GDT，另外一个是局部描述符表LDT，GDT是被所有进程共享的，LDT是单个进程独有的，由于linux kernel在2.4之后并不使用LDT，这里就略过了，但它们都是一样的东西，唯一区别只是公用和私用而已。</p>
 <p>所谓的全局描述符表就是一个位于内存中的描述符的数组，它的首位地址就是第一个描述符地址，一个描述符大小为8字节64位，每一位分别对应的意义如下：</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/01-descriptor.png" alt="descriptor" class="lazyload"><figcaption aria-hidden="true">descriptor</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/01-descriptor.png" alt="descriptor" /><figcaption aria-hidden="true">descriptor</figcaption>
 </figure>
 <p>可以看到这里面是有段基址的，所以保护模式的分段实际过程就是段寄存器通过存储全局描述符表基址的寄存器GDT再加上index*8寻址到对应的段描述符，然后取出对应的段基址再加上偏移地址就可以了。</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-seg-process.png" alt="seg-process" class="lazyload"><figcaption aria-hidden="true">seg-process</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-seg-process.png" alt="seg-process" /><figcaption aria-hidden="true">seg-process</figcaption>
 </figure>
 <p>绕了大半天，其实就是为了让寻址时加上额外的一些段信息，它们意义如下，由于一些向下兼容的原因，一些东西是不连续的，但不妨碍我们理解：</p>
 <ul>
@@ -261,7 +445,7 @@
 <li>type：段的类型，这三位对于系统段和非系统段有不同的定义：</li>
 </ul>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/01-descriptor-type.png" alt="descriptor-type" class="lazyload"><figcaption aria-hidden="true">descriptor-type</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/01-descriptor-type.png" alt="descriptor-type" /><figcaption aria-hidden="true">descriptor-type</figcaption>
 </figure>
 <h4 id="section"></h4>
 <p>这些信息提供了保护模式下的安全机制，这个后面再说。BTW linux kernel认为段基址是没有意义的，因为偏移地址已经可以给出完整的线性地址，因此linux kernel的全局描述符表中的段基址位全都置为了0用以规避分段机制，因此在linux下偏移地址就等于线性地址。因此GDT对于linux存在的唯一意义就是实现内存访问的安全机制了。</p>
@@ -273,11 +457,11 @@
 <p>页表是虚拟地址与物理地址的映射关系，由于将来每个操作系统下的进程，包括操作系统自己都是在32位虚拟地址空间中运行的，因此每个进程都需要有自己的页表，我们将物理地址分页，每个页占有4kB的大小，一个页表项就占32位4字节，检索4GB的虚拟内存空间总共需要1M个页表，在内存中占4MB，这个大小显然是无法接受的，因此我们再创建一个页表的页表，也就是页目录表，一个页目录项也是32位4字节，因此一个页目录项也可以索引4kB的空间，那么检索4GB的虚拟地址空间只需要4GB/4kB/4kB=1024个页目录，只需要4096个字节就可以了，这样的开销就可以接受。</p>
 <p>对于1024个页目录，我们需要10位地址来进行索引，这10位地址就是虚拟地址中的高10位，我们将这10位地址<em>4就是对应页表的偏移地址，再加上页目录表的起始地址就得到了对应页表所在的物理地址，一个页表中有1024个页，因此检索它也需要10位地址，这10位地址就是虚拟地址中的中间10位，我们用这中间10位地址</em>4就得到了所在页的偏移地址，加上前面得到的页表物理地址就得到了对应页所在物理地址，这个页中存储的就是真实物理地址的偏移量，再加上最低12位虚拟地址就得到了对应的真实物理地址了。</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-page-process.png" alt="page-process" class="lazyload"><figcaption aria-hidden="true">page-process</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-page-process.png" alt="page-process" /><figcaption aria-hidden="true">page-process</figcaption>
 </figure>
 <p>因为每个页表项都是4字节，因此它们的值里面低12位全是0，因此为了避免浪费就要往里面加一些关于页表的安全信息：</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/01-page.png" alt="page" class="lazyload"><figcaption aria-hidden="true">page</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/01-page.png" alt="page" /><figcaption aria-hidden="true">page</figcaption>
 </figure>
 <p>其中：</p>
 <ul>
@@ -305,21 +489,21 @@
 <h3 id="特权级的提升与降低">特权级的提升与降低</h3>
 <p>CPU还要考虑陷入内核态后上下文的保存问题，进程触发异常后会陷入内核态，然后内核调用相应的异常处理程序，此时特权级就从3提升到0，在执行完内核代码之后（如果不是终止异常）又返回用户态。那么一个进程从3跳到0的过程要有4组栈寄存器来对应每个特权级的栈段和栈底。32位机器下4GB的寻址空间中最高位的1GB是内核才能访问的，这里面就有内核使用的栈段，肯定要和用户用的低3GB地址下的栈段区分，并且在进程陷入内核态之时，用户态的上下文信息肯定要保存下来，等待内核代码做完事情以后恢复现场。实现的方法就是一个叫TSS(task state segment)的数据结构：</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-tss.png" alt="02-TSS" class="lazyload"><figcaption aria-hidden="true">02-TSS</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-tss.png" alt="02-TSS" /><figcaption aria-hidden="true">02-TSS</figcaption>
 </figure>
 <p>可以看到TSS只能保留3组栈，因为用户态本来就是最低权限，已经降不下去了，，而且汇编指令的<code>int,call</code>会将用户态的栈保存，TSS就只用记录0，1，2这三个特权级的栈寄存器就OK。每个进程都有自己的TSS，并且x86 CPU会有专门的寄存器TR(task register)来保存它的地址，当用户态的进程陷入内核态时，除了SS，ESP以外的上下文信息就会被保存，然后使用0级特权栈配合CRL为0的内核代码完成相应异常处理程序，最后再恢复现场，把特权级降回用户态就完事了。</p>
 <p>降低特权级可以通过恢复进程上下文实现，但还得考虑怎么提升特权级的问题。CPU又提供了一组和硬件支持的数据结构来实现，这种数据结构称为‘门’。一共四种，任务门，中断门，陷阱门和调用门：</p>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-task-gate.png" alt="task-gate" class="lazyload"><figcaption aria-hidden="true">task-gate</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-task-gate.png" alt="task-gate" /><figcaption aria-hidden="true">task-gate</figcaption>
 </figure>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-interrupt-gate.png" alt="intr-gate" class="lazyload"><figcaption aria-hidden="true">intr-gate</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-interrupt-gate.png" alt="intr-gate" /><figcaption aria-hidden="true">intr-gate</figcaption>
 </figure>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-trap-gate.png" alt="trap-gate" class="lazyload"><figcaption aria-hidden="true">trap-gate</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-trap-gate.png" alt="trap-gate" /><figcaption aria-hidden="true">trap-gate</figcaption>
 </figure>
 <figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-call-gate.png" alt="call-gate" class="lazyload"><figcaption aria-hidden="true">call-gate</figcaption>
+<img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/kernel-note/02-call-gate.png" alt="call-gate" /><figcaption aria-hidden="true">call-gate</figcaption>
 </figure>
 <p>门也是一种描述符，只不过和全局描述符表中的描述符不一样的是，全局描述符表是记录数据的描述符，而门中除了任务门以外记录的是一段历程地址的描述符，用于支持内核的系统调用：</p>
 <ul>
@@ -335,89 +519,357 @@
 </ul>
 <p>这就是特权在保护模式下提供的安全机制，可见这些安全机制一部分是由硬件实现，一部分是由操作系统内核实现的。</p>
 
-  </article>
+      
+    </div>
+    
+    
+    
 
-  
     
-  <div class="nexmoe-post-copyright">
-    <strong>Author：</strong>Chenyu Zhu<br>
-    <strong>Link：</strong><a href="https://chenyuzhuwhiskey.github.io/linux-kernel-note-2/" title="https:&#x2F;&#x2F;chenyuzhuwhiskey.github.io&#x2F;linux-kernel-note-2&#x2F;" target="_blank" rel="noopener">https:&#x2F;&#x2F;chenyuzhuwhiskey.github.io&#x2F;linux-kernel-note-2&#x2F;</a><br>
-    
-      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
-    
-  </div>
-
-
-  
-  
-  <div class="nexmoe-post-meta nexmoe-rainbow">
-    
-        <a class="nexmoefont icon-appstore-fill -link" href="/categories/Computer-Science/">Computer Science</a>
-    
-    
-        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">操作系统</a>
-    
+      <div>
+        <div id="wechat_subscriber" style="display: block; padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wulixuetu.jpg" alt=" wechat" style="width: 200px; max-width: 100%;"/>
+    <div>scan and following my wechat official account.</div>
 </div>
 
-  <div class="nexmoe-post-footer">
-    <section class="nexmoe-comment">
-    <div id="gitment"></div>
-<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-var gitment = new Gitment({
-    id: 'Mon Sep 07 2020 00:00:00 GMT+0800',
-    owner: 'ChenyuZhuWhiskey', // 你的 GitHub ID
-    repo: 'chenyuzhuwhiskey.github.io', // 存储评论的 repo
-    oauth: {
-        client_id: 'ddd70b8e39feca5ab1e4', // 你的 client ID
-        client_secret: '72ffc4565d55cf70770e4718582b932b549ebfc8' // 你的 client secret
-    },
-})
-gitment.render('gitment')
-</script>
-</section>
-  </div>
-</div>
-        <div class="nexmoe-post-right">
-          <div class="nexmoe-fixed">
-            <div class="nexmoe-tool"> 
-              
-                
-                  
-                  
-                  
-                    <button class="mdui-fab catalog mdui-ripple" style="overflow:unset;">
-                      <i class="nexmoefont icon-i-catalog"></i>
-                      <div class="nexmoe-toc">
-                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E6%98%93%E5%86%85%E6%A0%B8%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%86%85%E5%AD%98%E5%AF%BB%E5%9D%80%E4%B8%8E%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">简易内核实现笔记(二)——内存寻址与安全机制</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E5%AF%BB%E5%9D%80"><span class="toc-number">1.1.</span> <span class="toc-text">内存寻址</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E6%9C%BA%E5%88%B6"><span class="toc-number">1.1.1.</span> <span class="toc-text">分段机制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E6%AE%B5%E6%9C%BA%E5%88%B6-1"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">8086分段机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E5%88%86%E6%AE%B5%E6%9C%BA%E5%88%B6"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">保护模式分段机制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%A8%E5%B1%80%E6%8F%8F%E8%BF%B0%E7%AC%A6%E8%A1%A8"><span class="toc-number">1.1.1.2.1.</span> <span class="toc-text">全局描述符表</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#section"><span class="toc-number">1.1.1.3.</span> <span class="toc-text"></span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6"><span class="toc-number">1.2.</span> <span class="toc-text">分页机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="toc-number">1.2.1.</span> <span class="toc-text">虚拟地址空间</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A1%B5%E8%A1%A8"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">页表</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E7%9A%84%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6"><span class="toc-number">1.3.</span> <span class="toc-text">内存的安全机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BF%E9%97%AE%E7%89%B9%E6%9D%83%E7%BA%A7"><span class="toc-number">1.3.1.</span> <span class="toc-text">访问特权级</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%B9%E6%9D%83%E7%BA%A7%E7%9A%84%E6%8F%90%E5%8D%87%E4%B8%8E%E9%99%8D%E4%BD%8E"><span class="toc-number">1.3.2.</span> <span class="toc-text">特权级的提升与降低</span></a></li></ol></li></ol></li></ol>
-                      </div>
-                    </button>
-                  
-                    
-                
-              
-              <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
-            </div>
+      </div>
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:</strong>
+    Chenyu Zhu
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link:</strong>
+    <a href="https://chenyuzhuwhiskey.github.io/linux-kernel-note-2/" title="简易内核实现笔记(二)">https://chenyuzhuwhiskey.github.io/linux-kernel-note-2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice: </strong>
+    All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> unless stating additionally.
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag"># 操作系统</a>
+          
+        </div>
+      
+
+      
+      
+        <div class="post-widgets">
+        
+          <div class="wp_rating">
+            <div id="wpac-rating"></div>
+          </div>
+        
+
+        
+
+        
+        </div>
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/linux-kernel-note-1/" rel="next" title="简易内核实现笔记(一)">
+                <i class="fa fa-chevron-left"></i> 简易内核实现笔记(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/something-about-entropy/" rel="prev" title="Something About Entropy">
+                Something About Entropy <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
     </div>
   </div>
-  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
 
- 
 
-<script async src="/js/app.js?v=1687745583060"></script>
+          </div>
+          
 
-<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
-<script>
-	$(".justified-gallery").justifiedGallery({
-		rowHeight: 160,
-		margins: 10,
-	});
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ChenyuZhuWhiskey" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/zhu-chen-yu-9" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-zhihu"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=1241585360&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-tim"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://space.bilibili.com/12575612" target="_blank" title="哔哩哔哩">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-bilibili-fill"></i>哔哩哔哩</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://steamcommunity.com/profiles/76561198401617015/" target="_blank" title="Steam">
+                      
+                        <i class="fa fa-fw fa-steam"></i>Steam</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wechat.jpg" target="_blank" title="微信">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>微信</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wulixuetu.jpg" target="_blank" title="公众号">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>公众号</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="暂无" target="_blank" title="学术主页">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-academicdegree"></i>学术主页</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E6%98%93%E5%86%85%E6%A0%B8%E5%AE%9E%E7%8E%B0%E7%AC%94%E8%AE%B0%E4%BA%8C%E5%86%85%E5%AD%98%E5%AF%BB%E5%9D%80%E4%B8%8E%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">简易内核实现笔记(二)——内存寻址与安全机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E5%AF%BB%E5%9D%80"><span class="nav-number">1.1.</span> <span class="nav-text">内存寻址</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%AE%B5%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.1.</span> <span class="nav-text">分段机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E6%AE%B5%E6%9C%BA%E5%88%B6-1"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">8086分段机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E5%88%86%E6%AE%B5%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">保护模式分段机制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E6%8F%8F%E8%BF%B0%E7%AC%A6%E8%A1%A8"><span class="nav-number">1.1.1.2.1.</span> <span class="nav-text">全局描述符表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#section"><span class="nav-number">1.1.1.3.</span> <span class="nav-text"></span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E9%A1%B5%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">分页机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-number">1.2.1.</span> <span class="nav-text">虚拟地址空间</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A1%B5%E8%A1%A8"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">页表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E7%9A%84%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">内存的安全机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E7%89%B9%E6%9D%83%E7%BA%A7"><span class="nav-number">1.3.1.</span> <span class="nav-text">访问特权级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%9D%83%E7%BA%A7%E7%9A%84%E6%8F%90%E5%8D%87%E4%B8%8E%E9%99%8D%E4%BD%8E"><span class="nav-number">1.3.2.</span> <span class="nav-text">特权级的提升与降低</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenyu Zhu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
+
+
+
+
+
+
+
+
 
   
 
@@ -425,6 +877,198 @@ gitment.render('gitment')
 
 
 
-</body>
 
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'ChenyuZhuWhiskey',
+            repo: 'chenyuzhuwhiskey.github.io',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '72ffc4565d55cf70770e4718582b932b549ebfc8',
+            
+                client_id: 'ddd70b8e39feca5ab1e4'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+  <script type="text/javascript">
+  wpac_init = window.wpac_init || [];
+  wpac_init.push({widget: 'Rating', id: ,
+    el: 'wpac-rating',
+    color: 'fc6423'
+  });
+  (function() {
+    if ('WIDGETPACK_LOADED' in window) return;
+    WIDGETPACK_LOADED = true;
+    var mc = document.createElement('script');
+    mc.type = 'text/javascript';
+    mc.async = true;
+    mc.src = '//embed.widgetpack.com/widget.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+  })();
+  </script>
+
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
 </html>

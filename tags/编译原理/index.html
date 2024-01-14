@@ -1,866 +1,688 @@
 <!DOCTYPE html>
 
-<html lang="zh-ch">
 
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-ch">
 <head>
-  
-  <title>Tags：编译原理 - Chenyu&#39;s Blog</title>
-  <meta charset="UTF-8">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
-  
-  
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
 
-  <link rel="shortcut icon" href="/favicon.ico" type="image/png" />
-  <meta property="og:type" content="website">
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="website">
 <meta property="og:title" content="Chenyu&#39;s Blog">
 <meta property="og:url" content="https://chenyuzhuwhiskey.github.io/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Chenyu&#39;s Blog">
 <meta property="og:locale" content="zh_CH">
 <meta property="article:author" content="Chenyu Zhu">
 <meta name="twitter:card" content="summary">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/highlight.js@9.15.8/styles/atom-one-dark.css,npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css,gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css,npm/hexo-theme-nexmoe@latest/source/lib/mdui_043tiny/css/mdui.css,npm/hexo-theme-nexmoe@latest/source/lib/iconfont/iconfont.css?v=233" crossorigin>
-  <link rel="stylesheet" href="/css/style.css?v=1687745583157">
-  
-  <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1687745583157">
-<meta name="generator" content="Hexo 5.4.2"></head>
-
-<body class="mdui-drawer-body-left">
-  
-  <div id="nexmoe-background">
-    <div class="nexmoe-bg" style="background-image: url(https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wgwall.jpg)"></div>
-    <div class="mdui-appbar mdui-shadow-0">
-      <div class="mdui-toolbar">
-        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
-        <div class="mdui-toolbar-spacer"></div>
-        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
-        <a href="/" title="Chenyu Zhu" class="mdui-btn mdui-btn-icon"><img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/james-clerk-maxwell.jpg" alt="Chenyu Zhu"></a>
-       </div>
-    </div>
-  </div>
-  <div id="nexmoe-header">
-      <div class="nexmoe-drawer mdui-drawer" id="drawer">
-    <div class="nexmoe-avatar mdui-ripple">
-        <a href="/" title="Chenyu Zhu">
-            <img src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/james-clerk-maxwell.jpg" alt="Chenyu Zhu" alt="Chenyu Zhu">
-        </a>
-    </div>
-    <div class="nexmoe-count">
-        <div><span>Articles</span>17</div>
-        <div><span>Tags</span>16</div>
-        <div><span>Categories</span>6</div>
-    </div>
-    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="Home">
-            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
-            <div class="mdui-list-item-content">
-                Home
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="Archives">
-            <i class="mdui-list-item-icon nexmoefont icon-i-catalog"></i>
-            <div class="mdui-list-item-content">
-                Archives
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/about-me" title="About ME">
-            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
-            <div class="mdui-list-item-content">
-                About ME
-            </div>
-        </a>
-        
-        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/sponsorship" title="Sponsorship">
-            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
-            <div class="mdui-list-item-content">
-                Sponsorship
-            </div>
-        </a>
-        
-    </div>
-    <aside id="nexmoe-sidebar">
-  
-  <div class="nexmoe-widget-wrap">
-    <div class="nexmoe-widget nexmoe-search">
-        <form id="search_form" action_e="https://cn.bing.com/search?q=site:chenyuzhuwhiskey.github.io" onsubmit="return search();">
-            <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
-        </form>
-    </div>
-</div>
-  
-  <div class="nexmoe-widget-wrap">
-    <div class="nexmoe-widget nexmoe-social">
-        <a class="mdui-ripple" href="http://wpa.qq.com/msgrd?v=3&uin=1241585360&site=qq&menu=yes" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
-            <i class="nexmoefont icon-QQ"></i>
-        </a><a class="mdui-ripple" href="https://space.bilibili.com/12575612" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
-            <i class="nexmoefont icon-bilibili"></i>
-        </a><a class="mdui-ripple" href="https://github.com/ChenyuZhuWhiskey/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
-            <i class="nexmoefont icon-github"></i>
-        </a><a class="mdui-ripple" href="https://www.zhihu.com/people/zhu-chen-yu-9/" target="_blank" mdui-tooltip="{content: '知乎'}" style="color: rgb(12, 53, 90);background-color: rgba(30,136,229,.1);">
-            <i class="nexmoefont icon-zhihu"></i>
-        </a><a class="mdui-ripple" href="https://steamcommunity.com/profiles/76561198401617015/" target="_blank" mdui-tooltip="{content: 'Steam'}" style="color: rgb(5,28,63);background-color: rbga(14,71,161,.1);">
-            <i class="nexmoefont icon-steam"></i>
-        </a><a class="mdui-ripple" href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wechat.jpg" target="_blank" mdui-tooltip="{content: '微信'}" style="color: rgb(123, 179, 46);background-color: rgba(102,187,106,.1);">
-            <i class="nexmoefont icon-wechat-fill"></i>
-        </a><a class="mdui-ripple" href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wulixuetu.jpg" target="_blank" mdui-tooltip="{content: '公众号'}" style="color: ;background-color: ;">
-            <i class="nexmoefont icon-wechat-fill"></i>
-        </a>
-    </div>
-</div>
-  
-  
-  <div class="nexmoe-widget-wrap">
-    <h3 class="nexmoe-widget-title">Categories</h3>
-    <div class="nexmoe-widget">
-
-      <ul class="category-list">
-
-        
 
 
-        
 
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Computer-Science/">Computer Science</a>
-          <span class="category-list-count">10</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Mathematics/Finance/">Finance</a>
-          <span class="category-list-count">4</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Mathematics/">Mathematics</a>
-          <span class="category-list-count">5</span>
-        </li>
-
-        
-
-        <li class="category-list-item">
-          <a class="category-list-link" href="/categories/Computer-Science/Physics/">Physics</a>
-          <span class="category-list-count">2</span>
-        </li>
-
-        
-      </ul>
-
-    </div>
-  </div>
-
-
-  
-  
-  <div class="nexmoe-widget-wrap">
-    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
-      <a href="/tags/Bison/" style="font-size: 10px;">Bison</a> <a href="/tags/Hamilton-Jacobi-Bellman-equation/" style="font-size: 10px;">Hamilton-Jacobi-Bellman equation</a> <a href="/tags/Markov-decision-process/" style="font-size: 10px;">Markov decision process</a> <a href="/tags/Parser/" style="font-size: 10px;">Parser</a> <a href="/tags/Statistical-Mechanics/" style="font-size: 10px;">Statistical Mechanics</a> <a href="/tags/derivative-pricing/" style="font-size: 10px;">derivative pricing</a> <a href="/tags/dynamic-programming/" style="font-size: 10px;">dynamic programming</a> <a href="/tags/flex/" style="font-size: 10px;">flex</a> <a href="/tags/lexical-analysis/" style="font-size: 10px;">lexical analysis</a> <a href="/tags/principle-of-minimum-action/" style="font-size: 10px;">principle of minimum action</a> <a href="/tags/stochastic-optimal-control-theory/" style="font-size: 16.67px;">stochastic optimal control theory</a> <a href="/tags/translate/" style="font-size: 20px;">translate</a> <a href="/tags/%E5%BE%AE%E5%88%86%E6%B5%81%E5%BD%A2/" style="font-size: 10px;">微分流形</a> <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 16.67px;">操作系统</a> <a href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" style="font-size: 10px;">源码解析</a> <a href="/tags/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" style="font-size: 13.33px;">编译原理</a>
-    </div>
-    
-  </div>
-
-  
-</aside>
-    <div class="nexmoe-copyright">
-        &copy; 2023 Chenyu Zhu
-        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
-        
-    </div>
-</div><!-- .nexmoe-drawer -->
-  </div>
-  <div id="nexmoe-content">
-    <div class="nexmoe-primary">
-        <section class="nexmoe-posts">
-    
-    <div class="nexmoe-post">
-        <a href="/bison-parser-analysis/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 62.5%;"> 
-                    <img data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wgwall.jpg" data-sizes="auto" alt="bison parser深入分析" class="lazyload">
-                    <h1>bison parser深入分析</h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2020年06月05日</a>
-            <a><i class="nexmoefont icon-areachart"></i>3.2k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 17 分钟</a>
-        </div>
-
-        <article>
-            
-                <h1 id="gnu-bison-parser-深入分析">GNU Bison Parser 深入分析</h1>
-<h2 id="一些约定">一些约定</h2>
-<p>bison对我们定义好的文法进行了增广(augmentation)，添加了<code>$accept</code>和<code>$end</code>符号表示接收和终止，并且增加了一条规则用于判断是否完成语法分析：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$accept : &lt;start-symbol&gt; $end</span><br></pre></td></tr></table></figure>
-<p>除此之外还增加了<code>$undefined</code>来表示未出现在文法中的symbol。增加了<code>error</code>用来生成错误。</p>
-<h2 id="一个简单的例子">一个简单的例子</h2>
-<p>就像flex一样，bison也是表驱动的，为了理解bison如何parse，我们用这样一个文法去生成一个parser：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(1) L → L;E</span><br><span class="line">(2) L → E</span><br><span class="line">(3) E → E,P</span><br><span class="line">(4) E → P</span><br><span class="line">(5) P → a</span><br><span class="line">(6) P → (M)</span><br><span class="line">(7) M → ε</span><br><span class="line">(8) M → L</span><br></pre></td></tr></table></figure>
-<p>对应到bison里，就是这样：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br><span class="line">L : L &#x27;;&#x27; E</span><br><span class="line">  | E</span><br><span class="line">;</span><br><span class="line">E : E &#x27;,&#x27; P</span><br><span class="line">  | P</span><br><span class="line">  </span><br><span class="line">;P : &#x27;a&#x27;</span><br><span class="line">   | (M)</span><br><span class="line"></span><br><span class="line">;M : /* nothing */</span><br><span class="line">   | L</span><br><span class="line">;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
-<p>下面是这个文法的LALR(1)算法生成的自动机表(增广后的）：</p>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th><em>action</em></th>
-<th></th>
-<th><em>GOTO</em></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><em>state</em></td>
-<td><strong>;</strong></td>
-<td><strong>,</strong></td>
-<td><strong>a</strong></td>
-<td><strong>(</strong></td>
-<td><strong>)</strong></td>
-<td><strong>$end</strong></td>
-<td></td>
-<td><strong>L</strong></td>
-<td><strong>E</strong></td>
-<td><strong>P</strong></td>
-<td><strong>M</strong></td>
-</tr>
-<tr class="even">
-<td><strong>0</strong></td>
-<td></td>
-<td></td>
-<td>s1</td>
-<td>s2</td>
-<td></td>
-<td></td>
-<td></td>
-<td>3</td>
-<td>4</td>
-<td>5</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>1</strong></td>
-<td>r5</td>
-<td>r5</td>
-<td>r5</td>
-<td>r5</td>
-<td>r5</td>
-<td>r5</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>2</strong></td>
-<td>r7</td>
-<td>r7</td>
-<td>s1</td>
-<td>s2</td>
-<td>r7</td>
-<td>r7</td>
-<td></td>
-<td>6</td>
-<td>4</td>
-<td>5</td>
-<td>7</td>
-</tr>
-<tr class="odd">
-<td><strong>3</strong></td>
-<td>s9</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>s8</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>4</strong></td>
-<td>r2</td>
-<td>s10</td>
-<td>r2</td>
-<td>r2</td>
-<td>r2</td>
-<td>r2</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>5</strong></td>
-<td>r4</td>
-<td>r4</td>
-<td>r4</td>
-<td>r4</td>
-<td>r4</td>
-<td>r4</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>6</strong></td>
-<td>s9</td>
-<td>r8</td>
-<td>r8</td>
-<td>r8</td>
-<td>r8</td>
-<td>r8</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>7</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>s11</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>8*</strong></td>
-<td>acc</td>
-<td>acc</td>
-<td>acc</td>
-<td>acc</td>
-<td>acc</td>
-<td>acc</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>9</strong></td>
-<td></td>
-<td></td>
-<td>s1</td>
-<td>s2</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>12</td>
-<td>5</td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>10</strong></td>
-<td></td>
-<td></td>
-<td>s1</td>
-<td>s2</td>
-<td>s11</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>13</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>11</strong></td>
-<td>r6</td>
-<td>r6</td>
-<td>r6</td>
-<td>r6</td>
-<td>r6</td>
-<td>r6</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>12</strong></td>
-<td>r1</td>
-<td>s10</td>
-<td>r1</td>
-<td>r1</td>
-<td>r1</td>
-<td>r1</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>13</strong></td>
-<td>r3</td>
-<td>r3</td>
-<td>r3</td>
-<td>r3</td>
-<td>r3</td>
-<td>r3</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>这个例子的符号表如下：</p>
-<table>
-<thead>
-<tr class="header">
-<th><em>Symbol</em></th>
-<th><em>Number</em></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>$end</td>
-<td>0</td>
-</tr>
-<tr class="even">
-<td>error</td>
-<td>1</td>
-</tr>
-<tr class="odd">
-<td>$undefined</td>
-<td>2</td>
-</tr>
-<tr class="even">
-<td>';'</td>
-<td>3</td>
-</tr>
-<tr class="odd">
-<td>','</td>
-<td>4</td>
-</tr>
-<tr class="even">
-<td>'a'</td>
-<td>5</td>
-</tr>
-<tr class="odd">
-<td>'('</td>
-<td>6</td>
-</tr>
-<tr class="even">
-<td>')'</td>
-<td>7</td>
-</tr>
-<tr class="odd">
-<td>$accept</td>
-<td>8</td>
-</tr>
-<tr class="even">
-<td>L</td>
-<td>9</td>
-</tr>
-<tr class="odd">
-<td>E</td>
-<td>10</td>
-</tr>
-<tr class="even">
-<td>P</td>
-<td>11</td>
-</tr>
-<tr class="odd">
-<td>M</td>
-<td>12</td>
-</tr>
-</tbody>
-</table>
-<p>注意，<code>$end</code>，<code>error</code>, <code>$undefined</code>对应的number永远是0，1，2，然后是terminal symbol，再然后是<code>$accept</code>，再然后是non-terminal。</p>
-<p>如此简单的语法都要生成一个庞大的表，更何况一门完备的语言，并且注意到了表中有很多地方是空的(对应error)，因此bison对这个表进行了压缩。</p>
-<h2 id="数据压缩">数据压缩</h2>
-<h3 id="default-action">default action</h3>
-<p>首先是对action的部分进行压缩，注意到state 1，2，4，5，6，11，12，13仅仅只有1种reduction操作（有的还有shift，但它不是reduction），因此就可以先单独考量这样的行，对它们定义一个default action（reduction），也就是只要碰到这些state，在排除shift操作后一律使用reduction操作。对于空白的error部分即使进行了reduction，也仅仅是推迟了错误的发生。</p>
-<p>形式上这个就应该是这个样子：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_reductions[] = &#123;none,r5,r7,none,r2,r4,r8,none,none,none,none,r6,r1,r3&#125;</span><br></pre></td></tr></table></figure>
-<p>在bison生成的文件种就对应了<code>yydefact[]</code>，这个表的index表示的是state number，里面的值表示reduction的rule number，0表示error：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yydefact[] =&#123;<span class="number">0</span>,<span class="number">6</span>,<span class="number">8</span>,<span class="number">0</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">9</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">7</span>,<span class="number">2</span>,<span class="number">4</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>注意第一条规则是bison的默认增广规则，因此所有规则号都加了1。</p>
-<h3 id="default-goto">default GOTO</h3>
-<p>接下来要压缩GOTO的部分，bison的压缩策略是这样的：将每一个non-terminal对应的GOTO列中最多的那一个单独拿出来(L:3,E:4,P:5,M:7)构成一个default GOTO：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">default_gotos[] = &#123; <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">7</span> &#125;</span><br></pre></td></tr></table></figure>
-<p>在生成文件中就对应了<code>yydefgoto[]</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yydefgoto[] =&#123; <span class="number">-1</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">7</span> &#125;;</span><br></pre></td></tr></table></figure>
-<p>它的index是用non-terminal的symbol number减去terminal个数得到的（0处对应的-1好像没有什么用）。</p>
-<h3 id="压缩non-default-action">压缩non-default action</h3>
-<p>在选出default reduction表之后，去除它们后action剩下的部分是：</p>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th><em>action</em></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><em>state</em></td>
-<td><strong>3</strong></td>
-<td><strong>4</strong></td>
-<td><strong>5</strong></td>
-<td><strong>6</strong></td>
-<td><strong>7</strong></td>
-<td><strong>0</strong></td>
-</tr>
-<tr class="even">
-<td><strong>0</strong></td>
-<td></td>
-<td></td>
-<td>1</td>
-<td>2</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>2</strong></td>
-<td></td>
-<td></td>
-<td>1</td>
-<td>2</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>3</strong></td>
-<td>9</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>8</td>
-</tr>
-<tr class="odd">
-<td><strong>4</strong></td>
-<td></td>
-<td>10</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>6</strong></td>
-<td>9</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>7</strong></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td>11</td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>9</strong></td>
-<td></td>
-<td></td>
-<td>1</td>
-<td>2</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>10</strong></td>
-<td></td>
-<td></td>
-<td>1</td>
-<td>2</td>
-<td>11</td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>12</strong></td>
-<td></td>
-<td>10</td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>可以看出有很多空白，接下来的操作就是要对这些空白进行压缩。</p>
-<p>bison会将这个表变成两个一维的表，一个用来存储这些非空白的信息，一个用来存储它们的dimension。一般表达式就是：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action number = T[D[state number] + symbol number]</span><br></pre></td></tr></table></figure>
-<p>例如，我们想要得到state 4在遇到symbol号为4时的操作，那就像这样进行索引：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T[D[<span class="number">4</span>] + <span class="number">4</span>] = <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<p>根据这个压缩规则，bison分别在<code>yytable[]</code>和<code>yypact[]</code>存储这个‘T’和‘D’：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yytable[] =&#123;<span class="number">8</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">9</span>,<span class="number">11</span>,<span class="number">10</span>,<span class="number">9</span>,<span class="number">6</span>,<span class="number">12</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">13</span>&#125;;<span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yypact[] =&#123;<span class="number">-4</span>,<span class="number">-5</span>,<span class="number">-4</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">-5</span>,<span class="number">3</span>,<span class="number">-3</span>,<span class="number">-5</span>,<span class="number">-4</span>,<span class="number">-4</span>,<span class="number">-5</span>,<span class="number">1</span>,<span class="number">-5</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>我们可以验证一下，state 4遇到规则4时对应的是s10：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytable[yypact[<span class="number">4</span>]+<span class="number">4</span>] = yytable[<span class="number">5</span>] = <span class="number">10</span></span><br></pre></td></tr></table></figure>
-<p>注意，尽管去除了default reduction，这里面的操作也是可能有reduction的，为此，bison使用正负号来区别它们，<code>yytable[]</code>里正号代表shift，负号代表reduction（当然这个例子里没有），如果是0就执行default action。</p>
-<h3 id="压缩non-default-goto">压缩non-default GOTO</h3>
-<p>和non-default action一样，采用相同的方法去压缩non-default GOTO。只是在indexing的时候，公式变为了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">action number = T[ND[symbol number - num_terminal] + state number]</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，non-default GOTO的表是这样的：</p>
-<table>
-<thead>
-<tr class="header">
-<th></th>
-<th><em>GOTO</em></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><em>state</em></td>
-<td><strong>9</strong></td>
-<td><strong>10</strong></td>
-<td><strong>11</strong></td>
-</tr>
-<tr class="even">
-<td><strong>2</strong></td>
-<td>6</td>
-<td></td>
-<td></td>
-</tr>
-<tr class="odd">
-<td><strong>9</strong></td>
-<td></td>
-<td>12</td>
-<td></td>
-</tr>
-<tr class="even">
-<td><strong>10</strong></td>
-<td></td>
-<td></td>
-<td>13</td>
-</tr>
-</tbody>
-</table>
-<p>压缩后的index在bison生成的表中对应了<code>yypgoto[]</code>，value仍然用<code>yytable[]</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yypgoto[] =&#123;      <span class="number">-5</span>,     <span class="number">5</span>,    <span class="number">-1</span>,     <span class="number">2</span>,    <span class="number">-5</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>例如，我们要symbol 9在state 2中的GOTO：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytable[yypgoto[<span class="number">9</span><span class="number">-8</span>]+<span class="number">2</span>] = yytable[<span class="number">7</span>] = <span class="number">6</span></span><br></pre></td></tr></table></figure>
-<h2 id="算法的实现">算法的实现</h2>
-<h3 id="一些static数据">一些static数据</h3>
-<h4 id="yytranslate">yytranslate</h4>
-<p><code>yytranslate[]</code>定义了文法中符号到symbol number的映射过程，假如这些符号是non-terminal，那index就对应non-terminal %token声明时的值，如果这些符号是ASCII码中的terminal，那么index就对应了ASCII值。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yytranslate[] =&#123;       <span class="number">0</span>,     <span class="number">2</span>,     <span class="number">2</span>,     <span class="number">2</span>,     <span class="number">2</span>, ...&#125;;</span><br></pre></td></tr></table></figure>
-<p>比如说这个例子中出现的’a’，对应的ASCII值是97，根据<code>yytranslate[]</code>的索引，可以得到符号a对应的symbol number是5：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yytranslate[<span class="number">97</span>] = <span class="number">5</span>;</span><br></pre></td></tr></table></figure>
-<p>在这里面有很多的2(undefined)，因为很多ASCII表中的符号并没有出现在文法中。</p>
-<h4 id="yyr1">yyr1</h4>
-<p><code>yyr1[]</code>是每条文法规则的LHS符号的symbol number：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yyr1[] =&#123;       <span class="number">0</span>,     <span class="number">8</span>,     <span class="number">9</span>,     <span class="number">9</span>,    <span class="number">10</span>,    <span class="number">10</span>,    <span class="number">11</span>,    <span class="number">11</span>,    <span class="number">12</span>,    <span class="number">12</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>0并没有用作文法的number，所以<code>yyr1[0]</code>是0.</p>
-<h4 id="yyr2">yyr2</h4>
-<p><code>yyr2[]</code>是每条文法规则的RHS符号的个数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_uint8 yyr2[] =&#123;       <span class="number">0</span>,     <span class="number">2</span>,     <span class="number">3</span>,     <span class="number">1</span>,     <span class="number">3</span>,     <span class="number">1</span>,     <span class="number">1</span>,     <span class="number">3</span>,     <span class="number">0</span>,     <span class="number">1</span>&#125;;</span><br></pre></td></tr></table></figure>
-<p>同上，yyr2[0]`是0.</p>
-<h4 id="yycheck">yycheck</h4>
-<p><code>yycheck[]</code>是用来判断使用default还是non-default的，在生成文件的代码中表现为：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* If the proper action on seeing token YYTOKEN is to reduce or to   detect an error, take that action.  */</span></span><br><span class="line">yyn += yytoken;</span><br><span class="line"><span class="keyword">if</span> (yyn &lt; <span class="number">0</span> || YYLAST &lt; yyn || yycheck[yyn] != yytoken)</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Now &#x27;shift&#x27; the result of the reduction.  Determine what state   that goes to, based on the state we popped back to and the rule   number reduced by.  */</span></span><br><span class="line">yyn = yyr1[yyn];</span><br><span class="line">yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;</span><br><span class="line"><span class="keyword">if</span> (<span class="number">0</span> &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)</span><br><span class="line">    yystate = yytable[yystate];</span><br><span class="line"><span class="keyword">else</span>  yystate = yydefgoto[yyn - YYNTOKENS];</span><br><span class="line"><span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>yycheck[]</code>的值如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">const</span> yytype_int8 yycheck[] =&#123;       <span class="number">0</span>,     <span class="number">5</span>,     <span class="number">6</span>,     <span class="number">3</span>,     <span class="number">7</span>,     <span class="number">4</span>,     <span class="number">3</span>,     <span class="number">2</span>,     <span class="number">9</span>,    <span class="number">-1</span>,      <span class="number">-1</span>,    <span class="number">-1</span>,    <span class="number">10</span>&#125;;</span><br></pre></td></tr></table></figure>
-<h4 id="其他不重要的表">其他不重要的表：</h4>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yyrhs: yyrhs[n] = 第n条规则的RHS第一个symbol</span><br><span class="line">yyprhs: yyprhs[n] = yyrhs[n]symbol的index</span><br><span class="line">yyrline： yyrline[n] = .y文法源文件中第n条规则定义时对应的行</span><br><span class="line">yytname： yytname[n] = symbol number n对应的symbol <span class="built_in">string</span></span><br><span class="line">yytoknum： yytoknum[n] = token n的token number</span><br></pre></td></tr></table></figure>
-<h3 id="yyparse">yyparse()</h3>
-<p>整个算法的主程序是yyparse()，具体的框架如下：</p>
-<p>首先我们要定义一个state stack:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The state stack.  */</span></span><br><span class="line">yytype_int16 yyssa[YYINITDEPTH];</span><br><span class="line">yytype_int16 *yyss;</span><br><span class="line">yytype_int16 *yyssp;</span><br></pre></td></tr></table></figure>
-<p>然后定义符号的stack：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* The semantic value stack.  */</span></span><br><span class="line">YYSTYPE yyvsa[YYINITDEPTH];</span><br><span class="line">YYSTYPE *yyvs;</span><br><span class="line">YYSTYPE *yyvsp;</span><br></pre></td></tr></table></figure>
-<p>这里的<code>YYSTYPE</code>是文法的non-terminal所允许的type，可以自己定义，在这个例子里默认为了<code>int</code>。</p>
-<p>然后定义用来输出错误的一个buffer：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Buffer for error messages, and its allocated size.  */</span></span><br><span class="line"><span class="keyword">char</span> yymsgbuf[<span class="number">128</span>];</span><br><span class="line"><span class="keyword">char</span> *yymsg = yymsgbuf;</span><br></pre></td></tr></table></figure>
-<p>定义将new state push到栈里的操作：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">yynewstate:</span><br><span class="line"><span class="comment">/* In all cases, when you get here, the value and location stacks</span></span><br><span class="line"><span class="comment">     have just been pushed.  So pushing a state here evens the stacks.  */</span></span><br><span class="line">yyssp++;</span><br><span class="line"></span><br><span class="line">yysetstate:</span><br><span class="line">*yyssp = yystate;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (yyss + yystacksize - <span class="number">1</span> &lt;= yyssp)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* Get the current used size of the three stacks, in elements.  */</span></span><br><span class="line">    YYSIZE_T yysize = yyssp - yyss + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">ifdef</span> yyoverflow</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* Give user a chance to reallocate the stack.  Use copies of</span></span><br><span class="line"><span class="comment">           these so that the &amp;&#x27;s don&#x27;t force the real ones into</span></span><br><span class="line"><span class="comment">           memory.  */</span></span><br><span class="line">        YYSTYPE *yyvs1 = yyvs;</span><br><span class="line">        yytype_int16 *yyss1 = yyss;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Each stack pointer address is followed by the size of the</span></span><br><span class="line"><span class="comment">           data in use in that stack, in bytes.  This used to be a</span></span><br><span class="line"><span class="comment">           conditional around just the two extra args, but that might</span></span><br><span class="line"><span class="comment">           be undefined if yyoverflow is a macro.  */</span></span><br><span class="line">        yyoverflow (YY_(<span class="string">&quot;memory exhausted&quot;</span>),</span><br><span class="line">                    &amp;yyss1, yysize * <span class="keyword">sizeof</span> (*yyssp),</span><br><span class="line">                    &amp;yyvs1, yysize * <span class="keyword">sizeof</span> (*yyvsp),</span><br><span class="line">                    &amp;yystacksize);</span><br><span class="line"></span><br><span class="line">        yyss = yyss1;</span><br><span class="line">        yyvs = yyvs1;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">#<span class="meta-keyword">else</span> <span class="comment">/* no yyoverflow */</span></span></span><br><span class="line">    <span class="meta"># <span class="meta-keyword">ifndef</span> YYSTACK_RELOCATE</span></span><br><span class="line">    <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">    <span class="meta"># <span class="meta-keyword">else</span></span></span><br><span class="line">    <span class="comment">/* Extend the stack our own way.  */</span></span><br><span class="line">    <span class="keyword">if</span> (YYMAXDEPTH &lt;= yystacksize)</span><br><span class="line">        <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">    yystacksize *= <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (YYMAXDEPTH &lt; yystacksize)</span><br><span class="line">        yystacksize = YYMAXDEPTH;</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line">        yytype_int16 *yyss1 = yyss;</span><br><span class="line">        <span class="class"><span class="keyword">union</span> <span class="title">yyalloc</span> *<span class="title">yyptr</span> =</span></span><br><span class="line">            (<span class="keyword">union</span> yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));</span><br><span class="line">        <span class="keyword">if</span> (! yyptr)</span><br><span class="line">            <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">        YYSTACK_RELOCATE (yyss_alloc, yyss);</span><br><span class="line">        YYSTACK_RELOCATE (yyvs_alloc, yyvs);</span><br><span class="line">        <span class="meta">#  <span class="meta-keyword">undef</span> YYSTACK_RELOCATE</span></span><br><span class="line">        <span class="keyword">if</span> (yyss1 != yyssa)</span><br><span class="line">            YYSTACK_FREE (yyss1);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta"># <span class="meta-keyword">endif</span></span></span><br><span class="line">    <span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* no yyoverflow */</span></span></span><br><span class="line"></span><br><span class="line">    yyssp = yyss + yysize - <span class="number">1</span>;</span><br><span class="line">    yyvsp = yyvs + yysize - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Stack size increased to %lu\n&quot;</span>,</span><br><span class="line">                (<span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="keyword">int</span>) yystacksize));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (yyss + yystacksize - <span class="number">1</span> &lt;= yyssp)</span><br><span class="line">        YYABORT;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Entering state %d\n&quot;</span>, yystate));</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (yystate == YYFINAL)</span><br><span class="line">    YYACCEPT;</span><br><span class="line"></span><br><span class="line"><span class="keyword">goto</span> yybackup;</span><br></pre></td></tr></table></figure>
-<p>核心部分只是前面和后面的几行代码，中间都是在处理overflow的，用一些宏来决定是将stack size 扩张两倍还是直接扔出memory exhausted错误。</p>
-<p>然后定义读取lookahead token的操作yybackup，这里就要决定是使用default还是non-default，假如是non-default，是shift还是reduce还是报错了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">yybackup:</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Do appropriate processing given the current state.  Read a</span></span><br><span class="line"><span class="comment">     lookahead token if we need one and don&#x27;t already have one.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* First try to decide what to do without reference to lookahead token.  */</span></span><br><span class="line">  yyn = yypact[yystate];</span><br><span class="line">  <span class="keyword">if</span> (yypact_value_is_default (yyn))</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Not known =&gt; get a lookahead token if don&#x27;t already have one.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */</span></span><br><span class="line">  <span class="keyword">if</span> (yychar == YYEMPTY)</span><br><span class="line">    &#123;</span><br><span class="line">      YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Reading a token: &quot;</span>));</span><br><span class="line">      yychar = yylex ();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (yychar &lt;= YYEOF)</span><br><span class="line">    &#123;</span><br><span class="line">      yychar = yytoken = YYEOF;</span><br><span class="line">      YYDPRINTF ((<span class="built_in">stderr</span>, <span class="string">&quot;Now at end of input.\n&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">      yytoken = YYTRANSLATE (yychar);</span><br><span class="line">      YY_SYMBOL_PRINT (<span class="string">&quot;Next token is&quot;</span>, yytoken, &amp;yylval, &amp;yylloc);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If the proper action on seeing token YYTOKEN is to reduce or to</span></span><br><span class="line"><span class="comment">     detect an error, take that action.  */</span></span><br><span class="line">  yyn += yytoken;</span><br><span class="line">  <span class="keyword">if</span> (yyn &lt; <span class="number">0</span> || YYLAST &lt; yyn || yycheck[yyn] != yytoken)</span><br><span class="line">    <span class="keyword">goto</span> yydefault;</span><br><span class="line">  yyn = yytable[yyn];</span><br><span class="line">  <span class="keyword">if</span> (yyn &lt;= <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> (yytable_value_is_error (yyn))</span><br><span class="line">        <span class="keyword">goto</span> yyerrlab;</span><br><span class="line">      yyn = -yyn;</span><br><span class="line">      <span class="keyword">goto</span> yyreduce;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Count tokens shifted since error; after three, turn off error</span></span><br><span class="line"><span class="comment">     status.  */</span></span><br><span class="line">  <span class="keyword">if</span> (yyerrstatus)</span><br><span class="line">    yyerrstatus--;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Shift the lookahead token.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;Shifting&quot;</span>, yytoken, &amp;yylval, &amp;yylloc);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Discard the shifted token.  */</span></span><br><span class="line">  yychar = YYEMPTY;</span><br><span class="line"></span><br><span class="line">  yystate = yyn;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN</span><br><span class="line">  *++yyvsp = yylval;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_END</span><br><span class="line"></span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
-<p>然后定义default操作，很简单，读取yydefault[]表，如果是0就报错，不是0就进入reduce：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">yydefault:</span><br><span class="line">yyn = yydefact[yystate];</span><br><span class="line"><span class="keyword">if</span> (yyn == <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">goto</span> yyerrlab;</span><br><span class="line"><span class="keyword">goto</span> yyreduce;</span><br></pre></td></tr></table></figure>
-<p>接下来是reduce操作：根据yyr2[]找到对应规则的reduce的RHS符号个数以用来决定pop多少，然后根据yyr1[]找到对应规则的LHS值push进去：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">yyreduce:</span><br><span class="line">  <span class="comment">/* yyn is the number of a rule to reduce with.  */</span></span><br><span class="line">  yylen = yyr2[yyn];</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If YYLEN is nonzero, implement the default value of the action:</span></span><br><span class="line"><span class="comment">     &#x27;$$ = $1&#x27;.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     Otherwise, the following line sets YYVAL to garbage.</span></span><br><span class="line"><span class="comment">     This behavior is undocumented and Bison</span></span><br><span class="line"><span class="comment">     users should not rely upon it.  Assigning to YYVAL</span></span><br><span class="line"><span class="comment">     unconditionally makes the parser a bit smaller, and it avoids a</span></span><br><span class="line"><span class="comment">     GCC warning that YYVAL may be used uninitialized.  */</span></span><br><span class="line">  yyval = yyvsp[<span class="number">1</span>-yylen];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  YY_REDUCE_PRINT (yyn);</span><br><span class="line">  <span class="keyword">switch</span> (yyn)</span><br><span class="line">    &#123;</span><br><span class="line">      </span><br><span class="line"><span class="meta">#<span class="meta-keyword">line</span> 1179 <span class="meta-string">&quot;eg.tab.c&quot;</span> <span class="comment">/* yacc.c:1646  */</span></span></span><br><span class="line">      <span class="keyword">default</span>: <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">/* User semantic actions sometimes alter yychar, and that requires</span></span><br><span class="line"><span class="comment">     that yytoken be updated with the new translation.  We take the</span></span><br><span class="line"><span class="comment">     approach of translating immediately before every use of yytoken.</span></span><br><span class="line"><span class="comment">     One alternative is translating here after every semantic action,</span></span><br><span class="line"><span class="comment">     but that translation would be missed if the semantic action invokes</span></span><br><span class="line"><span class="comment">     YYABORT, YYACCEPT, or YYERROR immediately after altering yychar or</span></span><br><span class="line"><span class="comment">     if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an</span></span><br><span class="line"><span class="comment">     incorrect destructor might then be invoked immediately.  In the</span></span><br><span class="line"><span class="comment">     case of YYERROR or YYBACKUP, subsequent parser actions might lead</span></span><br><span class="line"><span class="comment">     to an incorrect destructor call or verbose syntax error message</span></span><br><span class="line"><span class="comment">     before the lookahead is translated.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;-&gt; $$ =&quot;</span>, yyr1[yyn], &amp;yyval, &amp;yyloc);</span><br><span class="line"></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  yylen = <span class="number">0</span>;</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line"></span><br><span class="line">  *++yyvsp = yyval;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Now &#x27;shift&#x27; the result of the reduction.  Determine what state</span></span><br><span class="line"><span class="comment">     that goes to, based on the state we popped back to and the rule</span></span><br><span class="line"><span class="comment">     number reduced by.  */</span></span><br><span class="line"></span><br><span class="line">  yyn = yyr1[yyn];</span><br><span class="line"></span><br><span class="line">  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;</span><br><span class="line">  <span class="keyword">if</span> (<span class="number">0</span> &lt;= yystate &amp;&amp; yystate &lt;= YYLAST &amp;&amp; yycheck[yystate] == *yyssp)</span><br><span class="line">    yystate = yytable[yystate];</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    yystate = yydefgoto[yyn - YYNTOKENS];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
-<p>然后是三个用来检测error的操作：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><span class="line">yyerrlab:</span><br><span class="line">  <span class="comment">/* Make sure we have latest lookahead translation.  See comments at</span></span><br><span class="line"><span class="comment">     user semantic actions for why this is necessary.  */</span></span><br><span class="line">  yytoken = yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (yychar);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* If not already recovering from an error, report this error.  */</span></span><br><span class="line">  <span class="keyword">if</span> (!yyerrstatus)</span><br><span class="line">    &#123;</span><br><span class="line">      ++yynerrs;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> ! YYERROR_VERBOSE</span></span><br><span class="line">      yyerror (YY_(<span class="string">&quot;syntax error&quot;</span>));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="meta"># <span class="meta-keyword">define</span> YYSYNTAX_ERROR yysyntax_error (&amp;yymsg_alloc, &amp;yymsg, \</span></span><br><span class="line"><span class="meta">                                        yyssp, yytoken)</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">char</span> <span class="keyword">const</span> *yymsgp = YY_(<span class="string">&quot;syntax error&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> yysyntax_error_status;</span><br><span class="line">        yysyntax_error_status = YYSYNTAX_ERROR;</span><br><span class="line">        <span class="keyword">if</span> (yysyntax_error_status == <span class="number">0</span>)</span><br><span class="line">          yymsgp = yymsg;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (yysyntax_error_status == <span class="number">1</span>)</span><br><span class="line">          &#123;</span><br><span class="line">            <span class="keyword">if</span> (yymsg != yymsgbuf)</span><br><span class="line">              YYSTACK_FREE (yymsg);</span><br><span class="line">            yymsg = (<span class="keyword">char</span> *) YYSTACK_ALLOC (yymsg_alloc);</span><br><span class="line">            <span class="keyword">if</span> (!yymsg)</span><br><span class="line">              &#123;</span><br><span class="line">                yymsg = yymsgbuf;</span><br><span class="line">                yymsg_alloc = <span class="keyword">sizeof</span> yymsgbuf;</span><br><span class="line">                yysyntax_error_status = <span class="number">2</span>;</span><br><span class="line">              &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">              &#123;</span><br><span class="line">                yysyntax_error_status = YYSYNTAX_ERROR;</span><br><span class="line">                yymsgp = yymsg;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        yyerror (yymsgp);</span><br><span class="line">        <span class="keyword">if</span> (yysyntax_error_status == <span class="number">2</span>)</span><br><span class="line">          <span class="keyword">goto</span> yyexhaustedlab;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="meta"># <span class="meta-keyword">undef</span> YYSYNTAX_ERROR</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (yyerrstatus == <span class="number">3</span>)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* If just tried and failed to reuse lookahead token after an</span></span><br><span class="line"><span class="comment">         error, discard it.  */</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (yychar &lt;= YYEOF)</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="comment">/* Return failure if at end of input.  */</span></span><br><span class="line">          <span class="keyword">if</span> (yychar == YYEOF)</span><br><span class="line">            YYABORT;</span><br><span class="line">        &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">          yydestruct (<span class="string">&quot;Error: discarding&quot;</span>,</span><br><span class="line">                      yytoken, &amp;yylval);</span><br><span class="line">          yychar = YYEMPTY;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Else will try to reuse lookahead token after shifting the error</span></span><br><span class="line"><span class="comment">     token.  */</span></span><br><span class="line">  <span class="keyword">goto</span> yyerrlab1;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*---------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyerrorlab -- error raised explicitly by YYERROR.  |</span></span><br><span class="line"><span class="comment">`---------------------------------------------------*/</span></span><br><span class="line">yyerrorlab:</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Pacify compilers like GCC when the user code never invokes</span></span><br><span class="line"><span class="comment">     YYERROR and the label yyerrorlab therefore never appears in user</span></span><br><span class="line"><span class="comment">     code.  */</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="comment">/*CONSTCOND*/</span> <span class="number">0</span>)</span><br><span class="line">     <span class="keyword">goto</span> yyerrorlab;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Do not reclaim the symbols of the rule whose action triggered</span></span><br><span class="line"><span class="comment">     this YYERROR.  */</span></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  yylen = <span class="number">0</span>;</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">  yystate = *yyssp;</span><br><span class="line">  <span class="keyword">goto</span> yyerrlab1;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/*-------------------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyerrlab1 -- common code for both syntax error and YYERROR.  |</span></span><br><span class="line"><span class="comment">`-------------------------------------------------------------*/</span></span><br><span class="line">yyerrlab1:</span><br><span class="line">  yyerrstatus = <span class="number">3</span>;      <span class="comment">/* Each real token shifted decrements this.  */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (;;)</span><br><span class="line">    &#123;</span><br><span class="line">      yyn = yypact[yystate];</span><br><span class="line">      <span class="keyword">if</span> (!yypact_value_is_default (yyn))</span><br><span class="line">        &#123;</span><br><span class="line">          yyn += YYTERROR;</span><br><span class="line">          <span class="keyword">if</span> (<span class="number">0</span> &lt;= yyn &amp;&amp; yyn &lt;= YYLAST &amp;&amp; yycheck[yyn] == YYTERROR)</span><br><span class="line">            &#123;</span><br><span class="line">              yyn = yytable[yyn];</span><br><span class="line">              <span class="keyword">if</span> (<span class="number">0</span> &lt; yyn)</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      <span class="comment">/* Pop the current state because it cannot handle the error token.  */</span></span><br><span class="line">      <span class="keyword">if</span> (yyssp == yyss)</span><br><span class="line">        YYABORT;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      yydestruct (<span class="string">&quot;Error: popping&quot;</span>,</span><br><span class="line">                  yystos[yystate], yyvsp);</span><br><span class="line">      YYPOPSTACK (<span class="number">1</span>);</span><br><span class="line">      yystate = *yyssp;</span><br><span class="line">      YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN</span><br><span class="line">  *++yyvsp = yylval;</span><br><span class="line">  YY_IGNORE_MAYBE_UNINITIALIZED_END</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* Shift the error token.  */</span></span><br><span class="line">  YY_SYMBOL_PRINT (<span class="string">&quot;Shifting&quot;</span>, yystos[yyn], yyvsp, yylsp);</span><br><span class="line"></span><br><span class="line">  yystate = yyn;</span><br><span class="line">  <span class="keyword">goto</span> yynewstate;</span><br></pre></td></tr></table></figure>
-<p>然后定义accept，abort，overflow时yyparse()分别返回什么值：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">yyacceptlab:</span><br><span class="line">  yyresult = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">goto</span> yyreturn;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*-----------------------------------.</span></span><br><span class="line"><span class="comment">| yyabortlab -- YYABORT comes here.  |</span></span><br><span class="line"><span class="comment">`-----------------------------------*/</span></span><br><span class="line">yyabortlab:</span><br><span class="line">  yyresult = <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">goto</span> yyreturn;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> !defined yyoverflow || YYERROR_VERBOSE</span></span><br><span class="line"><span class="comment">/*-------------------------------------------------.</span></span><br><span class="line"><span class="comment">| yyexhaustedlab -- memory exhaustion comes here.  |</span></span><br><span class="line"><span class="comment">`-------------------------------------------------*/</span></span><br><span class="line">yyexhaustedlab:</span><br><span class="line">  yyerror (YY_(<span class="string">&quot;memory exhausted&quot;</span>));</span><br><span class="line">  yyresult = <span class="number">2</span>;</span><br><span class="line">  <span class="comment">/* Fall through.  */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>最后一步：yyreturn，返回时清空stack，error message的buf：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">yyreturn:</span><br><span class="line">  <span class="keyword">if</span> (yychar != YYEMPTY)</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="comment">/* Make sure we have latest lookahead translation.  See comments at</span></span><br><span class="line"><span class="comment">         user semantic actions for why this is necessary.  */</span></span><br><span class="line">      yytoken = YYTRANSLATE (yychar);</span><br><span class="line">      yydestruct (<span class="string">&quot;Cleanup: discarding lookahead&quot;</span>,</span><br><span class="line">                  yytoken, &amp;yylval);</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="comment">/* Do not reclaim the symbols of the rule whose action triggered</span></span><br><span class="line"><span class="comment">     this YYABORT or YYACCEPT.  */</span></span><br><span class="line">  YYPOPSTACK (yylen);</span><br><span class="line">  YY_STACK_PRINT (yyss, yyssp);</span><br><span class="line">  <span class="keyword">while</span> (yyssp != yyss)</span><br><span class="line">    &#123;</span><br><span class="line">      yydestruct (<span class="string">&quot;Cleanup: popping&quot;</span>,</span><br><span class="line">                  yystos[*yyssp], yyvsp);</span><br><span class="line">      YYPOPSTACK (<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> yyoverflow</span></span><br><span class="line">  <span class="keyword">if</span> (yyss != yyssa)</span><br><span class="line">    YYSTACK_FREE (yyss);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> YYERROR_VERBOSE</span></span><br><span class="line">  <span class="keyword">if</span> (yymsg != yymsgbuf)</span><br><span class="line">    YYSTACK_FREE (yymsg);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">  <span class="keyword">return</span> yyresult;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-            
-        </article>
-    </div>
-    
-    <div class="nexmoe-post">
-        <a href="/flex-lexer-analysis/">
-            
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 62.5%;"> 
-                    <img data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wgwall.jpg" data-sizes="auto" alt="flex lexer分析" class="lazyload">
-                    <h1>flex lexer分析</h1>
-                </div>
-            
-        </a>
-
-        <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2020年06月05日</a>
-            <a><i class="nexmoefont icon-areachart"></i>1.9k 字</a>
-            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 9 分钟</a>
-        </div>
-
-        <article>
-            
-                <h1 id="flex-lexer分析">flex lexer分析</h1>
-<p>flex会根据你定义的正则表达式匹配到相应字段，然后根据你定义的函数进行操作，返回相应的token。</p>
-<p>为了了解flex如何work的，我们新建一个空的flex规则文件<code>null.flex</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%%</span><br></pre></td></tr></table></figure>
-<p>然后运行命令<code>flex null.flex</code>生成<code>lex.yy.c</code>文件。</p>
-<p>接下来逐行分析它的code：</p>
-<p>首先是一些flex的版本相关的宏：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLEX_SCANNER</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_MAJOR_VERSION 2</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_MINOR_VERSION 6</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_FLEX_SUBMINOR_VERSION 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> YY_FLEX_SUBMINOR_VERSION &gt; 0</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> FLEX_BETA</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>然后将一些type define成自己的格式：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __STDC_LIMIT_MACROS</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __STDC_LIMIT_MACROS 1</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;inttypes.h&gt;</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int8_t</span> <span class="keyword">flex_int8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint8_t</span> <span class="keyword">flex_uint8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int16_t</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint16_t</span> <span class="keyword">flex_uint16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int32_t</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">uint32_t</span> <span class="keyword">flex_uint32_t</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span></span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">signed</span> <span class="keyword">char</span> <span class="keyword">flex_int8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">short</span> <span class="keyword">int</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> <span class="keyword">flex_uint8_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">short</span> <span class="keyword">int</span> <span class="keyword">flex_uint16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">int</span> <span class="keyword">flex_uint32_t</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT8_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT8_MIN               (-128)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>#<span class="meta-keyword">ifndef</span> INT16_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT16_MIN              (-32767-1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT32_MIN</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT32_MIN              (-2147483647-1)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT8_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT8_MAX               (127)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT16_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT16_MAX              (32767)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> INT32_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INT32_MAX              (2147483647)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span>#<span class="meta-keyword">ifndef</span> UINT8_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT8_MAX              (255U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> UINT16_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT16_MAX             (65535U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> UINT32_MAX</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> UINT32_MAX             (4294967295U)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>然后定义EOF的宏:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_NULL 0</span></span><br></pre></td></tr></table></figure>
-<p>将<code>signed char</code>安全转换为<code>unsigned int</code>的宏<code>YY_SC_TO_UI</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br></pre></td></tr></table></figure>
-<p>start condition中用的BEGIN():</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BEGIN (yy_start) = 1 + 2 *</span></span><br></pre></td></tr></table></figure>
-<p>在后面的代码可以看出，这些start condition定义的关键词都被定义成了宏，比如我们有两个start condition <code>COMMENT</code>和<code>STRING</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> INITIAL 0#<span class="meta-keyword">define</span> COMMENT 1#<span class="meta-keyword">define</span> STRING 2</span></span><br></pre></td></tr></table></figure>
-<p>这时<code>BEGIN(COMMENT)</code>就等价于：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(yy_start) = <span class="number">1</span> + <span class="number">2</span> * COMMENT</span><br></pre></td></tr></table></figure>
-<p>之后就可以得到相应的<code>YY_STATE</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_START (((yy_start) - 1) / 2)#<span class="meta-keyword">define</span> YYSTATE YY_START</span></span><br></pre></td></tr></table></figure>
-<p>略去其他不重要的宏，接下来看两个<code>FILE</code>指针<code>yyin</code>和<code>yyout</code>，可以看出<code>yyin</code>指向了<code>stdin</code>，<code>yyout</code>指向了<code>stdout</code>，分别对应了标准输入输出流：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> FILE *yyin, *yyout;</span><br><span class="line"><span class="comment">/*a lot of code*/</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> YY_STDINIT    </span></span><br><span class="line">	yyin = <span class="built_in">stdin</span>;</span><br><span class="line">	yyout = <span class="built_in">stdout</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">else</span>    </span></span><br><span class="line">	yyin = (FILE *) <span class="number">0</span>;</span><br><span class="line">	yyout = (FILE *) <span class="number">0</span>;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>接下来的代码就可以看出，flex的lexer是使用自顶向下的表驱动预测分析法来实现匹配的，关于这里面的预测分析，LL(1)文法等定义见编译原理的相关教材。</p>
-<p>首先要实现表驱动预测分析，就要定义读入text的方法，理论上是一个个character读入，但为了效率起见，flex将它们批量读取存入了buffer中：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> YY_INPUT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_INPUT(buf,result,max_size) \</span></span><br><span class="line"><span class="meta">	<span class="meta-keyword">if</span> ( YY_CURRENT_BUFFER_LVALUE-&gt;yy_is_interactive ) \</span></span><br><span class="line"><span class="meta">    &#123; \</span></span><br><span class="line"><span class="meta">        int c = <span class="meta-string">&#x27;*&#x27;</span>; \</span></span><br><span class="line"><span class="meta">        size_t n; \</span></span><br><span class="line"><span class="meta">        for ( n = 0; n &lt; max_size &amp;&amp; \</span></span><br><span class="line"><span class="meta">                (c = getc( yyin )) != EOF &amp;&amp; c != <span class="meta-string">&#x27;\n&#x27;</span>; ++n ) \</span></span><br><span class="line"><span class="meta">            buf[n] = (char) c; \</span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">if</span> ( c == <span class="meta-string">&#x27;\n&#x27;</span> ) \</span></span><br><span class="line"><span class="meta">            buf[n++] = (char) c; \</span></span><br><span class="line"><span class="meta">        <span class="meta-keyword">if</span> ( c == EOF &amp;&amp; ferror( yyin ) ) \</span></span><br><span class="line"><span class="meta">            YY_FATAL_ERROR( <span class="meta-string">&quot;input in flex scanner failed&quot;</span> ); \</span></span><br><span class="line"><span class="meta">        result = n; \</span></span><br><span class="line"><span class="meta">    &#125; \</span></span><br><span class="line"><span class="meta">    <span class="meta-keyword">else</span> \</span></span><br><span class="line"><span class="meta">    &#123; \</span></span><br><span class="line"><span class="meta">    	errno=0; \</span></span><br><span class="line"><span class="meta">        while ( (result = fread(buf, 1, max_size, yyin))==0 &amp;&amp; ferror(yyin)) \</span></span><br><span class="line"><span class="meta">        &#123; \</span></span><br><span class="line"><span class="meta">        	<span class="meta-keyword">if</span>( errno != EINTR) \</span></span><br><span class="line"><span class="meta">            &#123; \</span></span><br><span class="line"><span class="meta">            	YY_FATAL_ERROR( <span class="meta-string">&quot;input in flex scanner failed&quot;</span> ); \</span></span><br><span class="line"><span class="meta">                break; \</span></span><br><span class="line"><span class="meta">            &#125; \</span></span><br><span class="line"><span class="meta">            errno=0; \</span></span><br><span class="line"><span class="meta">            clearerr(yyin); \</span></span><br><span class="line"><span class="meta">         &#125; \</span></span><br><span class="line"><span class="meta">      &#125;\</span></span><br><span class="line"><span class="meta">\</span></span><br><span class="line"><span class="meta"> #<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
-<p>这里就要吐槽一下它的缩进了，简直惨不忍睹。如果你觉得这种读取方法很复杂的话，可以rewrite自己的<code>YY_INPUT</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">undef</span> YY_INPUT</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_INPUT(buf,result,max_size) \</span></span><br><span class="line"><span class="meta">    <span class="meta-keyword">if</span> ( (result = fread( (char*)buf, sizeof(char), max_size, fin)) &lt; 0) \</span></span><br><span class="line"><span class="meta">    	YY_FATAL_ERROR( <span class="meta-string">&quot;read() in flex scanner failed&quot;</span>);</span></span><br></pre></td></tr></table></figure>
-<p>这段代码引自参考文献[1]。</p>
-<p>为什么说它用的是表驱动法呢？从它在静态区cache了一些预测分析表的常量：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">6</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_ec[<span class="number">256</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_meta[<span class="number">2</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_base[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_def[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_nxt[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_chk[<span class="number">5</span>] = &#123;...&#125;;</span><br></pre></td></tr></table></figure>
-<p>以及定义了将缓冲区变量压栈和出栈的一系列操作：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yypush_buffer_state</span> <span class="params">(YY_BUFFER_STATE new_buffer )</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">yypop_buffer_state</span> <span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">yyensure_buffer_stack</span> <span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;<span class="comment">/*a lof of code*/</span>&#125;</span><br></pre></td></tr></table></figure>
-<p>再对比下自顶向下表驱动法的算法结构：</p>
-<figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/top_down_push_pop.png" alt="top-down-push-pop" class="lazyload"><figcaption aria-hidden="true">top-down-push-pop</figcaption>
-</figure>
-<p>就一目了然了。</p>
-<p>接下来就来看这个算法flex具体是如何实现的，它过程就在于<code>yylex()</code>这个函数，大致的框架如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_DECL int yylex (void)</span></span><br><span class="line"><span class="comment">/*a lot of code*/</span></span><br><span class="line">YY_DECL</span><br><span class="line">&#123;    <span class="comment">// initialize</span></span><br><span class="line">    <span class="comment">// crate stack</span></span><br><span class="line">    <span class="comment">// load buffer</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        yy_match:</span><br><span class="line">        <span class="comment">/* 在这里不断进行状态转移，直至无法继续转移 */</span></span><br><span class="line">        <span class="comment">/* 用到了前面提的YY_SC_TO_UI*/</span></span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">            <span class="keyword">if</span> ( yy_accept[yy_current_state] )</span><br><span class="line">            &#123;</span><br><span class="line">                (yy_last_accepting_state) = yy_current_state;</span><br><span class="line">                (yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">            &#123;</span><br><span class="line">                yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">                <span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">6</span> )</span><br><span class="line">                    yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">            &#125;				</span><br><span class="line">            yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">            ++yy_cp;</span><br><span class="line">        &#125;			</span><br><span class="line">        <span class="keyword">while</span> ( yy_base[yy_current_state] != <span class="number">3</span> );</span><br><span class="line">        yy_find_action:</span><br><span class="line">        <span class="comment">/*根据yy_current_state返回对应的yy_act*/</span></span><br><span class="line">        <span class="comment">/*检查是否停止在接受状态(yy_act==0的情况)*/</span></span><br><span class="line">        <span class="comment">/*yy_act == 1 表示accept*/</span></span><br><span class="line">        <span class="comment">/*具体见do_action*/</span></span><br><span class="line">        yy_act = yy_accept[yy_current_state];</span><br><span class="line">        <span class="keyword">if</span> ( yy_act == <span class="number">0</span> )</span><br><span class="line">        &#123; </span><br><span class="line">            <span class="comment">/* have to back up */</span></span><br><span class="line">            yy_cp = (yy_last_accepting_cpos);</span><br><span class="line">            yy_current_state = (yy_last_accepting_state);</span><br><span class="line">            yy_act = yy_accept[yy_current_state];</span><br><span class="line">        &#125;</span><br><span class="line">        YY_DO_BEFORE_ACTION;</span><br><span class="line">        do_action:</span><br><span class="line">        <span class="comment">/*处理各种yy_act*/</span></span><br><span class="line">        <span class="keyword">switch</span>(yy_act)&#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="number">0</span>: <span class="comment">/*读到EOF*/</span></span><br><span class="line">            <span class="keyword">case</span> <span class="number">1</span>: <span class="comment">/*accept*/</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里的<code>do_action</code>中，<code>yy_act</code>只有0和1两种情况，即读到非EOF的直接accept，读到EOF转<code>case 0</code>。因为这是一个空的规则文件，假如我们用带有规则的<code>xxx.flex</code>生成code，这些规则中的正则表达式匹配方法会表现到静态区中cache的预测分析表中，匹配到的action会体现在这个<code>switch-case</code>语句中。</p>
-<p>为了验证以上的说明，我们定义一个用来匹配能够解释为十进制数字符串的规则,放到文件<code>test.flex</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">WHITE   &quot; &quot;|\t|\f|\r|\v</span><br><span class="line">%%</span><br><span class="line">&#123;WHITE&#125;*[+-]?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))([Ee][+-]?[0-9]+)?&#123;WHITE&#125;* &#123;return true;&#125;</span><br><span class="line">. &#123;return false;&#125;</span><br><span class="line">%%</span><br></pre></td></tr></table></figure>
-<p>对应的DFA图如下：</p>
-<figure>
-<img data-fancybox="gallery" data-sizes="auto" data-src="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/flex%E8%A7%A3%E6%9E%90/DFA.png" alt="DFA" class="lazyload"><figcaption aria-hidden="true">DFA</figcaption>
-</figure>
-<p>这个例子来自参考文献[1].</p>
-<p>flex为了减少内存开销，对原来的状态表进行了压缩，因此在空规则生成的文件中，我们能看到很多个静态区常量(见上面)，为了看到原本的状态表，我们使用 <code>-Cf</code>进行编译：<code>flex -Cf test.flex</code> ,然后可以看到：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_nxt[][<span class="number">128</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">9</span>] = &#123;...&#125;;</span><br></pre></td></tr></table></figure>
-<p>其中<code>flex_int16_t yy_nxt[][128]</code>就是原来的状态表。在<code>yylex()</code>中，匹配的过程是这么写的：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yy_match:		</span><br><span class="line">	<span class="keyword">while</span> ( (yy_current_state = yy_nxt[yy_current_state][ YY_SC_TO_UI(*yy_cp) ]) &gt; <span class="number">0</span> )</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span> ( yy_accept[yy_current_state] )</span><br><span class="line">        &#123;</span><br><span class="line">            (yy_last_accepting_state) = yy_current_state;</span><br><span class="line">            (yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">        &#125;</span><br><span class="line">        ++yy_cp;</span><br><span class="line">    &#125;</span><br><span class="line">	yy_current_state = -yy_current_state;</span><br><span class="line">yy_find_action:</span><br><span class="line">    yy_act = yy_accept[yy_current_state];</span><br><span class="line">    YY_DO_BEFORE_ACTION;</span><br></pre></td></tr></table></figure>
-<p>现在我们只要照着它稍微修改一下，就能得到一个判断字符串是否能作为数字的程序了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> yyconst const</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int16_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> YY_CHAR;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_nxt[][<span class="number">128</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">21</span>] = &#123;...&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span> </span></span><br><span class="line"><span class="function"></span>&#123;    </span><br><span class="line">    <span class="keyword">int</span> yy_current_state = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> ( <span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); ++i ) &#123;</span><br><span class="line">        yy_current_state = yy_nxt[yy_current_state][YY_SC_TO_UI(s[i])];</span><br><span class="line">        <span class="keyword">if</span> ( yy_current_state &lt; <span class="number">0</span> ) </span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;    </span><br><span class="line">    <span class="keyword">return</span> yy_accept[yy_current_state] == <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里只需要判断新的current state是否大于0.没用必要查询是否accept(因为match时小于0直接跳出循环，说明匹配失败)。</p>
-<p>对于压缩版本的，也可以有如下的对应。</p>
-<p><code>yylex()</code>：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">yy_match:</span><br><span class="line">    <span class="keyword">do</span>			</span><br><span class="line">    &#123;</span><br><span class="line">        YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">        <span class="keyword">if</span> ( yy_accept[yy_current_state] )</span><br><span class="line">        &#123;</span><br><span class="line">            (yy_last_accepting_state) = yy_current_state;</span><br><span class="line">            (yy_last_accepting_cpos) = yy_cp;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">        &#123;</span><br><span class="line">            yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">            <span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">22</span> )</span><br><span class="line">                yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        &#125;</span><br><span class="line">        yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        ++yy_cp;</span><br><span class="line">    &#125;		</span><br><span class="line">    <span class="keyword">while</span> ( yy_base[yy_current_state] != <span class="number">43</span> );</span><br><span class="line">yy_find_action:</span><br><span class="line">    yy_act = yy_accept[yy_current_state];</span><br><span class="line">    <span class="keyword">if</span> ( yy_act == <span class="number">0</span> )</span><br><span class="line">    &#123; </span><br><span class="line">        <span class="comment">/* have to back up */</span></span><br><span class="line">        yy_cp = (yy_last_accepting_cpos);</span><br><span class="line">        yy_current_state = (yy_last_accepting_state);</span><br><span class="line">        yy_act = yy_accept[yy_current_state];</span><br><span class="line">    &#125;		</span><br><span class="line">    YY_DO_BEFORE_ACTION;</span><br></pre></td></tr></table></figure>
-<p><code>valid_number</code>程序：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> yyconst consttypedef int flex_int16_t;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> <span class="keyword">flex_int32_t</span>;</span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">unsigned</span> <span class="keyword">char</span> YY_CHAR;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_accept[<span class="number">6</span>] = &#123;...&#125;;<span class="keyword">static</span> yyconst YY_CHAR yy_ec[<span class="number">256</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst YY_CHAR yy_meta[<span class="number">2</span>] = &#123;...&#125;;<span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_base[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_def[<span class="number">7</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_uint16_t</span> yy_nxt[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"><span class="keyword">static</span> yyconst <span class="keyword">flex_int16_t</span> yy_chk[<span class="number">5</span>] = &#123;...&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isNumber</span><span class="params">(<span class="built_in">string</span> s)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> yy_current_state = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); ++i)&#123;</span><br><span class="line">        YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;</span><br><span class="line">        <span class="keyword">while</span> ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )</span><br><span class="line">        &#123;</span><br><span class="line">            yy_current_state = (<span class="keyword">int</span>) yy_def[yy_current_state];</span><br><span class="line">            <span class="keyword">if</span> ( yy_current_state &gt;= <span class="number">22</span> )</span><br><span class="line">                yy_c = yy_meta[(<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        &#125;</span><br><span class="line">        yy_current_state = yy_nxt[yy_base[yy_current_state] + (<span class="keyword">unsigned</span> <span class="keyword">int</span>) yy_c];</span><br><span class="line">        <span class="keyword">return</span>(yy_accept[yy_current_state]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里需要判断current state是否能被accept(即返回1)，当然根据while循环条件也可以。</p>
-<p>References：</p>
-<p>[1].Flex技巧总结 &amp;&amp; [LeetCode]Valid Number题解 https://blog.finaltheory.me/research/Flex-Tricks.html</p>
-
-            
-        </article>
-    </div>
-    
-</section>
-
-        <div class="nexmoe-post-right">
-          <div class="nexmoe-fixed">
-            <div class="nexmoe-tool"> 
-              
-                
-                  
-                  
-                  
-                    
-                
-              
-              <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
-            </div>
-          </div>
-        </div>
-    </div>
-  </div>
-  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
-
- 
-
-<script async src="/js/app.js?v=1687745583157"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
-<script>
-	$(".justified-gallery").justifiedGallery({
-		rowHeight: 160,
-		margins: 10,
-	});
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
 </script>
 
+
+
+  <link rel="canonical" href="https://chenyuzhuwhiskey.github.io/tags/编译原理/"/>
+
+
+
+
+
+  <title>Tag: 编译原理 | Chenyu's Blog</title>
   
 
 
 
 
 
-</body>
 
+
+
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-ch">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chenyu's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Something valued really in my life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about-me/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sponsorship">
+          <a href="/sponsorship/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-fas fa-donate"></i> <br />
+            
+            Sponsorship
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  
+  
+  
+  <div class="post-block tag">
+
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h1>编译原理<small>Tag</small>
+        </h1>
+      </div>
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/bison-parser-analysis/" itemprop="url">
+              
+                <span itemprop="name">bison parser深入分析</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2020-06-05T00:00:00+08:00"
+              content="2020-06-05" >
+          06-05
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h2 class="post-title">
+        
+            <a class="post-title-link" href="/flex-lexer-analysis/" itemprop="url">
+              
+                <span itemprop="name">flex lexer分析</span>
+              
+            </a>
+        
+      </h2>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2020-06-05T00:00:00+08:00"
+              content="2020-06-05" >
+          06-05
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+    </div>
+
+  </div>
+  
+  
+  
+
+  
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/ChenyuZhuWhiskey" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/zhu-chen-yu-9" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-zhihu"></i>知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin=1241585360&site=qq&menu=yes" target="_blank" title="QQ">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-tim"></i>QQ</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://space.bilibili.com/12575612" target="_blank" title="哔哩哔哩">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-bilibili-fill"></i>哔哩哔哩</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://steamcommunity.com/profiles/76561198401617015/" target="_blank" title="Steam">
+                      
+                        <i class="fa fa-fw fa-steam"></i>Steam</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wechat.jpg" target="_blank" title="微信">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>微信</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://chenyu-blog-img-1302348848.cos.ap-shanghai.myqcloud.com/social_app_add_code/wulixuetu.jpg" target="_blank" title="公众号">
+                      
+                        <i class="fa fa-fw fa-wechat"></i>公众号</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="暂无" target="_blank" title="学术主页">
+                      
+                        <i class="fa fa-fw fa-fab fa-icon-academicdegree"></i>学术主页</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chenyu Zhu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
 </html>
