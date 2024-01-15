@@ -72,7 +72,7 @@
 
 
 
-  <meta name="keywords" content="dynamic programming,stochastic optimal control theory," />
+  <meta name="keywords" content="market microstructure," />
 
 
 
@@ -83,18 +83,17 @@
 
 
 
-<meta name="description" content="随机最优控制理论1: 动态规划 最近在倒腾订单执行的东西，发现这套数学框架非常满足我的需求，因此现学现卖，做点笔记。 基础的定义 定义1. state, action, rewards 考虑一个离散时间的系统\(t&#x3D;\{0,1,...T\}\)， 定义: 1.\(x\in\mathcal{X}\)为状态以及所有状态的集合, \(x_t\)为\(t\)时刻的状态. 2.\(a\in\ma">
+<meta name="description" content="The Micro-Price by Stoikov 精读 本文是Stoikov的paper：The Micro-Price A High Frequency Estimator of Future Prices的读书笔记。我不打算按照作者讲故事的flow去写，而是用我自己的行文逻辑，我认为前者叫&quot;翻译&quot;，后者才叫&quot;精读&quot;，当然这也意味着欣赏过原文的读者们再来看我的笔记应该会有更多的收获。 G">
 <meta property="og:type" content="article">
-<meta property="og:title" content="随机最优控制理论1">
-<meta property="og:url" content="https://chenyuzhuwhiskey.github.io/stochastic-optimal-control-theory-1/index.html">
+<meta property="og:title" content="The Micro-Price by Stoikov 精读">
+<meta property="og:url" content="https://chenyuzhuwhiskey.github.io/the-micro-price-1/index.html">
 <meta property="og:site_name" content="Chenyu&#39;s Blog">
-<meta property="og:description" content="随机最优控制理论1: 动态规划 最近在倒腾订单执行的东西，发现这套数学框架非常满足我的需求，因此现学现卖，做点笔记。 基础的定义 定义1. state, action, rewards 考虑一个离散时间的系统\(t&#x3D;\{0,1,...T\}\)， 定义: 1.\(x\in\mathcal{X}\)为状态以及所有状态的集合, \(x_t\)为\(t\)时刻的状态. 2.\(a\in\ma">
+<meta property="og:description" content="The Micro-Price by Stoikov 精读 本文是Stoikov的paper：The Micro-Price A High Frequency Estimator of Future Prices的读书笔记。我不打算按照作者讲故事的flow去写，而是用我自己的行文逻辑，我认为前者叫&quot;翻译&quot;，后者才叫&quot;精读&quot;，当然这也意味着欣赏过原文的读者们再来看我的笔记应该会有更多的收获。 G">
 <meta property="og:locale" content="zh_CH">
-<meta property="article:published_time" content="2023-06-15T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-06-25T07:55:37.119Z">
+<meta property="article:published_time" content="2024-01-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-01-15T11:48:58.085Z">
 <meta property="article:author" content="Chenyu Zhu">
-<meta property="article:tag" content="dynamic programming">
-<meta property="article:tag" content="stochastic optimal control theory">
+<meta property="article:tag" content="market microstructure">
 <meta name="twitter:card" content="summary">
 
 
@@ -125,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://chenyuzhuwhiskey.github.io/stochastic-optimal-control-theory-1/"/>
+  <link rel="canonical" href="https://chenyuzhuwhiskey.github.io/the-micro-price-1/"/>
 
 
 
 
 
-  <title>随机最优控制理论1 | Chenyu's Blog</title>
+  <title>The Micro-Price by Stoikov 精读 | Chenyu's Blog</title>
   
 
 
@@ -258,7 +257,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://chenyuzhuwhiskey.github.io/stochastic-optimal-control-theory-1/">
+    <link itemprop="mainEntityOfPage" href="https://chenyuzhuwhiskey.github.io/the-micro-price-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -275,7 +274,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">随机最优控制理论1</h1>
+          <h1 class="post-title" itemprop="name headline">The Micro-Price by Stoikov 精读</h1>
         
 
         <div class="post-meta">
@@ -287,8 +286,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2023-06-16T00:00:00+08:00">
-                2023-06-16
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-01-15T00:00:00+08:00">
+                2024-01-15
               </time>
             
 
@@ -339,8 +338,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/stochastic-optimal-control-theory-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count gitment-comments-count" data-xid="/stochastic-optimal-control-theory-1/" itemprop="commentsCount"></span>
+                <a href="/the-micro-price-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/the-micro-price-1/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -362,7 +361,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  974
+                  1.8k
                 </span>
               
 
@@ -378,7 +377,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  4
+                  8
                 </span>
               
             </div>
@@ -399,77 +398,109 @@
       
 
       
-        <h1 id="随机最优控制理论1-动态规划">随机最优控制理论1: 动态规划</h1>
-<p>最近在倒腾订单执行的东西，发现这套数学框架非常满足我的需求，因此现学现卖，做点笔记。</p>
-<h2 id="基础的定义">基础的定义</h2>
-<p><strong>定义1. state, action, rewards</strong></p>
-<p>考虑一个离散时间的系统<span class="math inline">\(t=\{0,1,...T\}\)</span>， 定义:</p>
-<p>1.<span class="math inline">\(x\in\mathcal{X}\)</span>为状态以及所有状态的集合, <span class="math inline">\(x_t\)</span>为<span class="math inline">\(t\)</span>时刻的状态.</p>
-<p>2.<span class="math inline">\(a\in\mathcal{A}\)</span>为操作以及所有可能操作的集合</p>
-<p>3.在状态<span class="math inline">\(x\)</span>时采取操作<span class="math inline">\(a\)</span>获得的回报为<span class="math inline">\(r=r(a,x)\)</span>, 并且定义<span class="math inline">\(r(x)\)</span>为在最终时间<span class="math inline">\(T\)</span>，状态为<span class="math inline">\(x\)</span>时的最终回报</p>
-<p><strong>定义2. 动态规划函数</strong></p>
-<p>操作<span class="math inline">\(a\)</span>作用以后，我们会从当前状态<span class="math inline">\(x\)</span>进入下一个状态<span class="math inline">\(\hat{x}\)</span>, 这个状态转移函数称动态规划函数<span class="math inline">\(f: \mathcal{X}\times\mathcal{A}\rightarrow \mathcal{A}\)</span> <span class="math display">\[
-\hat{x} = f(x,a)
-\]</span> <strong>定义3. 策略和效用函数</strong></p>
-<p>定义一个策略<span class="math inline">\(\pi = (\pi_0,\pi_1,...\pi_{T-1})\)</span>, 表示在时刻<span class="math inline">\(t\)</span>时采用操作<span class="math inline">\(\pi_t\)</span>. 在选定了最初状态<span class="math inline">\(x_0\)</span>后，该操作与动态规划函数定义了一个状态序列<span class="math inline">\(x_t\)</span>: <span class="math display">\[
-x_{t+1}=f(x_t,\pi_t)
-\]</span> 我们定义从时间0到T结束后，每次action的回报之和为效用函数: <span class="math display">\[
-R(x_0,\pi) = r(x_T) + \sum_{i=0}^{T-1}r(x_i,\pi_i)
-\]</span> <strong>定义4. 动态规划</strong></p>
-<p>整个最优控制理论的目标，就是找到一个策略<span class="math inline">\(\pi\in\Pi\)</span>，能够使得效用函数达到最大： <span class="math display">\[
-V(x_0)=\max_{\pi} R(x_0, \pi)
-\]</span> 其中<span class="math inline">\(V(x_0)\)</span>是最大效用, <span class="math inline">\(\Pi\)</span>为所有可能策略的集合。</p>
-<p>对于任意时间节点<span class="math inline">\(t\)</span>，我们也有</p>
-<p>一个动态规划用形式化的语言定义就是: <span class="math display">\[
+        <h1 id="the-micro-price-by-stoikov-精读">The Micro-Price by Stoikov 精读</h1>
+<p>本文是Stoikov的paper：The Micro-Price A High Frequency Estimator of Future Prices的读书笔记。我不打算按照作者讲故事的flow去写，而是用我自己的行文逻辑，我认为前者叫"翻译"，后者才叫"精读"，当然这也意味着欣赏过原文的读者们再来看我的笔记应该会有更多的收获。</p>
+<h2 id="general-framework">General Framework</h2>
+<p>作者认为，<span class="math inline">\(t\)</span> 时刻的中间价 <span class="math inline">\(M_t\)</span> 不是当前资产的一个合理价格，那什么才是合理的价格呢？<strong>一个fair price就应当是基于当前订单簿信息，对未来无穷远处价格给出的合理估计</strong>，用数学语言来表述就是 <span class="math display">\[
 \begin{equation}
-V(x_0)=\left\{
+P^{micro}_t=\lim\limits_{\tau\to\infty}\mathbb{E} [ M_\tau | \mathcal{F}_t   ]
+\end{equation}
+\]</span> 其中 <span class="math inline">\(\mathcal{F}_t\)</span>是 <span class="math inline">\(t\)</span> 时刻的 <span class="math inline">\(\sigma\)</span> 流（也就是 <span class="math inline">\(t\)</span> 时刻所确定的信息）。</p>
+<p>无穷远太远了，不方便我们的数学工具展开，那我们就先把 Eq.(1) 的极限符号去掉，先考虑一个时间足够远的估计： <span class="math display">\[
+\begin{equation}
+P_t^i = \mathbb{E} [ M_{\tau_i} | \mathcal{F}_t   ], \tau_i &gt; t
+\end{equation}
+\]</span> 当我们使用数学工具导出了 <span class="math inline">\(P_t^i\)</span> 的性质，再取个极限就可以了。</p>
+<p>现在我们只需要一个假设，就可以证明 Eq.(2)是一个martingale，这个假设大多数情况是成立的：</p>
+<blockquote>
+<p>Theorem 1. 在well defined的概率空间 <span class="math inline">\((\Omega,\mathcal{F}, \mathbb{P})\)</span> ，以及 <span class="math inline">\(\sigma\)</span> 流 <span class="math inline">\(\forall s &lt; t, \mathcal{F}_s \subset \mathcal{F}_t \subset\mathcal{F}\)</span> 中，如果中间价的变化 <span class="math inline">\(M_t-M_s\)</span> 与中间价本身 <span class="math inline">\(M_t\)</span> 相互独立，那么 <span class="math inline">\(P_t^i\)</span> 是一个martingale under filtration <span class="math inline">\(\mathcal{F}_t\)</span>。</p>
+</blockquote>
+<p>Proof：根据假设，我们用条件期望的linearity，可以将 Eq.(2) 展开为： <span class="math display">\[
+\begin{equation}
 \begin{aligned}
-\max_\pi&amp; R(x_0,\pi) = r(x_T) + \sum_{i=0}^{T-1}r(x_i,\pi_i)\\
-\text{s.t }&amp; x_{t+1} = f(x_t,\pi_t) \\
-\text{over }&amp; \pi_t \in \mathcal{A}
+P_t^i  &amp;= \mathbb{E} [ M_{\tau_i} | \mathcal{F}_t   ] \\
+&amp;= \mathbb{E} [ M_t | \mathcal{F}_t   ] + \sum_{k=1}^{i} \mathbb{E} [ (M_{\tau_{i}}-M_{\tau_{i-1}}) | \mathcal{F}_t   ]
 \end{aligned}
-\right.
+\end{equation}
+\]</span> 其中我们令 <span class="math inline">\(\tau_0=t\)</span>，记号 <span class="math inline">\(\{\tau_1 &lt; \tau_2 &lt; ...\}\)</span> 表示中间价产生变化的时间点： <span class="math display">\[
+\begin{equation}
+\tau_{i} = \inf\{ u &gt; \tau_{i-1} | M_{u}-M_{u^-} \neq 0\}
+\end{equation}
+\]</span> 为什么<span class="math inline">\(P_t^{i}\)</span>是一个martingale呢，我们考虑时间点 <span class="math inline">\(s &lt; t\)</span> ，我们有： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+P_t^i &amp;= \mathbb{E} [ M_t | \mathcal{F}_t   ] + \sum_{k=1}^{i} \mathbb{E} [ (M_{\tau_{i}}-M_{\tau_{i-1}}) | \mathcal{F}_t   ] \\
+&amp;= \mathbb{E} [ M_s+M_t-M_s | \mathcal{F}_t  ] + \sum_{k=1}^{i} \mathbb{E} [ (M_{\tau_{i}}-M_{\tau_{i-1}}) | \mathcal{F}_t   ]\\
+&amp;= \mathbb{E} [ M_s | \mathcal{F}_t  ] + \mathbb{E} [ (M_t-M_s) | \mathcal{F}_t  ] + \sum_{k=1}^{i} \mathbb{E} [ (M_{\tau_{i}}-M_{\tau_{i-1}}) | \mathcal{F}_t   ]\\
+\end{aligned}
+\end{equation}
+\]</span> 两边对 <span class="math inline">\(s\)</span> 时刻的已知信息 <span class="math inline">\(\mathcal F_s\)</span> 取条件期望，并且使用条件期望的iterated conditioning性质，就证明了这个结论： <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+\mathbb{E} [P_t^i | \mathcal{F}_s  ]  &amp;= \mathbb{E}  \bigg[ \mathbb{E} [ M_s | \mathcal{F}_t  ] \bigg | \mathcal{F}_s\bigg] + \mathbb{E} \bigg[ \mathbb{E}[(M_t-M_s) | \mathcal{F}_t] \bigg| \mathcal{F_s} \bigg] + \sum_{k=1}^{i} \mathbb{E} \bigg[ \mathbb{E} [ (M_{\tau_{i}}-M_{\tau_{i-1}}) | \mathcal{F}_t ] \bigg| \mathcal{F}_s \bigg]\\
+&amp;= \mathbb{E} [ M_s | \mathcal{F}_s  ] + \mathbb{E} [ (M_t-M_s) | \mathcal{F}_s  ] + \sum_{k=1}^{i} \mathbb{E} [ (M_{\tau_{i}}-M_{\tau_{i-1}}) | \mathcal{F}_s   ]\\
+&amp;=P_s^i \qquad (Q.E.D)
+\end{aligned}
 \end{equation}
 \]</span></p>
-<h2 id="bellman-equation">Bellman Equation</h2>
-<p><strong>定理1. Bellman Equation</strong></p>
-<p>我们考虑从终止时间<span class="math inline">\(T\)</span>往前数<span class="math inline">\(\tau\)</span>个时间，也就是从<span class="math inline">\(t=T-\tau\)</span>时刻后的的未来回报： <span class="math display">\[
+<p>我们令 <span class="math display">\[
+\begin{equation}
+g^k_t =  \mathbb{E} [ (M_{\tau_k}-M_{\tau_{k-1}}) | \mathcal{F}_t  ]
+\end{equation}
+\]</span> 并且我们注意到 <span class="math inline">\(g^k\)</span> 与 <span class="math inline">\(g^{k-1}\)</span> 有循环迭代的关系 <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-R(x_{T-\tau},\pi_{T-\tau}) &amp;= r(x_T) + \sum_{i=T-\tau}^{T-1}r(x_i,\pi_i)\\
-&amp;= r(x_T) +\sum_{i=T-(\tau-1)}^{T-1}r(x_i,\pi) + r(x_\tau,\pi_\tau)\\
-&amp;= R(x_{T-(\tau-1)},\pi_{T-(\tau-1)}) + r(x_\tau,\pi_\tau)
+g^{k+1}_t &amp;=  \mathbb{E} [ (M_{\tau_{k+1}}-M_{\tau_{k}}) | \mathcal{F}_t  ] \\
+&amp;= \mathbb{E}\bigg[ \mathbb{E}[M_{\tau_{k+1}}-M_{\tau_{k}} | \mathcal{F_{\tau_1}}] \bigg| \mathcal{F}_t\bigg] \quad  &amp;\text{iterated conditioning} \\
+&amp;= \mathbb{E}[g^{k}_{\tau_1} | \mathcal{F}_t] \quad &amp;\text{definition of }g_{\tau_1}^k
 \end{aligned}
 \end{equation}
-\]</span> 这一段时间的未来回报，也对应了一个动态规划： <span class="math display">\[
+\]</span> 因此这个martingale还可以表示成一个更加简洁的形式： <span class="math display">\[
 \begin{equation}
 \begin{aligned}
-V(\tau,x_{T-\tau}) &amp;= \max_{\pi}R(x_{T-\tau},\pi_{T-\tau}) \\
-&amp;= \max_{\pi}\left\{ R(x_{T-(\tau-1)},\pi_{T-(\tau-1)}) + r(x_\tau,\pi_\tau) \right\}\\
-&amp;= \max_{\pi}\left\{ \max _{\pi}R(x_{T-(\tau-1)},\pi_{T-(\tau-1)}) + r(x_\tau,\pi_\tau) \right\}\\
-&amp;= \max_{\pi}\left\{ V(\tau-1, x_{T-(\tau-1)}) + r(x_\tau,\pi) \right\} \\
-&amp;= \max_{\pi}\left\{ V(\tau-1,f(x_{T-\tau},\pi)) + r(x_\tau,\pi) \right\}
+P_t^i  &amp;= \mathbb{E} [ M_t | \mathcal{F}_t   ] + \sum_{k=1}^{i} \mathbb{E} [ (M_{\tau_{i}}-M_{\tau_{i-1}}) | \mathcal{F}_t   ] \\
+&amp;=M_t + \sum_{k=1}^{i}g^i_t\\
+g_t^{1} &amp;= \mathbb{E}[(M_{\tau_1}-M_t) | \mathcal{F}_t]\\
+g_t^{i+1} &amp;= \mathbb{E}[g^{i}_{\tau_1} | \mathcal{F}_t]
 \end{aligned}
 \end{equation}
-\]</span> 这个结果称为Bellman Equation。它展示了一个以递归方式总的最优解的寻找方法：先寻找<span class="math inline">\(t=T\)</span>时的最优策略，再寻找<span class="math inline">\(t=[T-1,T]\)</span>时间段内的最优策略，以此类推。</p>
-<h2 id="例平衡二叉树路径最大值">例：平衡二叉树路径最大值</h2>
-<p>给定一个平衡二叉树，每个节点上有一值<code>score</code>:</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, val=<span class="number">0</span>, left=<span class="literal">None</span>, right=<span class="literal">None</span></span>):</span></span><br><span class="line">        self.val = val</span><br><span class="line">        self.left = left</span><br><span class="line">        self.right = right</span><br></pre></td></tr></table></figure>
-<p>寻找其从根节点到某个叶子节点的最大<code>score</code>路径。</p>
-<p><strong>Solution:</strong></p>
-<p>设平衡二叉树的深度为<span class="math inline">\(T\)</span>，根节点深度为0。<span class="math inline">\(x \in \mathcal{X}\)</span>为所有的树节点. Bellman Equation为 <span class="math display">\[
-V_{\tau} = \max_{\pi\in[\text{left, right}]}\left\{ V_{\tau-1}(f(x_\tau,\pi)) + r(x_\tau,\pi) \right\}
-\]</span> 其中 <span class="math display">\[
+\]</span> 从 Eq.(9) 我们发现，这个martingale序列的本质就是对中间价 <span class="math inline">\(M_t\)</span> 进行修正，使得其满足martingale的性质，如果我们把修正的项数取到无穷大，就得到了Micro-Price，当然它也是一个martingale under filtration <span class="math inline">\(\mathcal F_t\)</span>。</p>
+<p>那当我们 <span class="math inline">\(t\)</span> 时刻掌握的信息与未来的价格变化 <span class="math inline">\(M_{\tau_{i+1}}-M_{\tau_{i}}\)</span> 是无关的时候是什么样子呢？此时用条件期望表示的修正项全部都是0，也就是The Micro-Price等于mid price。这也解释了为什么中间价不是一个好的微观价格，因为使用中间价并没有用到与未来收益有关的信息，这意味着你将自己的微观结构建模在了一个naive的风险中性概率测度上（50% percent up and down）。而换句话说，当你拥有了一些与未来的回报（也就是价格变化）具有相关性的变量（也就是所谓的高频因子）时，micro-price能够保证，你基于这一组因子所修正出来的价格仍然是一个martingale under the information you considered。</p>
+<h2 id="a-simple-example">A simple Example</h2>
+<p>有一个大家都well known的因子叫订单不平衡： <span class="math display">\[
+\begin{equation}
+I_t = I(Q^a_t,Q^b_t)=\frac{Q^b_t}{Q^b_t+Q^a_t}\in(0,1)
+\end{equation}
+\]</span> 这个因子趋0时，价格往下的压力会变大，反之价格网上压力会变大，也就是说<span class="math inline">\(\mathbb{E}[M_\infty-M_t|I_t] &gt; 0\)</span>。随后作者用Finite State Markov Model对这个well known alpha下的micro-price做了一个计算，以此为例来教大家怎么用自己的private alpha去构造micro-price。在此之前，我们得回顾一下使用imbalance对中间价进行correction的一种naive的方法，也就是将best bid <span class="math inline">\(P^b_t\)</span> 和best ask <span class="math inline">\(P^a_t\)</span> 加权一下，我们管他叫weighted mid price： <span class="math display">\[
+W_t=I_tP^a_t+(1-I_t)P^b_t = M_t+I_t-\frac{1}{2}
+\]</span> 这种方法虽然简单，但不是一个很好的correction，因为要让 <span class="math inline">\(W_t\)</span> 成为一个martingale，我们需要做一个非常不合理的假设：</p>
+<blockquote>
+<p>Theorem 2. 当以下条件满足时，weighted mid price是一个martingale，并且<span class="math inline">\(P^{micro}_t=W_t\)</span> ：</p>
+<ol type="1">
+<li>最优买卖的spread固定为1tick</li>
+<li>订单不平衡 <span class="math inline">\(I_t\)</span> 在[0-1]区间时是布朗运动 (almost surely)</li>
+<li><span class="math inline">\(I_{\tau_1^-}=1\)</span> 时，中间价往上走一个tick，也就是 <span class="math inline">\(M_{\tau_1}-M_{\tau_1^-}=1\)</span> ，此时<span class="math inline">\(I_{\tau_1}\)</span>有0.5概率取到 <span class="math inline">\(\epsilon\in(0,1)\)</span>, 0.5概率取到 <span class="math inline">\(1-\epsilon\)</span></li>
+<li><span class="math inline">\(I_{\tau_1^-}=0\)</span> 时，中间价往下走一个tick，也就是 <span class="math inline">\(M_{\tau_1}-M_{\tau_1^-}=-1\)</span> ，此时<span class="math inline">\(I_{\tau_1}\)</span>有0.5概率取到 <span class="math inline">\(1-\epsilon\)</span>, 0.5概率取到 <span class="math inline">\(\epsilon\)</span></li>
+</ol>
+</blockquote>
+<p>Proof：这里直接贴原文的证明过程了，我们将上述假设代入 Eq. (8)，得到一阶修正为 <span class="math display">\[
+\begin{equation}
 \begin{aligned}
-f(x,\text{left}) &amp;:= \text{left}(x) \\
-f(x,\text{right}) &amp;:= \text{right}(x) \\
-r(x,\pi) &amp;:= \text{value}(x)
+g^1_t = g^1(I_t) &amp;= \mathbb{E}[(M_{\tau_1}-M_t) | I_t]\\
+&amp;= \frac{1}{2}\cdot\mathbb{P}[I_{\tau_1}=1|I_t]-\mathbb{P}[I_{\tau_1}=0|I_t] \\
+&amp; =I_t-\frac{1}{2} \quad \text{hitting time of Brownian Motion}
 \end{aligned}
-\]</span> 于是可以通过递归的方式寻找最大score：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maximum_path</span>(<span class="params">node: TreeNode</span>):</span> <span class="built_in">int</span>:</span><br><span class="line">	<span class="keyword">if</span> node == <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">   	<span class="keyword">return</span> node.score + <span class="built_in">max</span>(maximum_path(node.left), maximum_path(node.right))</span><br></pre></td></tr></table></figure>
-<p>对于一个input:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">     1</span><br><span class="line">   /   \</span><br><span class="line">  0     7</span><br><span class="line"> / \   / \</span><br><span class="line">1   5 6   5</span><br></pre></td></tr></table></figure>
-<p>最终得到结果为：14 <code>root-&gt;right-&gt;left-&gt;terminated</code></p>
+\end{equation}
+\]</span> 二阶修正为 <span class="math display">\[
+\begin{equation}
+\begin{aligned}
+g^2_t = g^2(I_t) &amp;= \mathbb{E}[g^1(I_{\tau_1})|I_t]\\
+&amp;=\mathbb{E}[I_t-\frac{1}{2}|I_t]\\
+&amp;=\frac{1}{2}\epsilon-\frac{1}{2}(1-\epsilon)-\frac{1}{2}
+\end{aligned}
+\end{equation}
+\]</span> 令 <span class="math inline">\(\epsilon\to0\)</span>，于是2阶修正为0，高阶修正也为0，此时有 <span class="math inline">\(P^{micro}_t=W_t\)</span> is a martingale。</p>
+<p>从这个假设的阐述就能知道它是基本不可能成为一个martingale，因此weighted mid price是一个bad correction，这个例子彰显了the Micro-price是如何的好。</p>
 
       
     </div>
@@ -498,7 +529,7 @@ r(x,\pi) &amp;:= \text{value}(x)
   </li>
   <li class="post-copyright-link">
     <strong>Post link:</strong>
-    <a href="https://chenyuzhuwhiskey.github.io/stochastic-optimal-control-theory-1/" title="随机最优控制理论1">https://chenyuzhuwhiskey.github.io/stochastic-optimal-control-theory-1/</a>
+    <a href="https://chenyuzhuwhiskey.github.io/the-micro-price-1/" title="The Micro-Price by Stoikov 精读">https://chenyuzhuwhiskey.github.io/the-micro-price-1/</a>
   </li>
   <li class="post-copyright-license">
     <strong>Copyright Notice: </strong>
@@ -513,9 +544,7 @@ r(x,\pi) &amp;:= \text{value}(x)
       
         <div class="post-tags">
           
-            <a href="/tags/dynamic-programming/" rel="tag"># dynamic programming</a>
-          
-            <a href="/tags/stochastic-optimal-control-theory/" rel="tag"># stochastic optimal control theory</a>
+            <a href="/tags/market-microstructure/" rel="tag"># market microstructure</a>
           
         </div>
       
@@ -540,8 +569,8 @@ r(x,\pi) &amp;:= \text{value}(x)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/derivative-pricing-theory-2/" rel="next" title="衍生品的定价理论2：期权">
-                <i class="fa fa-chevron-left"></i> 衍生品的定价理论2：期权
+              <a href="/derivative-pricing-theory-3/" rel="next" title="衍生品的定价理论3：二项式定价模型">
+                <i class="fa fa-chevron-left"></i> 衍生品的定价理论3：二项式定价模型
               </a>
             
           </div>
@@ -549,10 +578,6 @@ r(x,\pi) &amp;:= \text{value}(x)
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/stochastic-optimal-control-theory-2/" rel="prev" title="随机最优控制理论2">
-                随机最优控制理论2 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -743,7 +768,7 @@ r(x,\pi) &amp;:= \text{value}(x)
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%9C%80%E4%BC%98%E6%8E%A7%E5%88%B6%E7%90%86%E8%AE%BA1-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="nav-number">1.</span> <span class="nav-text">随机最优控制理论1: 动态规划</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">基础的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bellman-equation"><span class="nav-number">1.2.</span> <span class="nav-text">Bellman Equation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91%E8%B7%AF%E5%BE%84%E6%9C%80%E5%A4%A7%E5%80%BC"><span class="nav-number">1.3.</span> <span class="nav-text">例：平衡二叉树路径最大值</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#the-micro-price-by-stoikov-%E7%B2%BE%E8%AF%BB"><span class="nav-number">1.</span> <span class="nav-text">The Micro-Price by Stoikov 精读</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#general-framework"><span class="nav-number">1.1.</span> <span class="nav-text">General Framework</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-simple-example"><span class="nav-number">1.2.</span> <span class="nav-text">A simple Example</span></a></li></ol></li></ol></div>
             
 
           </div>
